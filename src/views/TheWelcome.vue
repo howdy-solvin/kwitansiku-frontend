@@ -1,4 +1,14 @@
 <script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const goToLogin = () => {
+  router.push({ name: "Login", })
+}
+const goToDaftar = () => {
+  router.push({ name: "Register", })
+}
+
 </script>
 
 <template>
@@ -14,8 +24,8 @@
         <div class="w-full mt-4">
           <p>Mulai Sekarang !!</p>
           <div class="flex justify-between gap-x-5 mt-14">
-            <button class="px-14 py-2 rounded-md bg-[#0075FF] text-white ">Masuk</button>
-            <button class="px-14 py-2 rounded-md bg-black text-white ">Daftar</button>
+            <button @click="goToLogin()" class="px-14 py-2 rounded-md bg-[#0075FF] text-white ">Masuk</button>
+            <button @click="goToDaftar()" class="px-14 py-2 rounded-md bg-black text-white ">Daftar</button>
           </div>
         </div>
       </div>
