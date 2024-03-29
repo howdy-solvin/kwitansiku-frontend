@@ -20,7 +20,7 @@ const routes = [
     children:[
       {
         path: "",
-        name:'Dashboard', 
+        name:'Home', 
         component: HomeView, 
       },
       {
