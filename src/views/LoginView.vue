@@ -63,7 +63,6 @@ export default {
           type: "error",
           isLoading: false,
         });
-        console.log(message);
       } else if (form.email === "") {
         toast.update(promiseToast, {
           render: validationEmail,
@@ -73,7 +72,6 @@ export default {
           type: "error",
           isLoading: false,
         });
-        console.log(validationEmail);
       } else if (form.password === "") {
         toast.update(promiseToast, {
           render: passwordValidation,
@@ -83,17 +81,15 @@ export default {
           type: "error",
           isLoading: false,
         });
-        console.log(passwordValidation);
       } else {
         toast.update(promiseToast, {
-          render: response.message,
+          render: response.data.message,
           autoClose: true,
           closeOnClick: true,
           closeButton: true,
           type: "error",
           isLoading: false,
         });
-        console.log(response.message);
       }
     };
 
