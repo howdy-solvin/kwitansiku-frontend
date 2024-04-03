@@ -7,7 +7,7 @@ const store = createStore({
   modules: {
     auth: authModules,
     pasien: pasienModules,
-    receipts: receiptsModules
+    receipts: receiptsModules,
   },
 });
 

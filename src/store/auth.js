@@ -5,6 +5,11 @@ const authModules = {
     user: JSON.parse(localStorage.getItem('user')) || null,
     
   },
+
+  getters: {
+    admin: state => state.user
+  },
+
   mutations: {
     setUser(state, user) {
       state.user = user;

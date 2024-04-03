@@ -3,19 +3,40 @@ import ProfileInfo from "@/components/ProfileInfo.vue";
 import IconCetak from "@/components/icons/IconCetak.vue";
 import IconSearch from "@/components/icons/IconSearch.vue";
 import IconRekap from "@/components/icons/IconRekap.vue";
-import { watchEffect, computed } from "vue";
+import { watchEffect, computed, ref } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import ModalBase from "@/components/ModalBase.vue";
+import { toast } from "vue3-toastify";
+import GoraIcon from "@/components/icons/GoraIcon.vue";
 
 export default {
-  components: { ProfileInfo, IconRekap, IconSearch, IconCetak },
+  components: { ProfileInfo, IconRekap, IconSearch, IconCetak, ModalBase, GoraIcon },
 
   setup() {
     const store = useStore();
     const router = useRouter();
 
+    const admin = computed(() => store.getters["admin"]);
+    const isAdminLoggedIn = computed(() => {
+      // Jika admin.data.nama tidak null, kembalikan nilai true
+      if (admin.value.data && admin.value.data.nama) {
+        return true;
+      } else {
+        // Jika admin.data.nama null, kembalikan default nama "admin"
+        return "Admin";
+      }
+    });
+
     // Ambil data kwitansi dari state menggunakan getter
-    const receipts = computed(() => store.getters["allReceipts"]);
+    // Simpan originalReceipts sebagai variabel terpisah
+    const originalReceipts = computed(() => store.getters["allReceipts"]);
+
+    // Reverse originalReceipts jika diperlukan
+    const receipts = computed(() => originalReceipts.value.slice().reverse());
+
+    //SECTION - Get AllRekap
+    const kwitansi = computed(() => store.getters["getterRekap"]);
 
     // Panggil action fetchReceipts saat komponen dimuat
     watchEffect(() => {
@@ -23,16 +44,87 @@ export default {
     });
 
     const getUid = async (index) => {
-      const receipts = store.getters["allReceipts"];
-      const uuid = receipts[index].uuid;
+      const promiseToast = toast.loading("Please wait...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+
+      // Gunakan originalReceipts untuk mendapatkan uuid
+      const uuid = receipts.value[index].uuid;
       const response = await store.dispatch("fetchReceiptsPatient", uuid);
-      if (response.code == 200) {
+
+      if (response.code === 200) {
+        showPrintButton.value = true;
+        toast.update(promiseToast, {
+          render: response.message,
+          autoClose: true,
+          closeOnClick: true,
+          closeButton: true,
+          type: "success",
+          isLoading: false,
+        });
         router.push("/pasien-tki");
+      } else {
+        toast.update(promiseToast, {
+          render: response.message,
+          autoClose: true,
+          closeOnClick: true,
+          closeButton: true,
+          type: "error",
+          isLoading: false,
+        });
       }
     };
+
+    //TODO - Interace With modal
+    const showPrintButton = ref(false);
+    const popUpTriggers = ref({
+      buttonTrigger: false,
+    });
+
+    const tooglePopUp = async (trigger, index) => {
+      popUpTriggers.value[trigger] = !popUpTriggers.value[trigger];
+      if (popUpTriggers.value[trigger]) {
+        try {
+          const promiseToast = toast.loading("Please wait...", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+          // Kirim permintaan GET untuk mengambil data pasien
+          const uuid = receipts.value[index].uuid;
+          const response = await store.dispatch("fetchReceiptsPatient", uuid);
+          if (response.code === 200) {
+            toast.update(promiseToast, {
+              render: response.message,
+              autoClose: true,
+              closeOnClick: true,
+              closeButton: true,
+              type: "success",
+              isLoading: false,
+            });
+          } else {
+            toast.update(promiseToast, {
+              render: response.message,
+              autoClose: true,
+              closeOnClick: true,
+              closeButton: true,
+              type: "error",
+              isLoading: false,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching patient data:", error);
+        }
+      }
+    };
+
     return {
       receipts,
       getUid,
+      popUpTriggers,
+      tooglePopUp,
+      kwitansi,
+      admin,
+      isAdminLoggedIn,
+      showPrintButton,
     };
   },
 };
@@ -150,6 +242,8 @@ export default {
             </td>
             <td class="text-center">
               <button
+                type="button"
+                @click="tooglePopUp('buttonTrigger', index)"
                 class="bg-[#0075FF] p-3 w-full flex items-center justify-center rounded-md h-full shadow-[inset_0_-5px_10px_5px_rgba(100,100,100,0.3)]"
               >
                 <IconCetak></IconCetak>
@@ -159,5 +253,85 @@ export default {
         </tbody>
       </table>
     </section>
+    <ModalBase
+      v-if="popUpTriggers.buttonTrigger"
+      :tooglePopUp="() => tooglePopUp('buttonTrigger')"
+      :showPrintButton="showPrintButton"
+      class="font-poppins"
+    >
+      <template #header>
+        <div>
+          <h4 class="font-bold text-lg">Kwitansi 001-KWITKI01423</h4>
+          <p>
+            <span class="text-blue-500 font-semibold">{{ kwitansi.data.tanggal }} </span>
+            | {{ kwitansi.data.nama_sponsor }}
+          </p>
+        </div>
+      </template>
+      <template #banner>
+        <div class="flex justify-between items-center">
+          <GoraIcon></GoraIcon>
+          <div class="text-right">
+            <h1 class="font-bold text-lg">KALIK GORA MATARAM</h1>
+            <p>Jl. RA. Kartini No. 77 Mojok - Mataram - NTB Mataram</p>
+            <p>Indonesia - Telp.(0370) 635661 Fax (0370) 635661</p>
+            <p>goraklinik@gmail.com</p>
+          </div>
+        </div>
+      </template>
+      <template #main>
+        <div class="flex flex-col items-center">
+          <h1 class="font-bold text-[25px] text-center">KWITANSI PEMBAYARAN</h1>
+          <div class="w-[40%] border h-1 bg-black" />
+          <p class="text-center">NO : {{ kwitansi.data.no_pendaftaran }}</p>
+        </div>
+        <div class="flex w-full justify-end gap-2 mt-8">
+          <p class="w-[180px] text-end">Tanggal / No. Daftar</p>
+          <p class="text-end">: {{ kwitansi.data.no_pendaftaran }}</p>
+        </div>
+        <ul class="flex flex-col gap-2 mt-5">
+          <li class="flex justify-between">
+            <div class="flex gap-8">
+              <p class="w-[150px]">Nama PJ-TKI</p>
+              <p>: {{ kwitansi.data.nama_penanggungjawab }}</p>
+            </div>
+          </li>
+          <li class="flex gap-8">
+            <p class="w-[150px]">Nama Sponsor</p>
+            <p>: {{ kwitansi.data.nama_sponsor }}</p>
+          </li>
+          <li class="flex gap-8">
+            <p class="w-[150px]">Untuk Pembayaran</p>
+            <p>:</p>
+          </li>
+          <li class="flex gap-8">
+            <p class="w-[150px]">Jumlah Peserta</p>
+            <p>: {{ kwitansi.data.total_pendaftar }} Orang</p>
+          </li>
+          <li class="flex gap-8">
+            <p class="w-[150px]">Total Harga</p>
+            <p>: Rp. {{ kwitansi.data.total_harga }},-</p>
+          </li>
+          <li class="flex gap-8">
+            <p class="w-[150px]">Pembayaran</p>
+            <p>: Rp. {{ kwitansi.data.total_pembayaran }},-</p>
+          </li>
+          <li class="flex gap-8">
+            <p class="w-[150px]">Sisa Kredit</p>
+            <p>: Rp. ,-</p>
+          </li>
+        </ul>
+        <div class="mt-8 flex justify-betweens w-full py-5">
+          <div class="w-full">
+            <p>NB. -Detail Terlampir</p>
+          </div>
+          <div class="w-full flex flex-col items-center">
+            <p>Mataram, {{ kwitansi.data.tanggal }}</p>
+            <p>Kasir</p>
+            <p class="mt-20">{{ isAdminLoggedIn }}</p>
+          </div>
+        </div>
+      </template>
+    </ModalBase>
   </main>
 </template>

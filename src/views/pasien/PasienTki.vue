@@ -1,6 +1,5 @@
 <script>
 import ProfileInfo from "@/components/ProfileInfo.vue";
-import IconCetak from "@/components/icons/IconCetak.vue";
 import IconRefresh from "@/components/icons/IconRefresh.vue";
 import IconPlus from "@/components/icons/IconPlus.vue";
 import IconEdit from "@/components/icons/IconEdit.vue";
@@ -8,12 +7,14 @@ import { useStore } from "vuex";
 import IconTrash from "@/components/icons/IconTrash.vue";
 import { reactive, computed, ref, watchEffect } from "vue";
 import { toast } from "vue3-toastify";
+import { useRouter } from "vue-router";
 
 export default {
-  components: { ProfileInfo, IconCetak, IconRefresh, IconPlus, IconEdit, IconTrash },
+  components: { ProfileInfo, IconRefresh, IconPlus, IconEdit, IconTrash },
 
   setup() {
     const store = useStore();
+    const router = useRouter();
 
     const isDisabled = ref(true);
 
@@ -121,7 +122,7 @@ export default {
           type: "success",
           isLoading: false,
         });
-        location.reload();
+        router.push("/rekap-kwitansi");
       } else {
         toast.update(promiseToast, {
           render: response.message,
@@ -263,7 +264,30 @@ export default {
     //SECTION - submit edit
     const submitEdit = async () => {
       const dataEditt = store.getters["data"];
+      const promiseToast = toast.loading("Please wait...", {
+        position: toast.POSITION.TOP_CENTER,
+      });
       const response = await store.dispatch("editReceiptsPatient", dataEditt);
+      if (response.data.code == 201) {
+        toast.update(promiseToast, {
+          render: response.data.message,
+          autoClose: true,
+          closeOnClick: true,
+          closeButton: true,
+          type: "success",
+          isLoading: false,
+        });
+        router.push("/rekap-kwitansi");
+      } else {
+        toast.update(promiseToast, {
+          render: response.data.message,
+          autoClose: true,
+          closeOnClick: true,
+          closeButton: true,
+          type: "error",
+          isLoading: false,
+        });
+      }
       console.log(response, "submit edit");
     };
 
@@ -357,7 +381,12 @@ export default {
             type="submit"
             class="bg-[#0075FF] py-[21px] px-[27px] rounded-md shadow-[inset_0_-5px_10px_5px_rgba(100,100,100,0.3)]"
           >
-            <IconCetak></IconCetak>
+            <img
+              src="../../components/icons/save.png"
+              class="w-6 text-white"
+              style="filter: invert(100%)"
+              alt=""
+            />
           </button>
           <ProfileInfo></ProfileInfo>
         </div>
@@ -637,7 +666,12 @@ export default {
             type="submit"
             class="bg-[#0075FF] py-[21px] px-[27px] rounded-md shadow-[inset_0_-5px_10px_5px_rgba(100,100,100,0.3)]"
           >
-            <IconCetak></IconCetak>
+            <img
+              src="../../components/icons/save.png"
+              class="w-6 text-white"
+              style="filter: invert(100%)"
+              alt=""
+            />
           </button>
           <ProfileInfo></ProfileInfo>
         </div>
