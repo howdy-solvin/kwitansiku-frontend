@@ -48,11 +48,30 @@ const router = createRouter({
 });
 
 
-router.beforeEach((to, from, next) => {
-  const isAuthenticated = JSON.parse(localStorage.getItem('accessToken'))
-  if (to.name !== "Login" && !isAuthenticated) next({name: "Login"})
-  if (to.name === "Login" && isAuthenticated) next({name: "Home"})
-  else next()
-})
+router.beforeEach(async (to, from, next) => {
+  try {
+    const isAuthenticated = await checkAuthentication();
+    
+    if (to.name !== 'Login' && to.name !== 'Register' && to.name !== "Welcome" && !isAuthenticated) {
+      next({ name: 'Login' });
+    } else if (to.name === 'Login' && isAuthenticated) {
+      next({ name: 'Home' });
+    } else {
+      next();
+    }
+  } catch (error) {
+    console.error('Error checking authentication:', error);
+    // Tindakan yang sesuai jika terjadi kesalahan saat memeriksa otentikasi
+    next(error);
+  }
+});
+
+async function checkAuthentication() {
+  return new Promise(resolve => {
+    const isAuthenticated = localStorage.getItem('accessToken');
+    resolve(isAuthenticated);
+  });
+}
+
 
 export default router;

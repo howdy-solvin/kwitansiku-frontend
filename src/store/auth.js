@@ -1,15 +1,13 @@
-import { createStore } from 'vuex';
 import axios from 'axios';
 
-export default createStore({
+const authModules = {
   state: {
-    user: null,
-   
+    user: JSON.parse(localStorage.getItem('user')) || null,
+    
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
-      // Simpan state ke local storage setelah diubah
       localStorage.setItem('user', JSON.stringify(user));
     },
     setAccessToken(state, token) {
@@ -18,13 +16,7 @@ export default createStore({
     setRefreshToken(state, token) {
       localStorage.setItem('refreshToken', JSON.stringify(token));
     },
-    // Tambahkan mutation untuk memperbarui state dari local storage saat aplikasi dimuat
-    restoreState(state) {
-      const user = localStorage.getItem('user');
-      if (user) {
-        state.user = JSON.parse(user);
-      }
-    }
+    
   },
   actions: {
     async loginUser({ commit }, form) {
@@ -50,5 +42,6 @@ export default createStore({
     }
   },
   
-  plugins: [(store) => store.commit('restoreState')]
-});
+};
+
+export default authModules

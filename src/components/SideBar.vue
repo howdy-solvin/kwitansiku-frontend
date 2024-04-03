@@ -1,5 +1,6 @@
 <script setup>
 import SidebarLayout from "./layouts/SidebarLayout.vue";
+import GoraIcon from "./icons/GoraIcon.vue";
 import { ref } from "vue";
 
 const toggleDropdown = ref(false);
@@ -8,7 +9,7 @@ const toggleDropdown = ref(false);
 <template>
   <SidebarLayout>
     <template #logo>
-      <div><p class="px-5 py-2 bg-slate-400 w-fit text-white">Logo</p></div>
+      <div><GoraIcon></GoraIcon></div>
     </template>
     <template #navside>
       <router-link to="/dashboard" class="py-[10px] px-[15px] rounded-md text-[#676767]"

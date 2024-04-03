@@ -47,7 +47,7 @@ export default {
         router.push({ name: "Login" });
       } else {
         toast.update(promiseToast, {
-          render: response.message,
+          render: response,
           autoClose: true,
           closeOnClick: true,
           closeButton: true,

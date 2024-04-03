@@ -2,12 +2,12 @@
 import { fileURLToPath, URL } from "node:url";
 import { defineConfig } from "file:///D:/Solvin/kwitansi-ku/node_modules/vite/dist/node/index.js";
 import vue from "file:///D:/Solvin/kwitansi-ku/node_modules/@vitejs/plugin-vue/dist/index.mjs";
-import VueDevTools from "file:///D:/Solvin/kwitansi-ku/node_modules/vite-plugin-vue-devtools/dist/vite.mjs";
+// import VueDevTools from "file:///D:/Solvin/kwitansi-ku/node_modules/vite-plugin-vue-devtools/dist/vite.mjs";
 var __vite_injected_original_import_meta_url = "file:///D:/Solvin/kwitansi-ku/vite.config.js";
 var vite_config_default = defineConfig({
   plugins: [
     vue(),
-    VueDevTools()
+    // VueDevTools()
   ],
   resolve: {
     alias: {
