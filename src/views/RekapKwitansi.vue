@@ -100,6 +100,7 @@ export default {
               type: "success",
               isLoading: false,
             });
+            showPrintButton.value = !showPrintButton.value;
           } else {
             toast.update(promiseToast, {
               render: response.message,
@@ -113,6 +114,9 @@ export default {
         } catch (error) {
           console.error("Error fetching patient data:", error);
         }
+      } else {
+        // Atur showPrintButton menjadi false jika popUpTriggers.value[trigger] adalah false
+        showPrintButton.value = false;
       }
     };
 
