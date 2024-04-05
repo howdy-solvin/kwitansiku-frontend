@@ -23,7 +23,7 @@ export default {
       form: {
         receipt: {
           tanggal: '',
-          no_pendaftaran: '',
+          no_pendaftaran: 'Mengambil antrian...',
           nama_penanggungjawab: '',
           nama_sponsor: '',
           keterangan: '',
@@ -103,6 +103,7 @@ export default {
 
     //TODO - Menghapus semua inputan
     const refreshPage = () => {
+      store.commit('setRekapStatus', false)
       const no_pendaftaran = data.form.receipt.no_pendaftaran
       data.form = {
         receipt: {
@@ -414,16 +415,14 @@ export default {
             name="date"
           />
 
-          <div class="col-span-2 grid grid-cols-3 gap-5">
-            <label class="col-span-2 w-fit self-center place-self-end" for="no-pen"
+          <div class="col-span-2 flex justify-end gap-5">
+            <label class="w-fit self-center place-self-end" for="no-pen"
               >No. Pendaftaran</label
             >
-            <input
-              v-model="dataRekap.data.no_pendaftaran"
-              class="items-center self-center border border-gray-400 px-[14px] py-[10px] rounded-md"
-              type="text"
+            <div
               id="no-pen"
-              name="no-pen"
+              class="items-center self-center border border-gray-400 px-[14px] py-[10px] rounded-md"
+              v-html="dataRekap.data.no_pendaftaran"
             />
           </div>
 
@@ -693,19 +692,12 @@ export default {
             name="date"
           />
 
-          <div class="col-span-2 grid grid-cols-3 gap-5">
-            <label class="col-span-2 w-fit self-center place-self-end" for="no-pen"
-              >No. Pendaftaran</label
-            >
-
-            <input
-              disabled
-              v-model="data.form.receipt.no_pendaftaran"
-              class="items-center self-center border border-gray-400 px-[14px] py-[10px] rounded-md"
-              type="text"
+          <div class="col-span-2 flex justify-end gap-5">
+            <label class="self-center place-self-end" for="no-pen">No. Pendaftaran </label>
+            <div
               id="no-pen"
-              name="no-pen"
-              placeholder="Nomor Pendaftaran"
+              class="items-center self-center border border-gray-400 px-[14px] py-[10px] rounded-md"
+              v-html="data.form.receipt.no_pendaftaran"
             />
           </div>
 

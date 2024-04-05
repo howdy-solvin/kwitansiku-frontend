@@ -49,7 +49,8 @@ const receiptsModules = {
     setEditUsia:(state, newValue) => (state.rekap.data.pasien_tkis.usia = newValue),
 
     setFormEditPasien:(state, data) => (state.form.patient = data),
-    setFormEditKuitansi:(state, data) => (state.form.receipt = data)
+    setFormEditKuitansi:(state, data) => (state.form.receipt = data),
+    setRekapStatus: (state, data) => (state.rekap.status = data),
   },
   actions: {
     async fetchReceipts({commit,  getters }) {
