@@ -21,9 +21,9 @@ export default {
   >
     <div class="fixed top-0 bottom-0 left-0 right-0" @click="$emit('close-modal')" />
     <main
-      class="w-[750px] h-fit relative rounded-t-xl bg-white self-center transition duration-150 ease-in-out"
+      class="w-[750px] h-[90%] relative flex flex-col rounded-xl overflow-hidden bg-white self-center transition duration-150 ease-in-out"
     >
-      <section class="flex justify-between rounded-t-xl p-6 w-full border-b-2">
+      <section class="flex justify-between p-6 w-full border-b-2">
         <slot name="header" />
         <div class="flex gap-3">
           <button @click="tooglePopUp()" class="bg-[#F00000] p-[17px] rounded-lg">
@@ -39,13 +39,10 @@ export default {
         </div>
       </section>
 
-      <section class="bg-slate-300 p-6">
+      <section class="bg-slate-300 p-6 overflow-y-auto">
         <div>
           <slot name="banner"></slot>
         </div>
-      </section>
-
-      <section class="bg-slate-300 p-6">
         <slot name="main"></slot>
       </section>
     </main>
