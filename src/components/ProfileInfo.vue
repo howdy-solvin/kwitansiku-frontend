@@ -7,8 +7,8 @@ import UserIcon from "./icons/UserIcon.vue";
   >
     <UserIcon></UserIcon>
     <div>
-      <h3 class="font-light">Akbar Pratama Suryamin</h3>
-      <p class="text-[13px] font-semibold">User ID 1</p>
+      <h3 class="font-light">Klinik Gora</h3>
+      <p class="text-[13px] font-semibold">Administrator</p>
     </div>
   </div>
 </template>

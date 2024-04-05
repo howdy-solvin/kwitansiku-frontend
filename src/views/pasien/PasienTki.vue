@@ -1,213 +1,224 @@
 <script>
-import ProfileInfo from "@/components/ProfileInfo.vue";
-import IconRefresh from "@/components/icons/IconRefresh.vue";
-import IconPlus from "@/components/icons/IconPlus.vue";
-import IconEdit from "@/components/icons/IconEdit.vue";
-import { useStore } from "vuex";
-import IconTrash from "@/components/icons/IconTrash.vue";
-import { reactive, computed, ref, watchEffect } from "vue";
-import { toast } from "vue3-toastify";
-import { useRouter } from "vue-router";
+import ProfileInfo from '@/components/ProfileInfo.vue'
+import IconRefresh from '@/components/icons/IconRefresh.vue'
+import IconPlus from '@/components/icons/IconPlus.vue'
+import IconEdit from '@/components/icons/IconEdit.vue'
+import { useStore } from 'vuex'
+import IconTrash from '@/components/icons/IconTrash.vue'
+import { reactive, computed, ref, watchEffect } from 'vue'
+import { toast } from 'vue3-toastify'
+import { useRouter } from 'vue-router'
 
 export default {
   components: { ProfileInfo, IconRefresh, IconPlus, IconEdit, IconTrash },
 
   setup() {
-    const store = useStore();
-    const router = useRouter();
+    const store = useStore()
+    const router = useRouter()
 
-    const isDisabled = ref(true);
+    const isDisabled = ref(true)
 
     // Gunakan ref untuk variabel totalDaftar
     const data = reactive({
       form: {
         receipt: {
-          tanggal: "",
-          no_pendaftaran: "",
-          nama_penanggungjawab: "",
-          nama_sponsor: "",
-          keterangan: "",
-          total_pembayaran: "",
+          tanggal: '',
+          no_pendaftaran: '',
+          nama_penanggungjawab: '',
+          nama_sponsor: '',
+          keterangan: '',
+          total_pembayaran: ''
         },
-        patient: [],
-      },
-    });
+        patient: []
+      }
+    })
 
     //TODO - Menhitung Total Daftar Pasien
     const totalDaftar = computed(() => {
-      return data.form.patient.length;
-    });
+      return data.form.patient.length
+    })
 
     //TODO -  Menghitung total harga dari semua pasien
     // Mendefinisikan variabel untuk menyimpan total harga
-    let totalHargaValue;
+    let totalHargaValue
     const totalHarga = computed(() => {
       const totalPrice = data.form.patient.reduce((total, patient) => {
-        const harga = parseFloat(patient.harga);
-        return total + (isNaN(harga) ? 0 : harga);
+        const harga = parseFloat(patient.harga)
+        return total + (isNaN(harga) ? 0 : harga)
         // return total + (isNaN() ? 0 : parseFloat(patient.harga));
-      }, 0);
+      }, 0)
 
       // Format total harga ke format yang diinginkan
-      totalHargaValue = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      }).format(totalPrice);
+      totalHargaValue = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(totalPrice)
 
-      return totalHargaValue;
-    });
+      return totalHargaValue
+    })
 
     //TODO - Menambahkan Pasien
     const addPatient = () => {
       const newPatient = {
-        no_form: "",
-        negara_tujuan: "",
-        nama_lengkap: "",
-        usia: "",
-        jenis_kelamin: "",
-        harga: "",
-      };
+        no_form: '',
+        negara_tujuan: '',
+        nama_lengkap: '',
+        usia: '',
+        jenis_kelamin: '',
+        harga: ''
+      }
 
       // Tambahkan objek baru ke dalam array patient
-      data.form.patient.push(newPatient);
-    };
+      data.form.patient.push(newPatient)
+    }
 
     const addRekapPatient = () => {
       const newPatient = {
-        no_form: "",
-        negara_tujuan: "",
-        nama_lengkap: "",
-        usia: "",
-        jenis_kelamin: "",
-        harga: "",
-      };
+        no_form: '',
+        negara_tujuan: '',
+        nama_lengkap: '',
+        usia: '',
+        jenis_kelamin: '',
+        harga: ''
+      }
 
       // Tambahkan objek baru ke dalam array patient
-      dataRekap.data.pasien_tkis.push(newPatient);
-    };
+      dataRekap.data.pasien_tkis.push(newPatient)
+    }
 
     //TODO -  Menghapus Pasien
     const deletePatient = (patient) => {
-      const index = data.form.patient.indexOf(patient);
+      const index = data.form.patient.indexOf(patient)
       if (index !== -1) {
-        data.form.patient.splice(index, 1);
+        data.form.patient.splice(index, 1)
       }
-    };
+    }
 
     const deletePatientRekap = (patient) => {
-      const index = dataRekap.data.pasien_tkis.indexOf(patient);
+      const index = dataRekap.data.pasien_tkis.indexOf(patient)
       if (index !== -1) {
-        dataRekap.data.pasien_tkis.splice(index, 1);
+        dataRekap.data.pasien_tkis.splice(index, 1)
       }
-    };
+    }
 
     //TODO - Menghapus semua inputan
     const refreshPage = () => {
-      location.reload();
-    };
+      const no_pendaftaran = data.form.receipt.no_pendaftaran
+      data.form = {
+        receipt: {
+          tanggal: '',
+          no_pendaftaran: no_pendaftaran,
+          nama_penanggungjawab: '',
+          nama_sponsor: '',
+          keterangan: '',
+          total_pembayaran: ''
+        },
+        patient: []
+      }
+    }
 
     //STUB - Submit Pasien
     const submitPatient = async () => {
-      const promiseToast = toast.loading("Please wait...", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      const promiseToast = toast.loading('Please wait...', {
+        position: toast.POSITION.TOP_CENTER
+      })
 
-      const response = await store.dispatch("createRekap", data.form);
+      const response = await store.dispatch('createRekap', data.form)
       if (response.code == 201) {
         toast.update(promiseToast, {
           render: response.data.message,
           autoClose: true,
           closeOnClick: true,
           closeButton: true,
-          type: "success",
-          isLoading: false,
-        });
-        router.push("/rekap-kwitansi");
+          type: 'success',
+          isLoading: false
+        })
+        router.push('/rekap-kwitansi')
       } else {
         toast.update(promiseToast, {
           render: response.message,
           autoClose: true,
           closeOnClick: true,
           closeButton: true,
-          type: "error",
-          isLoading: false,
-        });
+          type: 'error',
+          isLoading: false
+        })
       }
-    };
+    }
 
     //TODO -  melakukan vuex untuk menghitung total sisa
     const inputTotalPembayaran = () => {
-      store.commit("setTotalPembayaran", data.form.receipt.total_pembayaran);
-    };
+      store.commit('setTotalPembayaran', data.form.receipt.total_pembayaran)
+    }
 
     const inputTotalPembayaranPasien = () => {
       if (data.form && data.form.patient) {
         const totalHarga = data.form.patient.reduce((total, item) => {
           // Mengonversi nilai harga menjadi float dan menambahkannya ke total
-          return total + parseFloat(item.harga || 0); // Jika harga tidak valid, gunakan nilai 0
-        }, 0);
-        store.commit("setTotalPembayaranPasien", totalHarga);
+          return total + parseFloat(item.harga || 0) // Jika harga tidak valid, gunakan nilai 0
+        }, 0)
+        store.commit('setTotalPembayaranPasien', totalHarga)
       } else {
-        console.error("Data pasien tidak terdefinisi atau tidak valid.");
+        console.error('Data pasien tidak terdefinisi atau tidak valid.')
       }
-    };
+    }
 
     const sisa = computed(() => {
-      const kekurangan = store.getters["sisaPembayaran"];
+      const kekurangan = store.getters['sisaPembayaran']
       if (isNaN(kekurangan)) {
-        return "0";
+        return '0'
       }
-      const formattedTotalHarga = new Intl.NumberFormat("id-ID").format(kekurangan);
-      return formattedTotalHarga;
-    });
+      const formattedTotalHarga = new Intl.NumberFormat('id-ID').format(kekurangan)
+      return formattedTotalHarga
+    })
 
     const sisaRekap = computed(() => {
-      const kekurangan = store.getters["getterRekapSisa"];
+      const kekurangan = store.getters['getterRekapSisa']
       if (isNaN(kekurangan)) {
-        return "0";
+        return '0'
       }
-      const formattedTotalHarga = new Intl.NumberFormat("id-ID").format(kekurangan);
-      return formattedTotalHarga;
-    });
+      const formattedTotalHarga = new Intl.NumberFormat('id-ID').format(kekurangan)
+      return formattedTotalHarga
+    })
 
-    let rekapitulasi;
+    let rekapitulasi
     const totalRekap = computed(() => {
-      const totalHargaRekap = dataRekap.data.total_harga;
+      const totalHargaRekap = dataRekap.data.total_harga
 
       // Format total harga ke format yang diinginkan
-      totalHargaValue = new Intl.NumberFormat("id-ID", {
-        style: "currency",
-        currency: "IDR",
-      }).format(totalHargaRekap);
+      totalHargaValue = new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(totalHargaRekap)
 
-      return totalHargaValue;
-    });
+      return totalHargaValue
+    })
 
     //TODO - Session Get Data
-    const dataRekap = store.getters["getterRekap"];
-    const dataEdit = store.getters["getDataSetForm"];
+    const dataRekap = store.getters['getterRekap']
+    const dataEdit = store.getters['getDataSetForm']
 
     //TODO - load form edit
     watchEffect(() => {
       store
-        .dispatch("fetchRegistNumber")
+        .dispatch('fetchRegistNumber')
         .then((registNumber) => {
-          data.form.receipt.no_pendaftaran = registNumber.data.new_regist_id;
+          data.form.receipt.no_pendaftaran = registNumber.data.new_regist_id
         })
         .catch((error) => {
-          console.error("Gagal mengambil nomor pendaftaran:", error);
-        });
+          console.error('Gagal mengambil nomor pendaftaran:', error)
+        })
 
-      const dataRekap = store.getters["getterRekap"];
+      const dataRekap = store.getters['getterRekap']
       if (dataRekap) {
-        const pasien_tkis = dataRekap.data.pasien_tkis;
+        const pasien_tkis = dataRekap.data.pasien_tkis
         const updatedPasien_tkis = pasien_tkis.map((item) => {
           // Menghindari properti yang tidak diinginkan
           // eslint-disable-next-line no-unused-vars
-          const { createdAt, receipt_id, updatedAt, ...rest } = item;
-          return rest;
-        });
-        store.commit("setFormEditPasien", updatedPasien_tkis);
+          const { createdAt, receipt_id, updatedAt, ...rest } = item
+          return rest
+        })
+        store.commit('setFormEditPasien', updatedPasien_tkis)
 
         const {
           keterangan,
@@ -215,109 +226,109 @@ export default {
           nama_sponsor,
           no_pendaftaran,
           tanggal,
-          total_pembayaran,
-        } = dataRekap.data;
-        store.commit("setFormEditKuitansi", {
+          total_pembayaran
+        } = dataRekap.data
+        store.commit('setFormEditKuitansi', {
           keterangan,
           nama_penanggungjawab,
           nama_sponsor,
           no_pendaftaran,
           tanggal,
-          total_pembayaran,
-        });
+          total_pembayaran
+        })
       }
-    });
+    })
 
     //TODO - watcheffect input no form
 
     //TODO - session edit
-    const editForm = ref([]);
+    const editForm = ref([])
     const toggleEdit = (index) => {
-      editForm.value[index] = !editForm.value[index];
-    };
+      editForm.value[index] = !editForm.value[index]
+    }
 
     const editTotalPembayaran = () => {
       if (dataRekap.data && dataRekap.data.pasien_tkis) {
         const totalHarga = dataRekap.data.pasien_tkis.reduce((total, item) => {
           // Mengonversi nilai harga menjadi float dan menambahkannya ke total
-          return total + parseFloat(item.harga || 0); // Jika harga tidak valid, gunakan nilai 0
-        }, 0);
-        store.commit("setRekapTotalPembayaranPasien", totalHarga);
+          return total + parseFloat(item.harga || 0) // Jika harga tidak valid, gunakan nilai 0
+        }, 0)
+        store.commit('setRekapTotalPembayaranPasien', totalHarga)
       } else {
-        console.error("Data pasien tidak terdefinisi atau tidak valid.");
+        console.error('Data pasien tidak terdefinisi atau tidak valid.')
       }
-    };
+    }
 
     const editNamaPj = (newValue) => {
-      store.commit("setEditNamaPj", newValue);
-    };
+      store.commit('setEditNamaPj', newValue)
+    }
     const editNamaSponsor = (newValue) => {
-      store.commit("setEditNamaSponsor", newValue);
-    };
+      store.commit('setEditNamaSponsor', newValue)
+    }
     const editJk = (index, newValue) => {
-      store.commit("setEditJk", index, newValue);
-    };
+      store.commit('setEditJk', index, newValue)
+    }
     const editUsia = (index, newValue) => {
-      store.commit("setEditUsia", index, newValue);
-    };
+      store.commit('setEditUsia', index, newValue)
+    }
 
     //SECTION - submit edit
     const submitEdit = async () => {
-      const dataEditt = store.getters["data"];
-      const promiseToast = toast.loading("Please wait...", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-      const response = await store.dispatch("editReceiptsPatient", dataEditt);
+      const dataEditt = store.getters['data']
+      const promiseToast = toast.loading('Please wait...', {
+        position: toast.POSITION.TOP_CENTER
+      })
+      const response = await store.dispatch('editReceiptsPatient', dataEditt)
       if (response.data.code == 201) {
         toast.update(promiseToast, {
           render: response.data.message,
           autoClose: true,
           closeOnClick: true,
           closeButton: true,
-          type: "success",
-          isLoading: false,
-        });
-        router.push("/rekap-kwitansi");
+          type: 'success',
+          isLoading: false
+        })
+        router.push('/rekap-kwitansi')
       } else {
         toast.update(promiseToast, {
           render: response.data.message,
           autoClose: true,
           closeOnClick: true,
           closeButton: true,
-          type: "error",
-          isLoading: false,
-        });
+          type: 'error',
+          isLoading: false
+        })
       }
-      console.log(response, "submit edit");
-    };
+      console.log(response, 'submit edit')
+    }
 
     //TODO - Generate No Form
     const generateNoForm = (index) => {
-      const patient = data.form.patient[index];
-      const negaraTujuan = patient.negara_tujuan || "";
-      const namaLengkap = patient.nama_lengkap || "";
+      const patient = data.form.patient[index]
+      const negaraTujuan = patient.negara_tujuan || ''
+      const namaLengkap = patient.nama_lengkap || ''
       const noForm =
-        (negaraTujuan.substring(0, 3).toUpperCase() || "") +
-        "-" +
-        (namaLengkap.substring(0, 2).toUpperCase() || "") +
-        "-" +
-        ("000" + (index + 1)).slice(-3);
-      patient.no_form = noForm;
-    };
+        (negaraTujuan.substring(0, 3).toUpperCase() || '') +
+        '-' +
+        (namaLengkap.substring(0, 2).toUpperCase() || '') +
+        '-' +
+        ('000' + (index + 1)).slice(-3)
+      patient.no_form = noForm
+    }
 
     const generateNoFormEdit = (index) => {
-      const patient = dataRekap.data.pasien_tkis[index];
-      const negaraTujuan = patient.negara_tujuan || "";
-      const namaLengkap = patient.nama_lengkap || "";
+      const patient = dataRekap.data.pasien_tkis[index]
+      const negaraTujuan = patient.negara_tujuan || ''
+      const namaLengkap = patient.nama_lengkap || ''
       const noForm =
-        (negaraTujuan.substring(0, 3).toUpperCase() || "") +
-        "-" +
-        (namaLengkap.substring(0, 2).toUpperCase() || "") +
-        "-" +
-        ("000" + (index + 1)).slice(-3);
-      patient.no_form = noForm;
-      store.commit("setEditNoForm", noForm);
-    };
+        (negaraTujuan.substring(0, 3).toUpperCase() || '') +
+        '-' +
+        (namaLengkap.substring(0, 2).toUpperCase() || '') +
+        '-' +
+        ('000' + (index + 1)).slice(-3)
+      patient.no_form = noForm
+      store.commit('setEditNoForm', noForm)
+    }
 
     return {
       data,
@@ -347,19 +358,15 @@ export default {
       editJk,
       editUsia,
       submitEdit,
-      dataEdit,
-    };
-  },
-};
+      dataEdit
+    }
+  }
+}
 </script>
 
 <template>
-  <!-- //SECTION - Edit Kuitansi -->
-  <form
-    @submit.prevent="submitEdit"
-    v-if="dataRekap.status === true"
-    class="h-full flex flex-col"
-  >
+  <!-- SECTION - Edit Kuitansi -->
+  <form @submit.prevent="submitEdit" v-if="dataRekap.status === true" class="h-full flex flex-col">
     <header class="w-full py-6">
       <div class="flex justify-between w-full font-poppins items-center">
         <div>
@@ -469,9 +476,7 @@ export default {
             </li>
             <li class="flex w-full justify-between white">
               <p class="w-[200px] self-center">Pembayaran</p>
-              <div
-                class="w-full bg-[#71CDBD] rounded-md px-[25px] py-[10px] text-white flex gap-2"
-              >
+              <div class="w-full bg-[#71CDBD] rounded-md px-[25px] py-[10px] text-white flex gap-2">
                 <label for="totalPembayaran">Rp</label>
                 <input
                   name="totalPembayaran"
@@ -492,10 +497,8 @@ export default {
         </aside>
       </section>
 
-      <!-- //ANCHOR Table  -->
-      <section
-        class="w-full mt-10 table-content flex flex-col gap-2 h-full overflow-auto"
-      >
+      <!-- ANCHOR Table  -->
+      <section class="w-full mt-10 table-content flex flex-col gap-2 h-full overflow-auto">
         <div class="thead bg-[#E3E3E3] text-[#888888] rounded-md p-4">
           <ul class="flex justify-around">
             <li class="w-10 border">No</li>
@@ -510,7 +513,7 @@ export default {
           </ul>
         </div>
 
-        <!-- //ANCHOR - From -->
+        <!-- ANCHOR - From -->
         <div class="flex flex-col gap-2 h-full flex-grow overflow-y-auto rounded-lg">
           <div
             v-for="(patient, index) in dataRekap.data.pasien_tkis"
@@ -533,13 +536,13 @@ export default {
                 />
               </li>
 
-              <!-- //ANCHOR - Negara Tujuan -->
+              <!-- ANCHOR - Negara Tujuan -->
               <li class="self-center w-[180px]">
                 <input
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   :class="{
-                    'bg-slate-200 rounded-lg': editForm[index],
+                    'bg-slate-200 rounded-lg': editForm[index]
                   }"
                   v-model="dataRekap.data.pasien_tkis[index].negara_tujuan"
                   @input="generateNoFormEdit(index)"
@@ -549,14 +552,14 @@ export default {
                 />
               </li>
 
-              <!-- //ANCHOR - Nama Lengkap -->
+              <!-- ANCHOR - Nama Lengkap -->
               <li class="self-center w-[250px]">
                 <input
                   v-model="dataRekap.data.pasien_tkis[index].nama_lengkap"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   :class="{
-                    'bg-slate-200 rounded-lg': editForm[index],
+                    'bg-slate-200 rounded-lg': editForm[index]
                   }"
                   @input="generateNoFormEdit(index)"
                   type="text"
@@ -565,14 +568,14 @@ export default {
                 />
               </li>
 
-              <!-- //ANCHOR - Usia -->
+              <!-- ANCHOR - Usia -->
               <li class="self-center w-[50px]">
                 <input
                   v-model="dataRekap.data.pasien_tkis[index].usia"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   :class="{
-                    'bg-slate-200 rounded-lg': editForm[index],
+                    'bg-slate-200 rounded-lg': editForm[index]
                   }"
                   @input="editUsia(index, $event.target.value)"
                   type="number"
@@ -581,14 +584,14 @@ export default {
                 />
               </li>
 
-              <!-- //ANCHOR - Jenis Kelamin -->
+              <!-- ANCHOR - Jenis Kelamin -->
               <li class="self-center w-[120px]">
                 <select
                   v-model="dataRekap.data.pasien_tkis[index].jenis_kelamin"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   :class="{
-                    'bg-slate-200 rounded-lg': editForm[index],
+                    'bg-slate-200 rounded-lg': editForm[index]
                   }"
                   @input="editJk(index, $event.target.value)"
                   class="w-full"
@@ -598,14 +601,14 @@ export default {
                 </select>
               </li>
 
-              <!-- //ANCHOR - Harga -->
+              <!-- ANCHOR - Harga -->
               <li class="self-center w-[150px]">
                 <input
                   v-model="dataRekap.data.pasien_tkis[index].harga"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   :class="{
-                    'bg-slate-200 rounded-lg': editForm[index],
+                    'bg-slate-200 rounded-lg': editForm[index]
                   }"
                   @input="editTotalPembayaran"
                   type="text"
@@ -642,7 +645,7 @@ export default {
     </main>
   </form>
 
-  <!-- //SECTION - Create Kuitansi Pasien -->
+  <!-- SECTION - Create Kuitansi Pasien -->
   <form @submit.prevent="submitPatient" v-else class="h-full flex flex-col">
     <header class="w-full py-6">
       <div class="flex justify-between w-full font-poppins items-center">
@@ -753,9 +756,7 @@ export default {
             </li>
             <li class="flex w-full justify-between white">
               <p class="w-[200px] self-center">Pembayaran</p>
-              <div
-                class="w-full bg-[#71CDBD] rounded-md px-[25px] py-[10px] text-white flex gap-2"
-              >
+              <div class="w-full bg-[#71CDBD] rounded-md px-[25px] py-[10px] text-white flex gap-2">
                 <label for="totalPembayaran">Rp</label>
                 <input
                   name="totalPembayaran"
@@ -777,9 +778,7 @@ export default {
       </section>
 
       <!-- //ANCHOR Table  -->
-      <section
-        class="w-full mt-10 table-content flex flex-col gap-2 h-full overflow-auto"
-      >
+      <section class="w-full mt-10 table-content flex flex-col gap-2 h-full overflow-auto">
         <div class="thead bg-[#E3E3E3] text-[#888888] rounded-md p-4">
           <ul class="flex justify-around">
             <li class="w-10 border">No</li>
@@ -851,10 +850,7 @@ export default {
 
               <!-- //ANCHOR - Jenis Kelamin -->
               <li class="self-center w-[120px]">
-                <select
-                  v-model="data.form.patient[index].jenis_kelamin"
-                  class="w-full bg-white"
-                >
+                <select v-model="data.form.patient[index].jenis_kelamin" class="w-full bg-white">
                   <option value="L">Laki-laki</option>
                   <option value="P">Perempuan</option>
                 </select>
