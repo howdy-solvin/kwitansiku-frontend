@@ -1,8 +1,10 @@
 import axios from 'axios';
 
+const env = import.meta.env;
+
 // Membuat instance Axios dengan header otentikasi
 const instance = axios.create({
-    baseURL: 'https://kwitansiku-backend.vercel.app/api/',
+    baseURL: env.VITE_API_BASE_URL,
 });
 
 const pasienModules = {
@@ -42,7 +44,7 @@ const pasienModules = {
         async createRekap({getters}, data){
             try {
                 const token = getters.getToken;
-                const response = await instance.post("receipt/create/tki", data, {
+                const response = await instance.post("/receipt/create/tki", data, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -56,7 +58,7 @@ const pasienModules = {
             try {
                 const token = getters.getToken;
 
-                const response = await instance.get('receipt/newest-regist-number', {
+                const response = await instance.get('/receipt/newest-regist-number', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
