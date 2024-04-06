@@ -8,9 +8,10 @@ import IconTrash from '@/components/icons/IconTrash.vue'
 import { reactive, computed, ref, watchEffect } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
+import IconCeklist from '@/components/icons/IconCeklist.vue'
 
 export default {
-  components: { ProfileInfo, IconRefresh, IconPlus, IconEdit, IconTrash },
+  components: { ProfileInfo, IconRefresh, IconPlus, IconEdit, IconCeklist, IconTrash },
 
   setup() {
     const store = useStore()
@@ -416,9 +417,7 @@ export default {
           />
 
           <div class="col-span-2 flex justify-end gap-5">
-            <label class="w-fit self-center place-self-end" for="no-pen"
-              >No. Pendaftaran</label
-            >
+            <label class="w-fit self-center place-self-end" for="no-pen">No. Pendaftaran</label>
             <div
               id="no-pen"
               class="items-center self-center border border-gray-400 px-[14px] py-[10px] rounded-md"
@@ -502,13 +501,15 @@ export default {
           <ul class="flex justify-around">
             <li class="w-10 border">No</li>
             <li class="w-[150px] border">No. Form</li>
-            <li class="w-[180px] border">Negara Tujuan</li>
-            <li class="w-[250px] border">Nama Lengkap</li>
-            <li class="w-[50px] border">Usia</li>
-            <li class="w-[120px] border">Jenis Kelamin</li>
-            <li class="w-[150px] border">Harga</li>
-            <div class="w-[50px]">Edit</div>
-            <div class="w-[50px]">Delete</div>
+            <li class="w-[180px] border px-3">Negara Tujuan</li>
+            <li class="w-[250px] border px-3">Nama Lengkap</li>
+            <li class="w-[70px] border px-3">Usia</li>
+            <li class="w-[150px] border px-3">Jenis Kelamin</li>
+            <li class="w-[120px] border px-3">Harga</li>
+            <div class="flex flex-row">
+              <div class="w-[50px]">Edit</div>
+              <div class="w-[50px]">Delete</div>
+            </div>
           </ul>
         </div>
 
@@ -517,21 +518,22 @@ export default {
           <div
             v-for="(patient, index) in dataRekap.data.pasien_tkis"
             :key="patient"
-            class="tbody p-4 rounded-md border border-[#A2A2A2]"
+            :class="{
+              'border-[#00AD8F] bg-[#E4F5F2]': editForm[index],
+              'border-[#A2A2A2]': !editForm[index]
+            }"
+            class="tbody px-4 rounded-md border transition-colors duration-200"
           >
-            <ul class="tbody flex justify-around">
+            <ul class="tbody flex justify-around text-base">
               <!-- //ANCHOR - Number -->
               <li class="self-center w-10 max-w-10">{{ index + 1 }}</li>
 
               <!-- //ANCHOR - No Form -->
               <li class="self-center w-[150px]">
-                <input
-                  v-model="dataRekap.data.pasien_tkis[index].no_form"
-                  @input="editNoForm(index, $event.target.value)"
-                  type="text"
-                  class="w-full border-b border-b-slate-300 rounded-md"
+                <div
+                  v-html="dataRekap.data.pasien_tkis[index].no_form"
+                  class="w-full"
                   placeholder="Terisi Otomatis..."
-                  disabled
                 />
               </li>
 
@@ -540,13 +542,10 @@ export default {
                 <input
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
-                  :class="{
-                    'bg-slate-200 rounded-lg': editForm[index]
-                  }"
                   v-model="dataRekap.data.pasien_tkis[index].negara_tujuan"
                   @input="generateNoFormEdit(index)"
                   type="text"
-                  class="w-full"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   placeholder="Negara Tujuan"
                 />
               </li>
@@ -557,79 +556,73 @@ export default {
                   v-model="dataRekap.data.pasien_tkis[index].nama_lengkap"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
-                  :class="{
-                    'bg-slate-200 rounded-lg': editForm[index]
-                  }"
                   @input="generateNoFormEdit(index)"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   type="text"
-                  class="w-full"
                   placeholder="Nama Lengkap"
                 />
               </li>
 
               <!-- ANCHOR - Usia -->
-              <li class="self-center w-[50px]">
+              <li class="self-center w-[70px]">
                 <input
                   v-model="dataRekap.data.pasien_tkis[index].usia"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
-                  :class="{
-                    'bg-slate-200 rounded-lg': editForm[index]
-                  }"
                   @input="editUsia(index, $event.target.value)"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   type="number"
-                  class="w-full"
                   placeholder="Usia"
                 />
               </li>
 
               <!-- ANCHOR - Jenis Kelamin -->
-              <li class="self-center w-[120px]">
+              <li class="self-center w-[150px]">
                 <select
                   v-model="dataRekap.data.pasien_tkis[index].jenis_kelamin"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
-                  :class="{
-                    'bg-slate-200 rounded-lg': editForm[index]
-                  }"
                   @input="editJk(index, $event.target.value)"
-                  class="w-full"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                 >
+                  <option value="" disabled>Pilih jenis kelamin</option>
                   <option value="L">Laki-laki</option>
                   <option value="P">Perempuan</option>
                 </select>
               </li>
 
               <!-- ANCHOR - Harga -->
-              <li class="self-center w-[150px]">
+              <li class="self-center w-[120px]">
                 <input
                   v-model="dataRekap.data.pasien_tkis[index].harga"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
-                  :class="{
-                    'bg-slate-200 rounded-lg': editForm[index]
-                  }"
                   @input="editTotalPembayaran"
                   type="text"
-                  class="w-full"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   placeholder="Harga"
                 />
               </li>
+              <div class="flex flex-row justify-self-end">
+                <button
+                  type="button"
+                  @click="toggleEdit(index)"
+                  :class="{
+                    'bg-[#FFB800] hover:bg-[#daae42]': !editForm[index],
+                    'bg-[#00AD8F] hover:bg-[#059078]': editForm[index]
+                  }"
+                  class="transition-colors p-2 w-[50px] flex justify-center items-center"
+                >
+                  <IconCeklist v-if="editForm[index]" /> <IconEdit v-else />
+                </button>
 
-              <button
-                type="button"
-                @click="toggleEdit(index)"
-                class="bg-[#FFB800] p-2 w-[50px] flex justify-center items-center rounded-md"
-              >
-                <IconEdit></IconEdit>
-              </button>
-
-              <button
-                @click="deletePatientRekap(patient)"
-                class="bg-[#F00000] p-2 w-[50px] flex justify-center items-center rounded-md"
-              >
-                <IconTrash></IconTrash>
-              </button>
+                <button
+                  @click="deletePatientRekap(patient)"
+                  class="bg-[#F00000] hover:bg-red-800 transition-colors p-2 w-[50px] flex justify-center items-center"
+                >
+                  <IconTrash></IconTrash>
+                </button>
+              </div>
             </ul>
           </div>
         </div>
@@ -775,13 +768,15 @@ export default {
           <ul class="flex justify-around">
             <li class="w-10 border">No</li>
             <li class="w-[150px] border">No. Form</li>
-            <li class="w-[180px] border">Negara Tujuan</li>
-            <li class="w-[250px] border">Nama Lengkap</li>
-            <li class="w-[50px] border">Usia</li>
-            <li class="w-[120px] border">Jenis Kelamin</li>
-            <li class="w-[150px] border">Harga</li>
-            <div class="w-[50px]">Edit</div>
-            <div class="w-[50px]">Delete</div>
+            <li class="w-[180px] border ps-3">Negara Tujuan</li>
+            <li class="w-[250px] border ps-3">Nama Lengkap</li>
+            <li class="w-[70px] border ps-3">Usia</li>
+            <li class="w-[150px] border ps-3">Jenis Kelamin</li>
+            <li class="w-[120px] border ps-3">Harga</li>
+            <div class="flex flex-row">
+              <div class="w-[50px]">Edit</div>
+              <div class="w-[50px]">Delete</div>
+            </div>
           </ul>
         </div>
 
@@ -790,21 +785,21 @@ export default {
           <div
             v-for="(patient, index) in data.form.patient"
             :key="patient"
-            class="tbody p-4 rounded-md border border-[#A2A2A2]"
+            class="tbody px-4 rounded-md border border-[#A2A2A2]"
           >
-            <ul class="tbody flex justify-around">
+            <ul class="tbody flex justify-around text-base">
               <!-- //ANCHOR - Number -->
               <li class="self-center w-10 max-w-10">{{ index + 1 }}</li>
 
               <!-- //ANCHOR - No Form -->
               <li class="self-center w-[150px]">
-                <input
-                  v-model="data.form.patient[index].no_form"
-                  type="text"
-                  class="w-full border-b border-b-slate-300 rounded-md"
-                  placeholder="Terisi Otomatis..."
-                  readonly
-                  disabled
+                <div
+                  v-html="
+                    !data.form.patient[index].no_form
+                      ? 'Terisi Otomatis...'
+                      : data.form.patient[index].no_form
+                  "
+                  class="w-full"
                 />
               </li>
 
@@ -813,7 +808,7 @@ export default {
                 <input
                   v-model="data.form.patient[index].negara_tujuan"
                   type="text"
-                  class="w-full"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   placeholder="Negara Tujuan"
                   @input="generateNoForm(index)"
                 />
@@ -824,55 +819,64 @@ export default {
                 <input
                   v-model="data.form.patient[index].nama_lengkap"
                   type="text"
-                  class="w-full"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   placeholder="Nama Lengkap"
                   @input="generateNoForm(index)"
                 />
               </li>
 
               <!-- //ANCHOR - Usia -->
-              <li class="self-center w-[50px]">
+              <li class="self-center w-[70px]">
                 <input
                   v-model="data.form.patient[index].usia"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   type="text"
-                  class="w-full"
                   placeholder="Usia"
                 />
               </li>
 
               <!-- //ANCHOR - Jenis Kelamin -->
-              <li class="self-center w-[120px]">
-                <select v-model="data.form.patient[index].jenis_kelamin" class="w-full bg-white">
+              <li class="self-center w-[150px]">
+                <select
+                  v-model="data.form.patient[index].jenis_kelamin"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-white focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
+                >
+                  <option value="" disabled>Pilih jenis kelamin</option>
                   <option value="L">Laki-laki</option>
                   <option value="P">Perempuan</option>
                 </select>
               </li>
 
               <!-- //ANCHOR - Harga -->
-              <li class="self-center w-[150px]">
+              <li class="self-center w-[120px]">
                 <input
                   v-model="data.form.patient[index].harga"
                   @input="inputTotalPembayaranPasien"
                   type="text"
-                  class="w-full"
+                  class="w-full px-3 py-3 focus:outline-[#A2A2A2] focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   placeholder="Harga"
                 />
               </li>
 
-              <button
-                :class="{ 'bg-[#FFB800] ': !isDisabled, 'bg-[#969696]': isDisabled }"
-                class="p-2 w-[50px] flex justify-center items-center rounded-md"
-                :disabled="isDisabled"
-              >
-                <IconEdit></IconEdit>
-              </button>
+              <div class="flex flex-row justify-self-end">
+                <button
+                  :class="{
+                    'bg-[#FFB800] ': !isDisabled,
+                    'bg-[#969696] hover:bg-gray-500': isDisabled
+                  }"
+                  class="p-2 w-[50px] flex justify-center items-center transition-colors"
+                  :disabled="isDisabled"
+                >
+                  <IconEdit></IconEdit>
+                </button>
 
-              <button
-                @click="deletePatient(patient)"
-                class="bg-[#F00000] p-2 w-[50px] flex justify-center items-center rounded-md"
-              >
-                <IconTrash></IconTrash>
-              </button>
+                <button
+                  @click="deletePatient(patient)"
+                  class="bg-[#F00000] hover:bg-red-800 transition-colors p-2 w-[50px] flex justify-center items-center"
+                >
+                  <IconTrash></IconTrash>
+                </button>
+              </div>
             </ul>
           </div>
         </div>
