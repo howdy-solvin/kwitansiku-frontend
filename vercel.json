@@ -6,7 +6,6 @@
       "use": "@vercel/node"
     }
   ],
-  "routes": [{ "handle": "filesystem" }],
   "rewrites": [
     {
       "source": "/(.*)",
