@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const env = import.meta.env;
+
 const authModules = {
   state: {
     user: JSON.parse(localStorage.getItem('user')) || null,
@@ -26,7 +28,7 @@ const authModules = {
   actions: {
     async loginUser({ commit }, form) {
       try {
-        const response = await axios.post("https://kwitansiku-backend.vercel.app/api/auth/login", form );
+        const response = await axios.post(`${env.VITE_API_BASE_URL}/auth/login`, form );
         commit('setUser', response.data);
         // Simpan user dan token ke dalam state Vuex dan local storage
         commit('setAccessToken', response.data.tokens.access);
@@ -39,7 +41,7 @@ const authModules = {
 
     async registerUser(state, form){
       try {
-        const response = await axios.post("https://kwitansiku-backend.vercel.app/api/auth/register", form);
+        const response = await axios.post(`${env.VITE_API_BASE_URL}/auth/register`, form);
         return response.data;
       } catch (error) {
         return error.message;

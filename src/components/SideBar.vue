@@ -1,9 +1,9 @@
 <script setup>
-import SidebarLayout from "./layouts/SidebarLayout.vue";
-import GoraIcon from "./icons/GoraIcon.vue";
-import { ref } from "vue";
+import SidebarLayout from './layouts/SidebarLayout.vue'
+import GoraIcon from './icons/GoraIcon.vue'
+import { ref } from 'vue'
 
-const toggleDropdown = ref(false);
+const toggleDropdown = ref(false)
 </script>
 
 <template>
@@ -12,19 +12,27 @@ const toggleDropdown = ref(false);
       <div><GoraIcon></GoraIcon></div>
     </template>
     <template #navside>
-      <router-link to="/dashboard" class="py-[10px] px-[15px] rounded-md text-[#676767]"
+      <router-link
+        to="/dashboard"
+        @click.native="toggleDropdown = false"
+        class="py-[10px] px-[15px] w-full rounded-md text-[#676767] hover:text-white hover:bg-[#54A3FF] transition-colors"
         >Dashboard</router-link
       >
       <button
         @click="toggleDropdown = !toggleDropdown"
-        class="toogle-dropdown py-[10px] px-[15px] rounded-md flex justify-between items-center"
-        :class="toggleDropdown ? 'bg-[#0075FF] text-white font-bold' : 'text-[#676767]'"
-        :style="toggleDropdown ? 'box-shadow: 1px 5px 15px rgba(0, 117, 255, 0.5)' : ''"
+        class="toogle-dropdown group py-[10px] px-[15px] rounded-md flex justify-between items-center transition-all"
+        :class="
+          toggleDropdown
+            ? 'bg-[#0075FF] shadow-[1px_5px_15px_#0075FF50] text-white font-bold'
+            : 'text-[#676767] hover:text-white hover:bg-[#54A3FF]'
+        "
       >
         Jenis Kwitansi
         <svg
-          class="-mr-1 h-5 w-5"
-          :class="toggleDropdown ? 'bg-[#0075FF] text-white ' : 'text-[#676767]'"
+          class="-mr-1 h-5 w-5 transition-colors"
+          :class="
+            toggleDropdown ? 'bg-[#0075FF] text-white ' : 'text-[#676767] group-hover:text-white'
+          "
           viewBox="0 0 20 20"
           fill="currentColor"
           aria-hidden="true"
@@ -37,8 +45,8 @@ const toggleDropdown = ref(false);
         </svg>
       </button>
       <div
-        :class="['flex', 'flex-col', 'rounded-md', { 'bg-[#0075FF]': toggleDropdown }]"
-        v-if="toggleDropdown"
+        :class="[{ 'bg-[#0075FF] h-full': toggleDropdown, 'h-0 overflow-hidden': !toggleDropdown }]"
+        class="flex flex-col rounded-md transition-all duration-300 ease-out"
       >
         <router-link to="/pasien-tki" class="py-[10px] text-white px-[15px] rounded-t-md"
           >Pasien TKI</router-link
@@ -50,7 +58,8 @@ const toggleDropdown = ref(false);
       </div>
       <router-link
         to="/rekap-kwitansi"
-        class="py-[10px] text-[#676767] px-[15px] rounded-md"
+        @click.native="toggleDropdown = false"
+        class="py-[10px] text-[#676767] px-[15px] rounded-md hover:text-white hover:bg-[#54A3FF] transition-colors"
         >Rekap Kwitansi</router-link
       >
     </template>

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const env = import.meta.env;
+
 function formatTanggal(tanggalISO) {
   const date = new Date(tanggalISO);
   const yyyy = date.getFullYear();
@@ -57,7 +59,7 @@ const receiptsModules = {
         try {
           // Mengirimkan permintaan GET ke API untuk mendapatkan data kwitansi
           const token = getters.getMyToken;
-          const response = await axios.get('https://kwitansiku-backend.vercel.app/api/receipt', {
+          const response = await axios.get(`${env.VITE_API_BASE_URL}/receipt`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -72,7 +74,7 @@ const receiptsModules = {
     async fetchReceiptsPatient({commit, getters}, uuid){
       try {
         const token = getters.getMyToken;
-        const response = await axios.get(`https://kwitansiku-backend.vercel.app/api/receipt/one/${uuid}`, {
+        const response = await axios.get(`${env.VITE_API_BASE_URL}/receipt/one/${uuid}`, {
           headers: {
               'Authorization': `Bearer ${token}`
           }
@@ -93,7 +95,7 @@ const receiptsModules = {
         const uuid = getUuid.data.uuid
         console.log(data);
         console.log(uuid);
-        const response = await axios.post(`https://kwitansiku-backend.vercel.app/api/receipt/update/tki/${uuid}`, data, {
+        const response = await axios.post(`${env.VITE_API_BASE_URL}/receipt/update/tki/${uuid}`, data, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
