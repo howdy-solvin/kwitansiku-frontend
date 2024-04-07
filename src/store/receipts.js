@@ -7,7 +7,7 @@ function formatTanggal(tanggalISO) {
   const yyyy = date.getFullYear()
   const dd = String(date.getDate()).padStart(2, '0')
   const mm = String(date.getMonth() + 1).padStart(2, '0')
-  return `${yyyy}-${dd}-${mm}`
+  return `${yyyy}-${mm}-${dd}`
 }
 
 const receiptsModules = {
@@ -95,6 +95,7 @@ const receiptsModules = {
         })
         console.log('cek datanya', response.data)
         const rekapData = response.data.data
+        rekapData.tanggal = formatTanggal(rekapData.tanggal)
         commit('setRekap', { ...rekapData, status: true })
         return response.data
       } catch (error) {
