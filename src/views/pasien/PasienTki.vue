@@ -84,7 +84,7 @@ export default {
       }
 
       // Tambahkan objek baru ke dalam array patient
-      dataRekap.data.pasien_tkis.push(newPatient)
+      dataRekap.pasien_tkis.push(newPatient)
     }
 
     //TODO -  Menghapus Pasien
@@ -96,15 +96,17 @@ export default {
     }
 
     const deletePatientRekap = (patient) => {
-      const index = dataRekap.data.pasien_tkis.indexOf(patient)
+      const index = dataRekap.pasien_tkis.indexOf(patient)
       if (index !== -1) {
-        dataRekap.data.pasien_tkis.splice(index, 1)
+        dataRekap.pasien_tkis.splice(index, 1)
       }
     }
 
     //TODO - Menghapus semua inputan
     const refreshPage = () => {
       store.commit('setRekapStatus', false)
+      store.commit('setTotalPembayaran', null)
+      store.commit('setTotalPembayaranPasien', null)
       const no_pendaftaran = data.form.receipt.no_pendaftaran
       data.form = {
         receipt: {
@@ -185,7 +187,7 @@ export default {
 
     let rekapitulasi
     const totalRekap = computed(() => {
-      const totalHargaRekap = dataRekap.data.total_harga
+      const totalHargaRekap = dataRekap.total_harga
 
       // Format total harga ke format yang diinginkan
       totalHargaValue = new Intl.NumberFormat('id-ID', {
@@ -213,7 +215,7 @@ export default {
 
       const dataRekap = store.getters['getterRekap']
       if (dataRekap) {
-        const pasien_tkis = dataRekap.data.pasien_tkis
+        const pasien_tkis = dataRekap.pasien_tkis
         const updatedPasien_tkis = pasien_tkis.map((item) => {
           // Menghindari properti yang tidak diinginkan
           // eslint-disable-next-line no-unused-vars
@@ -229,7 +231,7 @@ export default {
           no_pendaftaran,
           tanggal,
           total_pembayaran
-        } = dataRekap.data
+        } = dataRekap
         store.commit('setFormEditKuitansi', {
           keterangan,
           nama_penanggungjawab,
@@ -250,8 +252,8 @@ export default {
     }
 
     const editTotalPembayaran = () => {
-      if (dataRekap.data && dataRekap.data.pasien_tkis) {
-        const totalHarga = dataRekap.data.pasien_tkis.reduce((total, item) => {
+      if (dataRekap && dataRekap.pasien_tkis) {
+        const totalHarga = dataRekap.pasien_tkis.reduce((total, item) => {
           // Mengonversi nilai harga menjadi float dan menambahkannya ke total
           return total + parseFloat(item.harga || 0) // Jika harga tidak valid, gunakan nilai 0
         }, 0)
@@ -319,7 +321,7 @@ export default {
     }
 
     const generateNoFormEdit = (index) => {
-      const patient = dataRekap.data.pasien_tkis[index]
+      const patient = dataRekap.pasien_tkis[index]
       const negaraTujuan = patient.negara_tujuan || ''
       const namaLengkap = patient.nama_lengkap || ''
       const noForm =
@@ -408,8 +410,7 @@ export default {
         <div class="grid grid-cols-4 gap-y-3">
           <label class="self-center" for="date">Tanggal Medikal</label>
           <input
-            v-model="dataRekap.data.tanggal"
-            @input="updateTanggal($event.target.value)"
+            v-model="dataRekap.tanggal"
             class="col-span-1 border border-gray-400 px-[14px] py-[10px] rounded-md"
             type="date"
             id="date"
@@ -421,13 +422,13 @@ export default {
             <div
               id="no-pen"
               class="items-center self-center border border-gray-400 px-[14px] py-[10px] rounded-md"
-              v-html="dataRekap.data.no_pendaftaran"
+              v-html="dataRekap.no_pendaftaran"
             />
           </div>
 
           <label class="w-[200px] self-center" for="nama-pj-tki">Nama PJ-TKI</label>
           <input
-            v-model="dataRekap.data.nama_penanggungjawab"
+            v-model="dataRekap.nama_penanggungjawab"
             @input="editNamaPj($event.target.value)"
             class="col-span-3 border border-gray-400 px-[14px] py-[10px] w-full rounded-md"
             type="text"
@@ -438,7 +439,7 @@ export default {
 
           <label class="w-[200px] self-center" for="sponsor">Nama Sponsor</label>
           <input
-            v-model="dataRekap.data.nama_sponsor"
+            v-model="dataRekap.nama_sponsor"
             @input="editNamaSponsor($event.target.value)"
             class="col-span-3 border border-gray-400 px-[14px] py-[10px] w-full rounded-md"
             type="text"
@@ -449,7 +450,7 @@ export default {
 
           <label class="w-[200px] self-center" for="keterangan">Keterangan</label>
           <input
-            v-model="dataRekap.data.keterangan"
+            v-model="dataRekap.keterangan"
             class="col-span-3 border border-gray-400 px-[14px] py-[10px] w-full rounded-md"
             type="text"
             id="keterangan"
@@ -463,7 +464,7 @@ export default {
             <li class="flex w-full">
               <p class="w-[200px] self-center">Total Daftar</p>
               <p class="w-full bg-black px-[25px] rounded-md py-[10px] text-white">
-                {{ dataRekap.data.total_pendaftar }} Orang
+                {{ dataRekap.total_pendaftar }} Orang
               </p>
             </li>
             <li class="flex w-full justify-between white">
@@ -478,7 +479,7 @@ export default {
                 <label for="totalPembayaran">Rp</label>
                 <input
                   name="totalPembayaran"
-                  v-model="dataRekap.data.total_pembayaran"
+                  v-model="dataRekap.total_pembayaran"
                   @input="inputTotalPembayaran"
                   class="bg-[#71CDBD] w-full outline-none pembayaran"
                   placeholder="Masukan Total Pembayaran"
@@ -516,7 +517,7 @@ export default {
         <!-- ANCHOR - From -->
         <div class="flex flex-col gap-2 h-full flex-grow overflow-y-auto rounded-lg">
           <div
-            v-for="(patient, index) in dataRekap.data.pasien_tkis"
+            v-for="(patient, index) in dataRekap.pasien_tkis"
             :key="patient"
             :class="{
               'border-[#00AD8F] bg-[#E4F5F2]': editForm[index],
@@ -531,7 +532,7 @@ export default {
               <!-- //ANCHOR - No Form -->
               <li class="self-center w-[150px]">
                 <div
-                  v-html="dataRekap.data.pasien_tkis[index].no_form"
+                  v-html="dataRekap.pasien_tkis[index].no_form"
                   class="w-full"
                   placeholder="Terisi Otomatis..."
                 />
@@ -542,7 +543,7 @@ export default {
                 <input
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
-                  v-model="dataRekap.data.pasien_tkis[index].negara_tujuan"
+                  v-model="dataRekap.pasien_tkis[index].negara_tujuan"
                   @input="generateNoFormEdit(index)"
                   type="text"
                   class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
@@ -553,7 +554,7 @@ export default {
               <!-- ANCHOR - Nama Lengkap -->
               <li class="self-center w-[250px]">
                 <input
-                  v-model="dataRekap.data.pasien_tkis[index].nama_lengkap"
+                  v-model="dataRekap.pasien_tkis[index].nama_lengkap"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   @input="generateNoFormEdit(index)"
@@ -566,7 +567,7 @@ export default {
               <!-- ANCHOR - Usia -->
               <li class="self-center w-[70px]">
                 <input
-                  v-model="dataRekap.data.pasien_tkis[index].usia"
+                  v-model="dataRekap.pasien_tkis[index].usia"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   @input="editUsia(index, $event.target.value)"
@@ -579,7 +580,7 @@ export default {
               <!-- ANCHOR - Jenis Kelamin -->
               <li class="self-center w-[150px]">
                 <select
-                  v-model="dataRekap.data.pasien_tkis[index].jenis_kelamin"
+                  v-model="dataRekap.pasien_tkis[index].jenis_kelamin"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   @input="editJk(index, $event.target.value)"
@@ -594,7 +595,7 @@ export default {
               <!-- ANCHOR - Harga -->
               <li class="self-center w-[120px]">
                 <input
-                  v-model="dataRekap.data.pasien_tkis[index].harga"
+                  v-model="dataRekap.pasien_tkis[index].harga"
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   @input="editTotalPembayaran"
