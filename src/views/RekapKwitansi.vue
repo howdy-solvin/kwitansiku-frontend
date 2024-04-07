@@ -286,9 +286,13 @@ export default {
         </template>
         <template #banner>
           <div class="flex justify-between items-center">
-            <GoraIcon></GoraIcon>
+            <img
+              class="w-[80px] h-[80px] object-contain"
+              src="../components/icons/klinikGoraLogo.png"
+              alt=""
+            />
             <div class="text-right">
-              <h1 class="font-bold text-lg">KALIK GORA MATARAM</h1>
+              <h1 class="font-bold text-lg">KLINIK GORA MATARAM</h1>
               <p>Jl. RA. Kartini No. 77 Mojok - Mataram - NTB Mataram</p>
               <p>Indonesia - Telp.(0370) 635661 Fax (0370) 635661</p>
               <p>goraklinik@gmail.com</p>
@@ -296,16 +300,17 @@ export default {
           </div>
         </template>
         <template #main>
+          <div v-if="kwitansi.total_harga === kwitansi.total_pembayaran" class="absolute left-1/2 -translate-x-1/2 top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[130px] font-semibold">LUNAS</div>
           <div class="flex flex-col items-center">
             <h1 class="font-bold text-[25px] text-center">KWITANSI PEMBAYARAN</h1>
             <div class="w-[40%] border h-1 bg-black" />
             <p class="text-center">NO : {{ kwitansi.no_pendaftaran }}</p>
           </div>
-          <div class="flex w-full justify-end gap-2 mt-8">
+          <div class="flex w-full justify-end gap-2 mt-3">
             <p class="w-[180px] text-end">Tanggal / No. Daftar</p>
             <p class="text-end">: {{ kwitansi.no_pendaftaran }}</p>
           </div>
-          <ul class="flex flex-col gap-2 mt-5">
+          <ul class="flex flex-col gap-2">
             <li class="flex justify-between">
               <div class="flex gap-8">
                 <p class="w-[150px]">Nama PJ-TKI</p>
@@ -337,7 +342,7 @@ export default {
               <p>: Rp. ,-</p>
             </li>
           </ul>
-          <div class="mt-8 flex justify-betweens w-full py-5">
+          <div class="mt-7 flex justify-betweens w-full">
             <div class="w-full">
               <p>NB. -Detail Terlampir</p>
             </div>
@@ -347,6 +352,77 @@ export default {
               <p class="mt-20">{{ isAdminLoggedIn }}</p>
             </div>
           </div>
+        </template>
+        <template #pasien>
+          <ul class="flex flex-col gap-1 mt-10">
+            <li class="flex gap-8">
+              <p class="w-[150px]">Tanggal / No. Daftar</p>
+              <p>: {{ kwitansi.tanggal }}/{{ kwitansi.no_pendaftaran }}</p>
+            </li>
+            <li class="flex gap-8">
+              <p class="w-[150px]">Nama PJ-TKI</p>
+              <p>: {{ kwitansi.nama_penanggungjawab }}</p>
+            </li>
+            <li class="flex gap-8">
+              <p class="w-[150px]">Nama Sponsor</p>
+              <p>: {{ kwitansi.nama_sponsor }}</p>
+            </li>
+          </ul>
+          <table class="w-full mt-5">
+            <thead>
+              <tr class="border-b-4 border-b-black">
+                <th class="border border-black px-3 py-1">
+                  <h1 class="font-medium text-start">No.</h1>
+                </th>
+                <th class="border border-black px-3 py-1">
+                  <h1 class="font-medium text-start">Nama Lengkap</h1>
+                </th>
+                <th class="border border-black px-3 py-1">
+                  <h1 class="font-medium text-start">Jenis Medikal</h1>
+                </th>
+                <th class="border border-black px-3 py-1">
+                  <h1 class="font-medium text-start">Register</h1>
+                </th>
+                <th class="border border-black px-3 py-1">
+                  <h1 class="font-medium text-start">Harga</h1>
+                </th>
+                <th class="border border-black px-3 py-1">
+                  <h1 class="font-medium text-start">Bayar</h1>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="text-sm" v-for="(item, index) in kwitansi.pasien_tkis" :key="i">
+              <tr>
+                <td class="px-3 py-1">
+                  <p class="text-start">{{ index + 1 }}</p>
+                </td>
+                <td class="px-3 py-1">
+                  <p class="text-start">{{ item.nama_lengkap }}</p>
+                </td>
+                <td class="px-3 py-1">
+                  <p class="text-start">{{ item.negara_tujuan }}</p>
+                </td>
+                <td class="px-3 py-1">
+                  <p class="text-start">{{ item.no_form }}</p>
+                </td>
+                <td class="px-3 py-1">
+                  <p class="text-start">{{ item.harga }}</p>
+                </td>
+                <td class="px-3 py-1">
+                  <p class="text-start">
+                    {{ kwitansi.total_pembayaran / kwitansi.pasien_tkis.length }}
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+            <tbody class="text-sm font-semibold italic">
+              <tr>
+                <td class="px-3 py-1 border border-black" colspan="4">Total Keseluruhan</td>
+                <td class="px-3 py-1 border border-black">{{ kwitansi.total_harga }}</td>
+                <td class="px-3 py-1 border border-black">{{ kwitansi.total_pembayaran }}</td>
+              </tr>
+            </tbody>
+          </table>
         </template>
       </ModalBase>
     </main>

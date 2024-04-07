@@ -207,7 +207,6 @@ export default {
       store
         .dispatch('fetchRegistNumber')
         .then((registNumber) => {
-          console.log("apakah yang indefined disini?", registNumber)
           data.form.receipt.no_pendaftaran = registNumber.data.new_regist_id
         })
         .catch((error) => {
@@ -412,7 +411,6 @@ export default {
           <label class="self-center" for="date">Tanggal Medikal</label>
           <input
             v-model="dataRekap.tanggal"
-            @input="updateTanggal($event.target.value)"
             class="col-span-1 border border-gray-400 px-[14px] py-[10px] rounded-md"
             type="date"
             id="date"
