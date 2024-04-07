@@ -277,10 +277,10 @@ export default {
       >
         <template #header>
           <div>
-            <h4 class="font-bold text-lg">Kwitansi 001-KWITKI01423</h4>
+            <h4 class="font-bold text-lg">Kwitansi {{ kwitansi.no_pendaftaran }}</h4>
             <p>
-              <span class="text-blue-500 font-semibold">{{ kwitansi.data.tanggal }} </span>
-              | {{ kwitansi.data.nama_sponsor }}
+              <span class="text-blue-500 font-semibold">{{ kwitansi.tanggal }} </span>
+              | {{ kwitansi.nama_sponsor }}
             </p>
           </div>
         </template>
@@ -299,22 +299,22 @@ export default {
           <div class="flex flex-col items-center">
             <h1 class="font-bold text-[25px] text-center">KWITANSI PEMBAYARAN</h1>
             <div class="w-[40%] border h-1 bg-black" />
-            <p class="text-center">NO : {{ kwitansi.data.no_pendaftaran }}</p>
+            <p class="text-center">NO : {{ kwitansi.no_pendaftaran }}</p>
           </div>
           <div class="flex w-full justify-end gap-2 mt-8">
             <p class="w-[180px] text-end">Tanggal / No. Daftar</p>
-            <p class="text-end">: {{ kwitansi.data.no_pendaftaran }}</p>
+            <p class="text-end">: {{ kwitansi.no_pendaftaran }}</p>
           </div>
           <ul class="flex flex-col gap-2 mt-5">
             <li class="flex justify-between">
               <div class="flex gap-8">
                 <p class="w-[150px]">Nama PJ-TKI</p>
-                <p>: {{ kwitansi.data.nama_penanggungjawab }}</p>
+                <p>: {{ kwitansi.nama_penanggungjawab }}</p>
               </div>
             </li>
             <li class="flex gap-8">
               <p class="w-[150px]">Nama Sponsor</p>
-              <p>: {{ kwitansi.data.nama_sponsor }}</p>
+              <p>: {{ kwitansi.nama_sponsor }}</p>
             </li>
             <li class="flex gap-8">
               <p class="w-[150px]">Untuk Pembayaran</p>
@@ -322,15 +322,15 @@ export default {
             </li>
             <li class="flex gap-8">
               <p class="w-[150px]">Jumlah Peserta</p>
-              <p>: {{ kwitansi.data.total_pendaftar }} Orang</p>
+              <p>: {{ kwitansi.total_pendaftar }} Orang</p>
             </li>
             <li class="flex gap-8">
               <p class="w-[150px]">Total Harga</p>
-              <p>: Rp. {{ kwitansi.data.total_harga }},-</p>
+              <p>: Rp. {{ kwitansi.total_harga }},-</p>
             </li>
             <li class="flex gap-8">
               <p class="w-[150px]">Pembayaran</p>
-              <p>: Rp. {{ kwitansi.data.total_pembayaran }},-</p>
+              <p>: Rp. {{ kwitansi.total_pembayaran }},-</p>
             </li>
             <li class="flex gap-8">
               <p class="w-[150px]">Sisa Kredit</p>
@@ -342,7 +342,7 @@ export default {
               <p>NB. -Detail Terlampir</p>
             </div>
             <div class="w-full flex flex-col items-center">
-              <p>Mataram, {{ kwitansi.data.tanggal }}</p>
+              <p>Mataram, {{ kwitansi.tanggal }}</p>
               <p>Kasir</p>
               <p class="mt-20">{{ isAdminLoggedIn }}</p>
             </div>
