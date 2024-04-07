@@ -1,14 +1,15 @@
-import { createStore } from 'vuex';
-import authModules from './auth';
-import pasienModules from './pasien';
-import receiptsModules from './receipts';
+import { createStore } from 'vuex'
+import authModules from './auth'
+import pasienModules from './pasien'
+import receiptsModules from './receipts'
 
 const store = createStore({
+  root: true,
   modules: {
     auth: authModules,
     pasien: pasienModules,
-    receipts: receiptsModules,
-  },
-});
+    receipts: receiptsModules
+  }
+})
 
-export default store;
+export default store
