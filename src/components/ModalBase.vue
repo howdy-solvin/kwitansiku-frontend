@@ -26,16 +26,16 @@ export default {
       <section class="flex justify-between p-6 w-full border-b-2">
         <slot name="header" />
         <div class="flex gap-3">
-          <button @click="tooglePopUp()" class="bg-[#F00000] p-[17px] rounded-lg">
-            <CloseIcon></CloseIcon>
-          </button>
           <button
-            v-if="showPrintButton"
-            @click="printModal"
-            class="bg-[#0075FF] p-[17px] rounded-lg"
+          v-if="showPrintButton"
+          @click="printModal"
+          class="bg-[#0075FF] p-[17px] rounded-lg"
           >
-            <CetakKuitansi></CetakKuitansi>
-          </button>
+          <CetakKuitansi></CetakKuitansi>
+        </button>
+        <button @click="tooglePopUp()" class="bg-[#F00000] p-[17px] rounded-lg">
+          <CloseIcon></CloseIcon>
+        </button>
         </div>
       </section>
 
