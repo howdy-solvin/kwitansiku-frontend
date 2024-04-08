@@ -7,7 +7,6 @@ import { watchEffect, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import ModalBase from '@/components/ModalBase.vue'
-import { toast } from 'vue3-toastify'
 import GoraIcon from '@/components/icons/GoraIcon.vue'
 
 export default {
@@ -44,39 +43,20 @@ export default {
     })
 
     const getUid = async (index) => {
-      const promiseToast = toast.loading('Please wait...', {
-        position: toast.POSITION.TOP_CENTER
-      })
-
       // Gunakan originalReceipts untuk mendapatkan uuid
       const uuid = receipts.value[index].uuid
       const response = await store.dispatch('fetchReceiptsPatient', uuid)
 
       if (response.code === 200) {
         showPrintButton.value = true
-        toast.update(promiseToast, {
-          render: response.message,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: 'success',
-          isLoading: false
-        })
+        showPrintDetailButton.value = true
         router.push('/pasien-tki')
-      } else {
-        toast.update(promiseToast, {
-          render: response.message,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: 'error',
-          isLoading: false
-        })
       }
     }
 
     //TODO - Interace With modal
     const showPrintButton = ref(false)
+    const showPrintDetailButton = ref(false)
     const popUpTriggers = ref({
       buttonTrigger: false
     })
@@ -85,38 +65,18 @@ export default {
       popUpTriggers.value[trigger] = !popUpTriggers.value[trigger]
       if (popUpTriggers.value[trigger]) {
         try {
-          const promiseToast = toast.loading('Please wait...', {
-            position: toast.POSITION.TOP_CENTER
-          })
           // Kirim permintaan GET untuk mengambil data pasien
           const uuid = receipts.value[index].uuid
           const response = await store.dispatch('fetchReceiptsPatient', uuid)
-          if (response.code === 200) {
-            toast.update(promiseToast, {
-              render: response.message,
-              autoClose: true,
-              closeOnClick: true,
-              closeButton: true,
-              type: 'success',
-              isLoading: false
-            })
-            showPrintButton.value = !showPrintButton.value
-          } else {
-            toast.update(promiseToast, {
-              render: response.message,
-              autoClose: true,
-              closeOnClick: true,
-              closeButton: true,
-              type: 'error',
-              isLoading: false
-            })
-          }
+          response.code === 200 ? (showPrintButton.value = true) : (showPrintButton.value = false)
+          response.code === 200 ? (showPrintDetailButton.value = true) : (showPrintDetailButton.value = false)
         } catch (error) {
           console.error('Error fetching patient data:', error)
         }
       } else {
         // Atur showPrintButton menjadi false jika popUpTriggers.value[trigger] adalah false
         showPrintButton.value = false
+        showPrintDetailButton.value = false
       }
     }
 
@@ -128,7 +88,8 @@ export default {
       kwitansi,
       admin,
       isAdminLoggedIn,
-      showPrintButton
+      showPrintButton,
+      showPrintDetailButton
     }
   }
 }
@@ -211,8 +172,8 @@ export default {
               <th
                 class="font-normal rounded-tr-md rounded-br-md text-[#888888] bg-[#E3E3E3] px-4 py-3 flex"
               >
-                <p class="w-full text-right">Edit</p>
-                <p class="w-full">Cetak</p>
+                <p class="w-full text-right">Detail</p>
+                <p class="w-full">Kwt</p>
               </th>
             </tr>
           </thead>
@@ -273,6 +234,7 @@ export default {
         v-if="popUpTriggers.buttonTrigger"
         :tooglePopUp="() => tooglePopUp('buttonTrigger')"
         :showPrintButton="showPrintButton"
+        :showPrintDetailButton="showPrintDetailButton"
         class="font-poppins"
       >
         <template #header>
@@ -300,15 +262,27 @@ export default {
           </div>
         </template>
         <template #main>
-          <div v-if="kwitansi.total_harga === kwitansi.total_pembayaran" class="absolute left-1/2 -translate-x-1/2 top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[130px] font-semibold">LUNAS</div>
+          <div
+            v-if="kwitansi.total_harga <= kwitansi.total_pembayaran"
+            class="absolute left-1/2 -translate-x-1/2 top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[130px] font-semibold"
+          >
+            LUNAS
+          </div>
           <div class="flex flex-col items-center">
             <h1 class="font-bold text-[25px] text-center">KWITANSI PEMBAYARAN</h1>
             <div class="w-[40%] border h-1 bg-black" />
-            <p class="text-center">NO : {{ kwitansi.no_pendaftaran }}</p>
+            <p class="text-center">
+              NO :
+              {{
+                kwitansi.tanggal.split('-')[0].slice(2, 4) +
+                kwitansi.tanggal.split('-')[1] +
+                kwitansi.tanggal.split('-')[2]
+              }}01{{ kwitansi.no_pendaftaran }}
+            </p>
           </div>
           <div class="flex w-full justify-end gap-2 mt-3">
             <p class="w-[180px] text-end">Tanggal / No. Daftar</p>
-            <p class="text-end">: {{ kwitansi.no_pendaftaran }}</p>
+            <p class="text-end">: {{ kwitansi.tanggal }} / {{ kwitansi.no_pendaftaran }}</p>
           </div>
           <ul class="flex flex-col gap-2">
             <li class="flex justify-between">
@@ -339,7 +313,7 @@ export default {
             </li>
             <li class="flex gap-8">
               <p class="w-[150px]">Sisa Kredit</p>
-              <p>: Rp. ,-</p>
+              <p>: Rp. {{ kwitansi.total_harga - kwitansi.total_pembayaran }},-</p>
             </li>
           </ul>
           <div class="mt-7 flex justify-betweens w-full">

@@ -1,85 +1,64 @@
 <script>
-import RegisterLayout from "@/components/layouts/RegisterLayout.vue";
-import IconKwitansi from "@/components/icons/IconKwitansi.vue";
-import LightBulb from "@/components/icons/LightBulb.vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { reactive } from "vue";
-import { toast } from "vue3-toastify";
-import "vue3-toastify/dist/index.css";
+import RegisterLayout from '@/components/layouts/RegisterLayout.vue'
+import IconKwitansi from '@/components/icons/IconKwitansi.vue'
+import LightBulb from '@/components/icons/LightBulb.vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { reactive } from 'vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 export default {
-  name: "RegisterUser",
+  name: 'RegisterUser',
   components: { RegisterLayout, IconKwitansi, LightBulb },
   setup() {
-    const router = useRouter();
-    const authStore = useStore();
+    const router = useRouter()
+    const store = useStore()
 
     const form = reactive({
-      name: "",
-      email: "",
-      password: "",
-      confirm_password: "",
-    });
+      name: '',
+      email: '',
+      password: '',
+      confirm_password: ''
+    })
 
     const errors = reactive({
-      email: "",
-      password: "",
-      confirm_password: "",
-    });
+      email: '',
+      password: '',
+      confirm_password: ''
+    })
 
     const handleSubmit = async () => {
-      const promiseToast = toast.loading("Please wait...", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-
-      const response = await authStore.dispatch("registerUser", form);
+      const response = await store.dispatch('registerUser', form)
 
       if (response.status == true) {
-        toast.update(promiseToast, {
-          render: response.message,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: "success",
-          isLoading: false,
-        });
-        router.push({ name: "Login" });
-      } else {
-        toast.update(promiseToast, {
-          render: response,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: "error",
-          isLoading: false,
-        });
+        router.push({ name: 'Login' })
       }
-    };
+    }
 
     const goToLogin = () => {
-      router.push({ name: "Login" });
-    };
+      router.push({ name: 'Login' })
+    }
 
     //ANCHOR - Validastor
 
     const checkInput = () => {
-      this.disabled = !Object.keys(form).every((e) => form[e] !== "");
-    };
+      this.disabled = !Object.keys(form).every((e) => form[e] !== '')
+    }
 
     const validateEmail = () => {
-      const emailRegex = /\S+@\S+\.\S+/;
-      return emailRegex.test(form.email);
-    };
+      const emailRegex = /\S+@\S+\.\S+/
+      return emailRegex.test(form.email)
+    }
 
     const validatePassword = () => {
-      const passwordRegex = /^.{6,}$/;
-      return passwordRegex.test(form.password);
-    };
+      const passwordRegex = /^.{6,}$/
+      return passwordRegex.test(form.password)
+    }
 
     const validateRetypePassword = () => {
-      return form.confirm_password === form.password;
-    };
+      return form.confirm_password === form.password
+    }
 
     return {
       form,
@@ -89,42 +68,42 @@ export default {
       checkInput,
       validateEmail,
       validatePassword,
-      validateRetypePassword,
-    };
+      validateRetypePassword
+    }
   },
   watch: {
-    "form.email": {
+    'form.email': {
       handler() {
         this.errors.email =
-          this.form.email === ""
-            ? "Email harus diisi"
+          this.form.email === ''
+            ? 'Email harus diisi'
             : !this.validateEmail()
-            ? "Email tidak valid"
-            : "";
-      },
+              ? 'Email tidak valid'
+              : ''
+      }
     },
-    "form.password": {
+    'form.password': {
       handler() {
         this.errors.password =
-          this.form.password === ""
-            ? "Password harus diisi"
+          this.form.password === ''
+            ? 'Password harus diisi'
             : !this.validatePassword()
-            ? "Kata sandi minimal harus 6 karakter"
-            : "";
+              ? 'Kata sandi minimal harus 6 karakter'
+              : ''
         this.errors.confirm_password = !this.validateRetypePassword()
-          ? "Kata sandi tidak cocok"
-          : "";
-      },
+          ? 'Kata sandi tidak cocok'
+          : ''
+      }
     },
-    "form.confirm_password": {
+    'form.confirm_password': {
       handler() {
         this.errors.confirm_password = !this.validateRetypePassword()
-          ? "Kata sandi tidak cocok"
-          : "";
-      },
-    },
-  },
-};
+          ? 'Kata sandi tidak cocok'
+          : ''
+      }
+    }
+  }
+}
 </script>
 
 <template>
@@ -168,9 +147,7 @@ export default {
           placeholder="Masukan Kata Sandi"
           autocomplete="address-level1"
         />
-        <span v-if="errors.password" class="text-sm text-red-500">
-          {{ errors.password }}</span
-        >
+        <span v-if="errors.password" class="text-sm text-red-500"> {{ errors.password }}</span>
 
         <label for="confirm-password">Konfirmasi Password</label>
         <input
@@ -185,10 +162,7 @@ export default {
           {{ errors.confirm_password }}</span
         >
 
-        <button
-          type="submit"
-          class="btn-regis bg-[#0075FF] py-[14px] text-white rounded-md mt-14"
-        >
+        <button type="submit" class="btn-regis bg-[#0075FF] py-[14px] text-white rounded-md mt-14">
           Daftar
         </button>
       </form>

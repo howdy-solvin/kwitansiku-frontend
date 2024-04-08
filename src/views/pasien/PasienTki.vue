@@ -5,7 +5,7 @@ import IconPlus from '@/components/icons/IconPlus.vue'
 import IconEdit from '@/components/icons/IconEdit.vue'
 import { useStore } from 'vuex'
 import IconTrash from '@/components/icons/IconTrash.vue'
-import { reactive, computed, ref, watchEffect } from 'vue'
+import { reactive, computed, ref, watchEffect, onUnmounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useRouter } from 'vue-router'
 import IconCeklist from '@/components/icons/IconCeklist.vue'
@@ -137,6 +137,7 @@ export default {
           type: 'success',
           isLoading: false
         })
+        refreshPage()
         router.push('/rekap-kwitansi')
       } else {
         toast.update(promiseToast, {
@@ -197,7 +198,9 @@ export default {
 
       return totalHargaValue
     })
-
+    onUnmounted(() => {
+      refreshPage()
+    })
     //TODO - Session Get Data
     const dataRekap = store.getters['getterRekap']
     const dataEdit = store.getters['getDataSetForm']
@@ -292,6 +295,7 @@ export default {
           type: 'success',
           isLoading: false
         })
+        refreshPage()
         router.push('/rekap-kwitansi')
       } else {
         toast.update(promiseToast, {
@@ -573,6 +577,8 @@ export default {
                   @input="editUsia(index, $event.target.value)"
                   class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   type="number"
+                  min="0"
+                  max="99"
                   placeholder="Usia"
                 />
               </li>
@@ -599,7 +605,9 @@ export default {
                   :readonly="!editForm[index]"
                   :disabled="!editForm[index]"
                   @input="editTotalPembayaran"
-                  type="text"
+                  type="number"
+                  min="0"
+                  max="999999999999"
                   class="w-full px-3 py-3 focus:outline-[#A2A2A2] bg-transparent focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   placeholder="Harga"
                 />
@@ -831,8 +839,10 @@ export default {
                 <input
                   v-model="data.form.patient[index].usia"
                   class="w-full px-3 py-3 focus:outline-[#A2A2A2] focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
-                  type="text"
+                  type="number"
                   placeholder="Usia"
+                  min="0"
+                  max="99"
                 />
               </li>
 
@@ -853,7 +863,9 @@ export default {
                 <input
                   v-model="data.form.patient[index].harga"
                   @input="inputTotalPembayaranPasien"
-                  type="text"
+                  type="number"
+                  min="0"
+                  max="999999999999"
                   class="w-full px-3 py-3 focus:outline-[#A2A2A2] focus:outline-offset-0 focus:outline-1 focus:bg-gray-50 focus:outline-none"
                   placeholder="Harga"
                 />
