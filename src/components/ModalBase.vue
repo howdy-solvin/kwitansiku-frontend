@@ -139,7 +139,7 @@ export default {
           </button>
         </div>
       </section>
-      <section class="overflow-y-auto">
+      <section class="overflow-y-auto flex flex-col gap-4">
         <div
           class="bg-slate-300 p-6 relative"
           ref="kwitansiSection"
@@ -148,7 +148,7 @@ export default {
           <slot name="banner" />
           <slot name="main" />
         </div>
-        <div class="mt-10 p-6 bg-slate-300" ref="pasienSection" id="pasien-section">
+        <div class="p-6 bg-slate-300 relative" ref="pasienSection" id="pasien-section">
           <slot name="banner" />
           <slot name="pasien" />
         </div>
