@@ -1,23 +1,39 @@
 <script>
-import CetakKuitansi from './icons/CetakKuitansi.vue'
-import CloseIcon from './icons/CloseIcon.vue'
-import { ref } from 'vue'
+import CetakKuitansi from "./icons/CetakKuitansi.vue";
+import CloseIcon from "./icons/CloseIcon.vue";
+import { ref } from "vue";
 
 export default {
-  name: 'ModalBase',
+  name: "ModalBase",
   components: { CloseIcon, CetakKuitansi },
-  props: { tooglePopUp: Boolean, showPrintButton: Boolean, showPrintDetailButton: Boolean },
+  props: {
+    tooglePopUp: Boolean,
+    showPrintButton: Boolean,
+    showPrintDetailButton: Boolean,
+  },
   setup() {
-    const printSection = ref()
+    const kwitansiSection = ref(null); //
+    const pasienSection = ref(null);
+    // const printModal = () => {
+    //   window.print();
+    // };
     const printModal = () => {
-      window.print()
-    }
+      if (kwitansiSection.value) {
+        kwitansiSection.value.classList.add("enable-print-view");
+        pasienSection.value.classList.remove("enable-print-view");
+        window.print();
+      }
+    };
     const printDetailModal = () => {
-      window.print()
-    }
-    return { printModal, printSection, printDetailModal }
-  }
-}
+      if (pasienSection.value) {
+        kwitansiSection.value.classList.remove("enable-print-view"); // Menghapus kelas 'enable-print-view' dari kwitansi-section
+        pasienSection.value.classList.add("enable-print-view");
+        window.print();
+      }
+    };
+    return { printModal, kwitansiSection, pasienSection, printDetailModal };
+  },
+};
 </script>
 
 <template>
@@ -52,11 +68,15 @@ export default {
         </div>
       </section>
       <section class="overflow-y-auto">
-        <div class="bg-slate-300 p-6 relative" ref="printSection" id="kwitansi-section">
+        <div
+          class="bg-slate-300 p-6 relative"
+          ref="kwitansiSection"
+          id="kwitansi-section"
+        >
           <slot name="banner" />
           <slot name="main" />
         </div>
-        <div class="mt-10 p-6 bg-slate-300 enable-print-view" id="pasien-section">
+        <div class="mt-10 p-6 bg-slate-300" ref="pasienSection" id="pasien-section">
           <slot name="banner" />
           <slot name="pasien" />
         </div>
