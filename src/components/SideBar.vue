@@ -1,14 +1,17 @@
 <script setup>
-import SidebarLayout from './layouts/SidebarLayout.vue'
-import GoraIcon from './icons/GoraIcon.vue'
-import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import SidebarLayout from "./layouts/SidebarLayout.vue";
+import GoraIcon from "./icons/GoraIcon.vue";
+import { ref, watchEffect } from "vue";
+import { useRoute } from "vue-router";
 
-const store = useStore()
+const router = useRoute();
 
-const statusRekap = computed(() => store.getters['getRekapStatus'])
+const toggleDropdown = ref(false);
 
-const toggleDropdown = ref(false)
+watchEffect(() => {
+  // Reset toggleDropdown to false when the route changes
+  toggleDropdown.value = router.path === "/pasien-tki" || router.path === "/pasien-umum";
+});
 </script>
 
 <template>
@@ -36,7 +39,9 @@ const toggleDropdown = ref(false)
         <svg
           class="-mr-1 h-5 w-5 transition-colors"
           :class="
-            toggleDropdown ? 'bg-[#0075FF] text-white ' : 'text-[#676767] group-hover:text-white'
+            toggleDropdown
+              ? 'bg-[#0075FF] text-white '
+              : 'text-[#676767] group-hover:text-white'
           "
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -50,7 +55,12 @@ const toggleDropdown = ref(false)
         </svg>
       </button>
       <div
-        :class="[{ 'bg-[#0075FF] h-full': toggleDropdown, 'h-0 overflow-hidden': !toggleDropdown }]"
+        :class="[
+          {
+            'bg-[#0075FF] h-full': toggleDropdown,
+            'h-0 overflow-hidden': !toggleDropdown,
+          },
+        ]"
         class="flex flex-col rounded-md transition-all duration-300 ease-out"
       >
         <router-link to="/pasien-tki" class="py-[10px] text-white px-[15px] rounded-t-md"
@@ -65,9 +75,6 @@ const toggleDropdown = ref(false)
         to="/rekap-kwitansi"
         @click.native="toggleDropdown = false"
         class="py-[10px] text-[#676767] px-[15px] rounded-md hover:text-white hover:bg-[#54A3FF] transition-colors"
-        :class="{
-          'bg-[#0075FF] text-white shadow-[1px_5px_15px_#0075FF50] font-bold': statusRekap
-        }"
         >Rekap Kwitansi</router-link
       >
     </template>
