@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { toast } from 'vue3-toastify'
 
 const env = import.meta.env
 
@@ -46,7 +47,8 @@ const receiptsModules = {
       } else {
         return sisa
       }
-    }
+    },
+    getRekapStatus: (state) => state.rekap.status
   },
 
   mutations: {
@@ -71,11 +73,25 @@ const receiptsModules = {
         // Mengirimkan permintaan GET ke API untuk mendapatkan data kwitansi
         const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
         const tokenData = JSON.parse(stringAccessToken)
+        commit('setAlertData', { message: 'Mengambil data', type: 'info', isLoading: false })
+
         const response = await axios.get(`${env.VITE_API_BASE_URL}/receipt`, {
           headers: {
             Authorization: `Bearer ${tokenData.token}`
           }
         })
+
+        response.status === 200
+          ? commit('setAlertData', {
+              message: response.data.message,
+              type: 'success',
+              isLoading: false
+            })
+          : commit('setAlertData', {
+              message: response.data.message,
+              type: 'error',
+              isLoading: false
+            })
         // Menyimpan data yang diterima dari API ke dalam state receipts
         commit('setReceipts', response.data.data)
       } catch (error) {
@@ -88,12 +104,23 @@ const receiptsModules = {
         const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
         const tokenData = JSON.parse(stringAccessToken)
 
+        commit('setAlertData', { message: 'Mengambil data', type: 'info', isLoading: false })
         const response = await axios.get(`${env.VITE_API_BASE_URL}/receipt/one/${uuid}`, {
           headers: {
             Authorization: `Bearer ${tokenData.token}`
           }
         })
-        console.log('cek datanya', response.data)
+        response.status === 200
+          ? commit('setAlertData', {
+              message: response.data.message,
+              type: 'success',
+              isLoading: false
+            })
+          : commit('setAlertData', {
+              message: response.data.message,
+              type: 'error',
+              isLoading: false
+            })
         const rekapData = response.data.data
         rekapData.tanggal = formatTanggal(rekapData.tanggal)
         commit('setRekap', { ...rekapData, status: true })
