@@ -1,113 +1,94 @@
 <script>
-import LoginLayout from "@/components/layouts/LoginLayout.vue";
-import LightBulb from "@/components/icons/LightBulb.vue";
-import IconKwitansi from "@/components/icons/IconKwitansi.vue";
-import { useRouter } from "vue-router";
-import { useStore } from "vuex";
-import { reactive, ref } from "vue";
-import { toast } from "vue3-toastify";
-import "vue3-toastify/dist/index.css";
+import LoginLayout from '@/components/layouts/LoginLayout.vue'
+import LightBulb from '@/components/icons/LightBulb.vue'
+import IconKwitansi from '@/components/icons/IconKwitansi.vue'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
+import { reactive, ref } from 'vue'
+import { toast } from 'vue3-toastify'
+import 'vue3-toastify/dist/index.css'
 
 export default {
-  name: "LoginView",
+  name: 'LoginView',
   components: { LoginLayout, LightBulb, IconKwitansi },
 
   setup() {
-    const router = useRouter();
-    const authStore = useStore();
+    const router = useRouter()
+    const store = useStore()
 
-    const showPassword = ref(false);
+    const showPassword = ref(false)
 
     const goToRegister = () => {
-      router.push({ name: "Register" });
-    };
+      router.push({ name: 'Register' })
+    }
 
     const form = reactive({
-      email: "",
-      password: "",
-    });
+      email: '',
+      password: ''
+    })
 
     const errors = reactive({
-      email: "",
-      password: "",
-    });
+      email: '',
+      password: ''
+    })
 
     //ANCHOR - Handle messages
 
     const handleSubmit = async () => {
-      const promiseToast = toast.loading("Please wait...", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-
-      const response = await authStore.dispatch("loginUser", form);
-      const message = "Email atau password tidak boleh kosong !!";
-      const validationEmail = "Email tidak boleh kosong !!";
-      const passwordValidation = "Password tidak boleh kosong !!";
+      const response = await store.dispatch('loginUser', form)
+      const message = 'Email atau password tidak boleh kosong !!'
+      const validationEmail = 'Email tidak boleh kosong !!'
+      const passwordValidation = 'Password tidak boleh kosong !!'
 
       if (response.code === 200) {
-        toast.update(promiseToast, {
-          render: response.message,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: "success",
-          isLoading: false,
-        });
-        router.push("/dashboard");
-      } else if (form.email === "" && form.password === "") {
-        toast.update(promiseToast, {
-          render: message,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: "error",
-          isLoading: false,
-        });
-      } else if (form.email === "") {
-        toast.update(promiseToast, {
-          render: validationEmail,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: "error",
-          isLoading: false,
-        });
-      } else if (form.password === "") {
-        toast.update(promiseToast, {
-          render: passwordValidation,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: "error",
-          isLoading: false,
-        });
+        store.commit('setAlertData', {
+          message: response.message,
+          type: 'success',
+          isLoading: false
+        })
+        router.push('/dashboard')
+      } else if (form.email === '' && form.password === '') {
+        store.commit('setAlertData', {
+          message: message,
+          type: 'error',
+          isLoading: false
+        })
+      } else if (form.email === '') {
+        store.commit('setAlertData', {
+          message: validationEmail,
+          type: 'error',
+          isLoading: false
+        })
+      } else if (form.password === '') {
+        store.commit('setAlertData', {
+          message: passwordValidation,
+          type: 'error',
+          isLoading: false
+        })
       } else {
-        toast.update(promiseToast, {
-          render: response.data.message,
-          autoClose: true,
-          closeOnClick: true,
-          closeButton: true,
-          type: "error",
-          isLoading: false,
-        });
+        store.commit('setAlertData', {
+          message: response.data.message,
+          type: 'error',
+          isLoading: false
+        })
       }
-    };
+    }
 
     //ANCHOR - Validastor
 
     const checkInput = () => {
-      this.disabled = !Object.keys(form).every((e) => form[e] !== "");
-    };
+      this.disabled = !Object.keys(form).every((e) => form[e] !== '')
+    }
 
     const validateEmail = () => {
-      const emailRegex = /\S+@\S+\.\S+/;
-      return emailRegex.test(form.email);
-    };
+      const emailRegex = /\S+@\S+\.\S+/
+      return emailRegex.test(form.email)
+    }
 
     const validatePassword = () => {
-      const passwordRegex = /^.{6,}$/;
-      return passwordRegex.test(form.password);
-    };
+      const passwordRegex = /^.{6,}$/
+      return passwordRegex.test(form.password)
+    }
 
     return {
       goToRegister,
@@ -117,32 +98,32 @@ export default {
       errors,
       checkInput,
       validateEmail,
-      validatePassword,
-    };
+      validatePassword
+    }
   },
   watch: {
-    "form.email": {
+    'form.email': {
       handler() {
         this.errors.email =
-          this.form.email === ""
-            ? "Email harus diisi"
+          this.form.email === ''
+            ? 'Email harus diisi'
             : !this.validateEmail()
-            ? "Email tidak valid"
-            : "";
-      },
+              ? 'Email tidak valid'
+              : ''
+      }
     },
-    "form.password": {
+    'form.password': {
       handler() {
         this.errors.password =
-          this.form.password === ""
-            ? "Password harus diisi"
+          this.form.password === ''
+            ? 'Password harus diisi'
             : !this.validatePassword()
-            ? "Kata sandi minimal harus 6 karakter"
-            : "";
-      },
-    },
-  },
-};
+              ? 'Kata sandi minimal harus 6 karakter'
+              : ''
+      }
+    }
+  }
+}
 </script>
 
 <template>
@@ -166,9 +147,7 @@ export default {
         />
         <span v-if="errors.email" class="text-sm text-red-500"> {{ errors.email }}</span>
         <label for="pass">Password</label>
-        <div
-          class="password-input-wrapper flex w-full border-gray-400 relative border rounded-md"
-        >
+        <div class="password-input-wrapper flex w-full border-gray-400 relative border rounded-md">
           <input
             id="password"
             v-model="form.password"
@@ -196,14 +175,9 @@ export default {
             {{ errors.password }}</span
           > -->
         </div>
-        <span v-if="errors.password" class="text-sm text-red-500">
-          {{ errors.password }}</span
-        >
+        <span v-if="errors.password" class="text-sm text-red-500"> {{ errors.password }}</span>
         <button class="underline text-end mt-2">Lupa Kata Sandi?</button>
-        <button
-          type="submit"
-          class="btn-login bg-[#0075FF] py-[14px] text-white rounded-md mt-14"
-        >
+        <button type="submit" class="btn-login bg-[#0075FF] py-[14px] text-white rounded-md mt-14">
           Masuk
         </button>
       </form>
