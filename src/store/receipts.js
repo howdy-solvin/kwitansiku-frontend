@@ -64,7 +64,7 @@ const receiptsModules = {
     setEditUsia: (state, newValue) => (state.rekap.pasien_tkis.usia = newValue),
 
     setFormEditPasien: (state, data) => (state.form.patient = data),
-    setFormEditKuitansi: (state, data) => (state.form.receipt = data),
+    setFormEditKuitansi: (state, data) => (state.form.receipt = {...data, print_status:false}),
     setRekapStatus: (state, data) => (state.rekap.status = data)
   },
   actions: {
