@@ -1,3 +1,10 @@
+<script setup>
+import Toast from './components/Toast.vue'
+</script>
+
 <template>
-  <RouterView></RouterView>
+  <div>
+    <Toast />
+    <RouterView></RouterView>
+  </div>
 </template>
