@@ -1,7 +1,12 @@
 <script setup>
 import SidebarLayout from './layouts/SidebarLayout.vue'
 import GoraIcon from './icons/GoraIcon.vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
+import { useStore } from 'vuex'
+
+const store = useStore()
+
+const statusRekap = computed(() => store.getters['getRekapStatus'])
 
 const toggleDropdown = ref(false)
 </script>
@@ -60,6 +65,9 @@ const toggleDropdown = ref(false)
         to="/rekap-kwitansi"
         @click.native="toggleDropdown = false"
         class="py-[10px] text-[#676767] px-[15px] rounded-md hover:text-white hover:bg-[#54A3FF] transition-colors"
+        :class="{
+          'bg-[#0075FF] text-white shadow-[1px_5px_15px_#0075FF50] font-bold': statusRekap
+        }"
         >Rekap Kwitansi</router-link
       >
     </template>
