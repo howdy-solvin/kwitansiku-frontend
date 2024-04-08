@@ -6,13 +6,16 @@ import { ref } from 'vue'
 export default {
   name: 'ModalBase',
   components: { CloseIcon, CetakKuitansi },
-  props: { tooglePopUp: Boolean, showPrintButton: Boolean },
+  props: { tooglePopUp: Boolean, showPrintButton: Boolean, showPrintDetailButton: Boolean },
   setup() {
     const printSection = ref()
     const printModal = () => {
       window.print()
     }
-    return { printModal, printSection }
+    const printDetailModal = () => {
+      window.print()
+    }
+    return { printModal, printSection, printDetailModal }
   }
 }
 </script>
@@ -28,10 +31,18 @@ export default {
       <section class="flex justify-between p-6 w-full border-b-2">
         <slot name="header" />
         <div class="flex gap-3">
+          <div></div>
           <button
             v-if="showPrintButton"
             @click="printModal"
             class="bg-[#0075FF] p-[17px] rounded-lg"
+          >
+            <CetakKuitansi></CetakKuitansi>
+          </button>
+          <button
+            v-if="showPrintDetailButton"
+            @click="printDetailModal"
+            class="bg-[#20b648] p-[17px] rounded-lg"
           >
             <CetakKuitansi></CetakKuitansi>
           </button>
@@ -45,7 +56,7 @@ export default {
           <slot name="banner" />
           <slot name="main" />
         </div>
-        <div class="mt-10 p-6 bg-slate-300" id="pasien-section">
+        <div class="mt-10 p-6 bg-slate-300 enable-print-view" id="pasien-section">
           <slot name="banner" />
           <slot name="pasien" />
         </div>
@@ -65,25 +76,35 @@ export default {
 
   @page {
     size: 21.7cm 13.8cm;
-    margin: 0 30px !important;
+    margin: 0 0 !important;
   }
 
   #pasien {
-    /* page-break-after: always;
-    break-after: page; */
+    page-break-after: always;
+    break-after: page;
+    display: block;
+    width: 100%;
+    height: 100%;
+    page-break-after: always;
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 
   .print-view {
     width: 100vw;
-    /* height: 100%; */
+    height: 100%;
     margin: 0 3%;
+  }
+
+  .enable-print-view {
+    visibility: visible !important;
   }
 
   #kwitansi-section {
     display: block;
     width: 100%;
     /* height: 100%; */
-    visibility: visible !important;
     page-break-after: always;
     position: absolute;
     left: 0;

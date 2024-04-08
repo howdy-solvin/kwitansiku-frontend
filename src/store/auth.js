@@ -30,8 +30,24 @@ const authModules = {
   actions: {
     async loginUser({ commit }, form) {
       try {
+        commit('setAlertData', {
+          message: 'Logging in...',
+          type: 'info',
+          isLoading: false
+        })
         const response = await axios.post(`${env.VITE_API_BASE_URL}/auth/login`, form)
         commit('setUser', response.data)
+        response.status === 200
+          ? commit('setAlertData', {
+              message: response.data.message,
+              type: 'success',
+              isLoading: false
+            })
+          : commit('setAlertData', {
+              message: response.data.message,
+              type: 'error',
+              isLoading: false
+            })
         // Simpan user dan token ke dalam state Vuex dan local storage
         commit('setAccessToken', response.data.tokens.access)
         commit('setRefreshToken', response.data.tokens.refresh) // assuming the response has a 'user' field
