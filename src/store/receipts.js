@@ -65,7 +65,10 @@ const receiptsModules = {
 
     setFormEditPasien: (state, data) => (state.form.patient = data),
     setFormEditKuitansi: (state, data) => (state.form.receipt = {...data, print_status:false}),
-    setRekapStatus: (state, data) => (state.rekap.status = data)
+    setRekapStatus: (state, data) => (state.rekap.status = data),
+
+    //NOTE - setFormKuitansiForCetak (Masih belum digunakan )
+    // setFormKuitansiForCetak: (state, data) => (state.form.receipt = {...data, print_status:true}),
   },
   actions: {
     async fetchReceipts({ commit, rootGetters }) {
@@ -151,7 +154,32 @@ const receiptsModules = {
       } catch (error) {
         return error
       }
-    }
+    },
+
+    // NOTE - masih belum digunakan
+    // async updateFormPrintStatus({getters, rootGetters, commit, state }) {
+    //   try {
+    //     const updatedData = { ...state.form };
+
+    //     const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
+    //     const tokenData = JSON.parse(stringAccessToken)
+    //     const getUuid = getters.getterRekap
+    //     const uuid = getUuid.uuid
+    //     const response = await axios.post(
+    //       `${env.VITE_API_BASE_URL}/receipt/update/tki/${uuid}`,
+    //       updatedData,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${tokenData.token}`
+    //         }
+    //       }
+    //     )
+    //     commit('setFormEditKuitansi', updatedData);
+    //     return response
+    //   } catch (error) {
+    //     return error
+    //   }
+    // },
   }
 }
 
