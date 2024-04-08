@@ -23,7 +23,7 @@ export default {
         return true;
       } else {
         // Jika admin.data.nama null, kembalikan default nama "admin"
-        return "SRI ";
+        return "SRI MARYANA";
       }
     });
 
