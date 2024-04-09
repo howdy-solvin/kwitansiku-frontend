@@ -20,7 +20,7 @@ export default {
     const isAdminLoggedIn = computed(() => {
       // Jika admin.data.nama tidak null, kembalikan nilai true
       if (admin.value.data && admin.value.data.nama) {
-        return true
+        return admin.value.data.nama
       } else {
         // Jika admin.data.nama null, kembalikan default nama "admin"
         return 'SRI MARYANA'
