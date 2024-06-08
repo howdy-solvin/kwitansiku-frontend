@@ -1,86 +1,88 @@
 <script>
-import ProfileInfo from '@/components/ProfileInfo.vue'
-import IconCetak from '@/components/icons/IconCetak.vue'
-import IconSearch from '@/components/icons/IconSearch.vue'
-import IconRekap from '@/components/icons/IconRekap.vue'
-import { watchEffect, computed, ref } from 'vue'
-import { useStore } from 'vuex'
-import { useRouter } from 'vue-router'
-import ModalBase from '@/components/ModalBase.vue'
-import GoraIcon from '@/components/icons/GoraIcon.vue'
+import ProfileInfo from "@/components/ProfileInfo.vue";
+import IconCetak from "@/components/icons/IconCetak.vue";
+import IconSearch from "@/components/icons/IconSearch.vue";
+import IconRekap from "@/components/icons/IconRekap.vue";
+import { watchEffect, computed, ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import ModalBase from "@/components/ModalBase.vue";
+import IconBlanko from "@/components/icons/IconBlanko.vue";
 
 export default {
-  components: { ProfileInfo, IconRekap, IconSearch, IconCetak, ModalBase, GoraIcon },
+  components: { ProfileInfo, IconRekap, IconSearch, IconCetak, ModalBase, IconBlanko },
 
   setup() {
-    const store = useStore()
-    const router = useRouter()
+    const store = useStore();
+    const router = useRouter();
 
-    const admin = computed(() => store.getters['admin'])
+    const admin = computed(() => store.getters["admin"]);
     const isAdminLoggedIn = computed(() => {
       // Jika admin.data.nama tidak null, kembalikan nilai true
       if (admin.value.data && admin.value.data.nama) {
-        return admin.value.data.nama
+        return admin.value.data.nama;
       } else {
         // Jika admin.data.nama null, kembalikan default nama "admin"
-        return 'SRI MARYANA'
+        return "SRI MARYANA";
       }
-    })
+    });
 
     // Ambil data kwitansi dari state menggunakan getter
     // Simpan originalReceipts sebagai variabel terpisah
-    const originalReceipts = computed(() => store.getters['allReceipts'])
+    const originalReceipts = computed(() => store.getters["allReceipts"]);
 
     // Reverse originalReceipts jika diperlukan
-    const receipts = computed(() => originalReceipts.value.slice().reverse())
+    const receipts = computed(() => originalReceipts.value.slice().reverse());
 
     //SECTION - Get AllRekap
-    const kwitansi = computed(() => store.getters['getterRekap'])
+    const kwitansi = computed(() => store.getters["getterRekap"]);
 
     // Panggil action fetchReceipts saat komponen dimuat
     watchEffect(() => {
-      store.dispatch('fetchReceipts')
-    })
+      store.dispatch("fetchReceipts");
+    });
 
     const getUid = async (index) => {
       // Gunakan originalReceipts untuk mendapatkan uuid
-      const uuid = receipts.value[index].uuid
-      const response = await store.dispatch('fetchReceiptsPatient', uuid)
+      const uuid = receipts.value[index].uuid;
+      const response = await store.dispatch("fetchReceiptsPatient", uuid);
 
       if (response.code === 200) {
-        showPrintButton.value = true
-        showPrintDetailButton.value = true
-        router.push('/pasien-tki')
+        showPrintButton.value = true;
+        showPrintDetailButton.value = true;
+        router.push("/pasien-tki");
       }
-    }
+    };
 
     //TODO - Interace With modal
-    const showPrintButton = ref(false)
-    const showPrintDetailButton = ref(false)
+    const showPrintButton = ref(false);
+    const showPrintDetailButton = ref(false);
     const popUpTriggers = ref({
-      buttonTrigger: false
-    })
+      buttonTrigger: false,
+    });
 
     const tooglePopUp = async (trigger, index) => {
-      popUpTriggers.value[trigger] = !popUpTriggers.value[trigger]
+      popUpTriggers.value[trigger] = !popUpTriggers.value[trigger];
       if (popUpTriggers.value[trigger]) {
         try {
           // Kirim permintaan GET untuk mengambil data pasien
-          const uuid = receipts.value[index].uuid
-          const response = await store.dispatch('fetchReceiptsPatient', uuid)
-          response.code === 200 ? (showPrintButton.value = true) : (showPrintButton.value = false)
+          const uuid = receipts.value[index].uuid;
+          const response = await store.dispatch("fetchReceiptsPatient", uuid);
+          response.code === 200
+            ? (showPrintButton.value = true)
+            : (showPrintButton.value = false);
           response.code === 200
             ? (showPrintDetailButton.value = true)
-            : (showPrintDetailButton.value = false)
+            : (showPrintDetailButton.value = false);
         } catch (error) {
-          console.error('Error fetching patient data:', error)
+          console.error("Error fetching patient data:", error);
         }
       } else {
         // Atur showPrintButton menjadi false jika popUpTriggers.value[trigger] adalah false
-        showPrintButton.value = false
-        showPrintDetailButton.value = false
+        showPrintButton.value = false;
+        showPrintDetailButton.value = false;
       }
-    }
+    };
 
     return {
       receipts,
@@ -91,10 +93,10 @@ export default {
       admin,
       isAdminLoggedIn,
       showPrintButton,
-      showPrintDetailButton
-    }
-  }
-}
+      showPrintDetailButton,
+    };
+  },
+};
 </script>
 
 <template>
@@ -104,7 +106,9 @@ export default {
         <div>
           <h1 class="font-semibold text-[35px]">Rekap Kwitansi Pasien</h1>
           <p class="mt-1">
-            Rekap guna<span class="text-[#0075FF] font-semibold"> mempermudah pendataan</span>
+            Rekap guna<span class="text-[#0075FF] font-semibold">
+              mempermudah pendataan</span
+            >
             dengan kwitansi !!
           </p>
         </div>
@@ -167,21 +171,32 @@ export default {
               <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">
                 Nama Sponsor
               </th>
-              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">J. Pasien</th>
-              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">Tanggal</th>
-              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">T. Harga</th>
-              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">Bayar</th>
+              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">
+                J. Pasien
+              </th>
+              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">
+                Tanggal
+              </th>
+              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">
+                T. Harga
+              </th>
+              <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">
+                Bayar
+              </th>
               <th
-                class="font-normal rounded-tr-md rounded-br-md text-[#888888] bg-[#E3E3E3] px-4 py-3 flex"
+                class="font-normal rounded-tr-md rounded-br-md text-[#888888] bg-[#E3E3E3] pl-4 py-3 pr-10 flex justify-end gap-[17px]"
               >
-                <p class="w-full text-right">Detail</p>
-                <p class="w-full">Kwt</p>
+                <p class="text-right">Detail</p>
+                <p class="">Kwt</p>
+                <p class="">Blanko</p>
               </th>
             </tr>
           </thead>
           <tbody>
             <tr class="mt-4" v-for="(receipt, index) in receipts" :key="receipt.id">
-              <td class="border-[#A2A2A2] rounded-s-md border-t border-b border-l px-4 py-3">
+              <td
+                class="border-[#A2A2A2] rounded-s-md border-t border-b border-l px-4 py-3"
+              >
                 {{ index + 1 }}
               </td>
               <td class="border-[#A2A2A2] border-t border-b px-4 py-3">
@@ -195,13 +210,13 @@ export default {
               </td>
               <td class="border-[#A2A2A2] border-t border-b px-4 py-3">
                 {{
-                  new Date(receipt.tanggal).toLocaleDateString('id-ID', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                    timeZone: 'Asia/Makassar',
-                    localeMatcher: 'best fit'
+                  new Date(receipt.tanggal).toLocaleDateString("id-ID", {
+                    weekday: "long",
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    timeZone: "Asia/Makassar",
+                    localeMatcher: "best fit",
                   })
                 }}
               </td>
@@ -226,6 +241,13 @@ export default {
                   class="bg-[#0075FF] p-3 aspect-square flex items-center justify-center ring-2 ring-[#0075FF] h-full"
                 >
                   <IconCetak></IconCetak>
+                </button>
+                <button
+                  type="button"
+                  @click="tooglePopUp('buttonTrigger', index)"
+                  class="bg-[#00C2FF] p-3 aspect-square flex items-center justify-center ring-2 ring-[#00C2FF] h-full"
+                >
+                  <IconBlanko></IconBlanko>
                 </button>
               </td>
             </tr>
@@ -278,15 +300,17 @@ export default {
             <p class="text-center">
               NO :
               {{
-                kwitansi.tanggal.split('-')[0].slice(2, 4) +
-                kwitansi.tanggal.split('-')[1] +
-                kwitansi.tanggal.split('-')[2]
+                kwitansi.tanggal.split("-")[0].slice(2, 4) +
+                kwitansi.tanggal.split("-")[1] +
+                kwitansi.tanggal.split("-")[2]
               }}01{{ kwitansi.no_pendaftaran }}
             </p>
           </div>
           <div class="flex w-full justify-end gap-2 mt-3">
             <p class="w-[180px] text-end">Tanggal / No. Daftar</p>
-            <p class="text-end">: {{ kwitansi.tanggal }} / {{ kwitansi.no_pendaftaran }}</p>
+            <p class="text-end">
+              : {{ kwitansi.tanggal }} / {{ kwitansi.no_pendaftaran }}
+            </p>
           </div>
           <ul class="flex flex-col gap-2">
             <li class="flex justify-between">
@@ -371,7 +395,11 @@ export default {
                 </th>
               </tr>
             </thead>
-            <tbody class="text-sm" v-for="(item, index) in kwitansi.pasien_tkis" :key="i">
+            <tbody
+              class="text-sm"
+              v-for="(item, index) in kwitansi.pasien_tkis"
+              :key="index"
+            >
               <tr>
                 <td class="px-3 py-1">
                   <p class="text-start">{{ index + 1 }}</p>
@@ -397,7 +425,9 @@ export default {
             </tbody>
             <tbody class="text-sm font-semibold italic">
               <tr>
-                <td class="px-3 py-1 border border-black" colspan="4">Total Keseluruhan</td>
+                <td class="px-3 py-1 border border-black" colspan="4">
+                  Total Keseluruhan
+                </td>
                 <td class="px-3 py-1 border border-black">{{ kwitansi.total_harga }}</td>
                 <td class="px-3 py-1 border border-black">
                   {{ kwitansi.total_pembayaran }}

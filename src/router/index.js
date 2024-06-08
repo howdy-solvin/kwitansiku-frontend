@@ -8,6 +8,7 @@ import HomeView from '@/views/HomeView.vue';
 import PasienTki from '@/views/pasien/PasienTki.vue';
 import PasienUmum from '@/views/pasien/PasienUmum.vue';
 import RekapKwitansi from '@/views/RekapKwitansi.vue';
+import BlankoKwitansi from '@/views/BlankoView.vue';
 
 const routes = [
   { path: '/', name:'Welcome', component: TheWelcome },
@@ -37,6 +38,11 @@ const routes = [
         path: '/rekap-kwitansi',
         name:'RekapKwitansi',
         component: RekapKwitansi, 
+      },
+      {
+        path: '/blanko-kwitansi',
+        name:'BlankoKwitansi',
+        component: BlankoKwitansi, 
       }
     ]
   },

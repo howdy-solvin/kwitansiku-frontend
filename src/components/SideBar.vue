@@ -77,6 +77,12 @@ watchEffect(() => {
         class="py-[10px] text-[#676767] px-[15px] rounded-md hover:text-white hover:bg-[#54A3FF] transition-colors"
         >Rekap Kwitansi</router-link
       >
+      <router-link
+        to="/blanko-kwitansi"
+        @click.native="toggleDropdown = false"
+        class="py-[10px] text-[#676767] px-[15px] rounded-md hover:text-white hover:bg-[#54A3FF] transition-colors"
+        >Blanko Kwitansi</router-link
+      >
     </template>
   </SidebarLayout>
 </template>
