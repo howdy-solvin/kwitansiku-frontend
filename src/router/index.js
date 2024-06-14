@@ -9,40 +9,41 @@ import PasienTki from '@/views/pasien/PasienTki.vue';
 import PasienUmum from '@/views/pasien/PasienUmum.vue';
 import RekapKwitansi from '@/views/RekapKwitansi.vue';
 import BlankoKwitansi from '@/views/BlankoView.vue';
+import store from '@/store';
 
 const routes = [
-  { path: '/', name:'Welcome', component: TheWelcome },
-  { path: '/login', name:'Login', component: LoginView},
-  {path: '/register', name:'Register', component: RegisterView},
+  { path: '/', name: 'Welcome', component: TheWelcome },
+  { path: '/login', name: 'Login', component: LoginView },
+  { path: '/register', name: 'Register', component: RegisterView },
   {
-    path: '/dashboard', 
-    name:'Dashboard', 
-    component: DashboardView, 
-    children:[
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: DashboardView,
+    children: [
       {
         path: "",
-        name:'Home', 
-        component: HomeView, 
+        name: 'Home',
+        component: HomeView,
       },
       {
         path: '/pasien-tki',
-        name:'Tki',
-        component: PasienTki, 
+        name: 'Tki',
+        component: PasienTki,
       },
       {
         path: '/pasien-umum',
-        name:'Umum',
-        component: PasienUmum, 
+        name: 'Umum',
+        component: PasienUmum,
       },
       {
         path: '/rekap-kwitansi',
-        name:'RekapKwitansi',
-        component: RekapKwitansi, 
+        name: 'RekapKwitansi',
+        component: RekapKwitansi,
       },
       {
         path: '/blanko-kwitansi',
-        name:'BlankoKwitansi',
-        component: BlankoKwitansi, 
+        name: 'BlankoKwitansi',
+        component: BlankoKwitansi,
       }
     ]
   },
@@ -55,29 +56,32 @@ const router = createRouter({
 
 
 router.beforeEach(async (to, from, next) => {
-  try {
-    const isAuthenticated = await checkAuthentication();
-    
-    if (to.name !== 'Login' && to.name !== 'Register' && to.name !== "Welcome" && !isAuthenticated) {
+  const isAuthenticated = store.getters['isAuthenticated'];
+  console.log('isAuthenticated', isAuthenticated);
+  if (!isAuthenticated && to.name !== 'Login' && to.name !== 'Register' && to.name !== 'Welcome') {
+    try {
+      if (store.getters['auth/refreshToken']) {
+        await store.dispatch('auth/refreshToken');
+        next();
+      } else {
+        next({ name: 'Login' });
+      }
+    } catch (error) {
       next({ name: 'Login' });
-    } else if (to.name === 'Login' && isAuthenticated) {
-      next({ name: 'Home' });
-    } else {
-      next();
     }
-  } catch (error) {
-    console.error('Error checking authentication:', error);
-    // Tindakan yang sesuai jika terjadi kesalahan saat memeriksa otentikasi
-    next(error);
+  } else if (to.name === 'Login' && isAuthenticated) {
+    next({ name: 'Home' });
+  } else {
+    next();
   }
 });
 
-async function checkAuthentication() {
-  return new Promise(resolve => {
-    const isAuthenticated = localStorage.getItem('accessToken');
-    resolve(isAuthenticated);
-  });
-}
+// async function checkAuthentication() {
+//   return new Promise(resolve => {
+//     const isAuthenticated = localStorage.getItem('accessToken');
+//     resolve(isAuthenticated);
+//   });
+// }
 
 
 export default router;
