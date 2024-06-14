@@ -16,7 +16,10 @@ export default {
     const store = useStore();
     const router = useRouter();
 
+    //TODO - Session Computed
     const admin = computed(() => store.getters["admin"]);
+    const blanko = computed(() => store.getters["getterBlanko"]);
+
     const isAdminLoggedIn = computed(() => {
       // Jika admin.data.nama tidak null, kembalikan nilai true
       if (admin.value.data && admin.value.data.nama) {
@@ -84,7 +87,35 @@ export default {
       }
     };
 
+    // SECTION - Blanko Section
+
+    // TODO: Function to handle get data form receipt
+    const getOneRekap = async (index) => {
+      // Gunakan originalReceipts untuk mendapatkan uuid
+      const uuid = receipts.value[index].uuid;
+      const response = await store.dispatch("fetchReceiptsPatient", uuid);
+
+      if (response.code === 200) {
+        showPrintButton.value = true;
+        showPrintDetailButton.value = true;
+        router.push("/pasien-tki");
+      }
+    };
+    const getBlanko = async (uuid) => {
+      try {
+        await store.dispatch('getReceiptId', uuid);
+        router.push('/blanko-kwitansi');
+      } catch (error) {
+        return error
+      }
+    };
+
+
+
     return {
+      getBlanko,
+      blanko,
+      getOneRekap,
       receipts,
       getUid,
       popUpTriggers,
@@ -107,8 +138,7 @@ export default {
           <h1 class="font-semibold text-[35px]">Rekap Kwitansi Pasien</h1>
           <p class="mt-1">
             Rekap guna<span class="text-[#0075FF] font-semibold">
-              mempermudah pendataan</span
-            >
+              mempermudah pendataan</span>
             dengan kwitansi !!
           </p>
         </div>
@@ -123,35 +153,19 @@ export default {
           <label class="text-center self-center px-4" for="search">
             <IconSearch></IconSearch>
           </label>
-          <input
-            class="w-[298px] outline-none"
-            type="text"
-            placeholder="Cari Berdasarkan Nama Sponsor"
-            id="search"
-            name="search"
-          />
+          <input class="w-[298px] outline-none" type="text" placeholder="Cari Berdasarkan Nama Sponsor" id="search"
+            name="search" />
           <button class="bg-[#0075FF] p-4 text-white">Cari</button>
         </div>
         <div class="flex items-center place-self-end">
-          <button
-            type="button"
+          <button type="button"
             class="inline-flex justify-center gap-x-1.5 rounded-md bg-white px-3 py-[16px] text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            id="menu-button"
-            aria-expanded="true"
-            aria-haspopup="true"
-          >
+            id="menu-button" aria-expanded="true" aria-haspopup="true">
             Filter Kwitansi Bulan Ini
-            <svg
-              class="-mr-1 h-5 w-5 text-gray-400"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                fill-rule="evenodd"
+            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd"
                 d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                clip-rule="evenodd"
-              />
+                clip-rule="evenodd" />
             </svg>
           </button>
         </div>
@@ -160,9 +174,7 @@ export default {
         <table class="w-full border-separate border-spacing-y-3 mt-10">
           <thead class="">
             <tr>
-              <th
-                class="font-normal rounded-tl-md rounded-bl-md text-[#888888] bg-[#E3E3E3] text-left px-4 py-3"
-              >
+              <th class="font-normal rounded-tl-md rounded-bl-md text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">
                 No
               </th>
               <th class="font-normal text-[#888888] bg-[#E3E3E3] text-left px-4 py-3">
@@ -184,8 +196,7 @@ export default {
                 Bayar
               </th>
               <th
-                class="font-normal rounded-tr-md rounded-br-md text-[#888888] bg-[#E3E3E3] pl-4 py-3 pr-10 flex justify-end gap-[17px]"
-              >
+                class="font-normal rounded-tr-md rounded-br-md text-[#888888] bg-[#E3E3E3] pl-4 py-3 pr-10 flex justify-end gap-[17px]">
                 <p class="text-right">Detail</p>
                 <p class="">Kwt</p>
                 <p class="">Blanko</p>
@@ -194,9 +205,7 @@ export default {
           </thead>
           <tbody>
             <tr class="mt-4" v-for="(receipt, index) in receipts" :key="receipt.id">
-              <td
-                class="border-[#A2A2A2] rounded-s-md border-t border-b border-l px-4 py-3"
-              >
+              <td class="border-[#A2A2A2] rounded-s-md border-t border-b border-l px-4 py-3">
                 {{ index + 1 }}
               </td>
               <td class="border-[#A2A2A2] border-t border-b px-4 py-3">
@@ -226,27 +235,17 @@ export default {
               <td class="border-[#A2A2A2] border-t border-b px-4 py-3">
                 {{ receipt.total_pembayaran }}
               </td>
-              <td
-                class="h-full flex justify-end pr-10 border-[#A2A2A2] border-t border-b border-e rounded-r-md"
-              >
-                <button
-                  @click="getUid(index)"
-                  class="bg-[#000000] p-3 aspect-square flex items-center justify-center ring-2 ring-black h-full"
-                >
+              <td class="h-full flex justify-end pr-10 border-[#A2A2A2] border-t border-b border-e rounded-r-md">
+                <button @click="getUid(index)"
+                  class="bg-[#000000] p-3 aspect-square flex items-center justify-center ring-2 ring-black h-full">
                   <IconRekap class=""></IconRekap>
                 </button>
-                <button
-                  type="button"
-                  @click="tooglePopUp('buttonTrigger', index)"
-                  class="bg-[#0075FF] p-3 aspect-square flex items-center justify-center ring-2 ring-[#0075FF] h-full"
-                >
+                <button type="button" @click="tooglePopUp('buttonTrigger', index)"
+                  class="bg-[#0075FF] p-3 aspect-square flex items-center justify-center ring-2 ring-[#0075FF] h-full">
                   <IconCetak></IconCetak>
                 </button>
-                <button
-                  type="button"
-                  @click="tooglePopUp('buttonTrigger', index)"
-                  class="bg-[#00C2FF] p-3 aspect-square flex items-center justify-center ring-2 ring-[#00C2FF] h-full"
-                >
+                <button type="button" @click="getBlanko(receipt.uuid)"
+                  class="bg-[#00C2FF] p-3 aspect-square flex items-center justify-center ring-2 ring-[#00C2FF] h-full">
                   <IconBlanko></IconBlanko>
                 </button>
               </td>
@@ -254,13 +253,8 @@ export default {
           </tbody>
         </table>
       </section>
-      <ModalBase
-        v-if="popUpTriggers.buttonTrigger"
-        :tooglePopUp="() => tooglePopUp('buttonTrigger')"
-        :showPrintButton="showPrintButton"
-        :showPrintDetailButton="showPrintDetailButton"
-        class="font-poppins"
-      >
+      <ModalBase v-if="popUpTriggers.buttonTrigger" :tooglePopUp="() => tooglePopUp('buttonTrigger')"
+        :showPrintButton="showPrintButton" :showPrintDetailButton="showPrintDetailButton" class="font-poppins">
         <template #header>
           <div>
             <h4 class="font-bold text-lg">Kwitansi {{ kwitansi.no_pendaftaran }}</h4>
@@ -272,11 +266,7 @@ export default {
         </template>
         <template #banner>
           <div class="flex justify-between items-center">
-            <img
-              class="w-[80px] h-[80px] object-contain"
-              src="../components/icons/klinikGoraLogo.png"
-              alt=""
-            />
+            <img class="w-[80px] h-[80px] object-contain" src="../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-right">
               <h1 class="font-bold text-lg">KLINIK GORA MATARAM</h1>
               <p>Jl. RA. Kartini No. 77 Mojok - Mataram - NTB Mataram</p>
@@ -288,10 +278,8 @@ export default {
 
         <!-- //NOTE - Kwitansi -->
         <template #main>
-          <div
-            v-if="kwitansi.total_harga <= kwitansi.total_pembayaran"
-            class="absolute left-1/2 -translate-x-1/2 top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[130px] font-semibold"
-          >
+          <div v-if="kwitansi.total_harga <= kwitansi.total_pembayaran"
+            class="absolute left-1/2 -translate-x-1/2 top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[130px] font-semibold">
             LUNAS
           </div>
           <div class="flex flex-col items-center">
@@ -395,11 +383,7 @@ export default {
                 </th>
               </tr>
             </thead>
-            <tbody
-              class="text-sm"
-              v-for="(item, index) in kwitansi.pasien_tkis"
-              :key="index"
-            >
+            <tbody class="text-sm" v-for="(item, index) in kwitansi.pasien_tkis" :key="index">
               <tr>
                 <td class="px-3 py-1">
                   <p class="text-start">{{ index + 1 }}</p>
