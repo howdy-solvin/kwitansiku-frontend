@@ -1,17 +1,21 @@
 <script setup>
-import SidebarLayout from "./layouts/SidebarLayout.vue";
-import GoraIcon from "./icons/GoraIcon.vue";
-import { ref, watchEffect } from "vue";
-import { useRoute } from "vue-router";
+import SidebarLayout from './layouts/SidebarLayout.vue'
+import GoraIcon from './icons/GoraIcon.vue'
+import { ref, watchEffect } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
-const router = useRoute();
+const router = useRoute()
 
-const toggleDropdown = ref(false);
+const store = useStore()
+const toggleDropdown = ref(false)
+const receipt = computed(() => store.getters['getReceipt'])
 
 watchEffect(() => {
   // Reset toggleDropdown to false when the route changes
-  toggleDropdown.value = router.path === "/pasien-tki" || router.path === "/pasien-umum";
-});
+  toggleDropdown.value = router.path === '/pasien-tki' || router.path === '/pasien-umum'
+})
 </script>
 
 <template>
@@ -39,9 +43,7 @@ watchEffect(() => {
         <svg
           class="-mr-1 h-5 w-5 transition-colors"
           :class="
-            toggleDropdown
-              ? 'bg-[#0075FF] text-white '
-              : 'text-[#676767] group-hover:text-white'
+            toggleDropdown ? 'bg-[#0075FF] text-white' : 'text-[#676767] group-hover:text-white'
           "
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -58,8 +60,8 @@ watchEffect(() => {
         :class="[
           {
             'bg-[#0075FF] h-full': toggleDropdown,
-            'h-0 overflow-hidden': !toggleDropdown,
-          },
+            'h-0 overflow-hidden': !toggleDropdown
+          }
         ]"
         class="flex flex-col rounded-md transition-all duration-300 ease-out"
       >
@@ -77,11 +79,16 @@ watchEffect(() => {
         class="py-[10px] text-[#676767] px-[15px] rounded-md hover:text-white hover:bg-[#54A3FF] transition-colors"
         >Rekap Kwitansi</router-link
       >
-      <router-link
+      <component
+        :is="receipt.pasien_tkis.length > 0 ? 'router-link' : 'div'"
         to="/blanko-kwitansi"
         @click.native="toggleDropdown = false"
-        class="py-[10px] text-[#676767] px-[15px] rounded-md hover:text-white hover:bg-[#54A3FF] transition-colors"
-        >Blanko Kwitansi</router-link
+        :class="{
+          'cursor-not-allowed text-[#676767]/30': receipt.pasien_tkis.length === 0,
+          'hover:text-white hover:bg-[#54A3FF]': receipt.pasien_tkis.length > 0
+        }"
+        class="py-[10px] text-[#676767] px-[15px] rounded-md cursor-pointer transition-colors"
+        >Blanko Kwitansi</component
       >
     </template>
   </SidebarLayout>
