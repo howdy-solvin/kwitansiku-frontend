@@ -192,6 +192,21 @@ const blanko_init = () => {
       pasien_tkis: []
     },
 
+    selected_receipt: {
+      id: 0,
+      uuid: '',
+      no_pendaftaran: '',
+      tanggal: '',
+      nama_penanggungjawab: '',
+      nama_sponsor: '',
+      keterangan: '',
+      total_pendaftar: 0,
+      total_harga: 0,
+      total_pembayaran: 0,
+      print_status: false,
+      pasien_tkis: []
+    },
+
     pasien_full: []
   }
 }
@@ -205,7 +220,8 @@ const blankoModules = {
     getFullData: (state) => state.form.full,
     getListPasien: (state) => state.receipt.pasien_tkis,
     getBlankoUUID: (state) => state.form.pra.blanko_main.uuid,
-    getListPasienFull: (state) => state.pasien_full
+    getListPasienFull: (state) => state.pasien_full,
+    getSelectedReceipt: (state) => state.selected_receipt
   },
 
   mutations: {
@@ -264,6 +280,14 @@ const blankoModules = {
       state.form.full = { ...state.form.full, ...data }
     },
 
+    setSelectedReceipt(state, data) {
+      state.selected_receipt = data
+    },
+
+    resetSelectedReceipt(state) {
+      Object.assign(state.selected_receipt, blanko_init().selected_receipt)
+    },
+
     resetFormPra(state) {
       Object.assign(state.form.pra, blanko_init().form.pra)
     },
@@ -304,7 +328,7 @@ const blankoModules = {
         const tokenData = JSON.parse(stringAccessToken)
         commit('setAlertData', { message: 'Mengambil data', type: 'info', isLoading: false })
 
-        const response = await axios.get(`${env.VITE_API_BASE_URL}/receipt/one/${uuid}`, {
+        const response = await instance.get(`/receipt/one/${uuid}`, {
           headers: {
             Authorization: `Bearer ${tokenData.token}`
           }
@@ -323,6 +347,36 @@ const blankoModules = {
             })
         // Menyimpan data yang diterima dari API ke dalam state receipts
         commit('setDataReceipt', response.data.data)
+      } catch (error) {
+        return error
+      }
+    },
+
+    async getSelectedReceipt({ commit, rootGetters }, uuid) {
+      try {
+        // Mengirimkan permintaan GET ke API untuk mendapatkan data kwitansi
+        const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
+        const tokenData = JSON.parse(stringAccessToken)
+
+        const response = await instance.get(`/receipt/one/${uuid}`, {
+          headers: {
+            Authorization: `Bearer ${tokenData.token}`
+          }
+        })
+
+        response.status === 200
+          ? commit('setSelectedReceipt', {
+              message: response.data.message,
+              type: 'success',
+              isLoading: false
+            })
+          : commit('setSelectedReceipt', {
+              message: response.data.message,
+              type: 'error',
+              isLoading: false
+            })
+        // Menyimpan data yang diterima dari API ke dalam state receipts
+        commit('setSelectedReceipt', response.data.data)
       } catch (error) {
         return error
       }
@@ -351,7 +405,7 @@ const blankoModules = {
         const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
         const tokenData = JSON.parse(stringAccessToken)
 
-        if (data.blanko_main.base64_image.startsWith("data:")) {
+        if (data.blanko_main.base64_image.startsWith('data:')) {
           data.blanko_main.base64_image = data.blanko_main.base64_image.split(',')[1]
         }
 
