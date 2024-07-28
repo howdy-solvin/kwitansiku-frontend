@@ -3,6 +3,7 @@ import authModules from './auth'
 import pasienModules from './pasien'
 import receiptsModules from './receipts'
 import toastModules from './toast'
+import blankoModules from './blanko'
 
 const store = createStore({
   root: true,
@@ -10,7 +11,8 @@ const store = createStore({
     auth: authModules,
     pasien: pasienModules,
     receipts: receiptsModules,
-    toast: toastModules
+    toast: toastModules,
+    blanko: blankoModules
   }
 })
 
