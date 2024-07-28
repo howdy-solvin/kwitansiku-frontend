@@ -346,6 +346,28 @@ const blankoModules = {
       }
     },
 
+    async updatePraMedical({ rootGetters }, data) {
+      try {
+        const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
+        const tokenData = JSON.parse(stringAccessToken)
+
+        if (data.blanko_main.base64_image.startsWith("data:")) {
+          data.blanko_main.base64_image = data.blanko_main.base64_image.split(',')[1]
+        }
+
+        // eslint-disable-next-line no-undef
+        const response = await instance.put('/blanko/update/pra', data, {
+          headers: {
+            Authorization: `Bearer ${tokenData.token}`
+          }
+        })
+        console.log('hasil respon', response)
+        return response
+      } catch (error) {
+        return error
+      }
+    },
+
     async createFullMedical({ rootGetters }, data) {
       try {
         const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
@@ -353,6 +375,24 @@ const blankoModules = {
 
         // eslint-disable-next-line no-undef
         const response = await instance.post('/blanko/create/full', data, {
+          headers: {
+            Authorization: `Bearer ${tokenData.token}`
+          }
+        })
+        console.log('hasil respon', response)
+        return response
+      } catch (error) {
+        return error
+      }
+    },
+
+    async updateFullMedical({ rootGetters }, data) {
+      try {
+        const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
+        const tokenData = JSON.parse(stringAccessToken)
+
+        // eslint-disable-next-line no-undef
+        const response = await instance.put('/blanko/update/full', data, {
           headers: {
             Authorization: `Bearer ${tokenData.token}`
           }

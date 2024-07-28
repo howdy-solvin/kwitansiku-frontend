@@ -17,6 +17,7 @@ export default {
     const praData = computed(() => store.getters['getPraData'])
     const fullData = computed(() => store.getters['getFullData'])
     const listPasienFull = computed(() => store.getters['getListPasienFull'])
+    const listPasien = computed(() => store.getters['getListPasien'])
 
     // SECTION - Handle form medical type
     const jenis_medikal = ref('pra')
@@ -28,12 +29,22 @@ export default {
 
         if (event.target.value === 'full') {
           store.dispatch('checkCreatedBlankoPra')
+          if (
+            listPasienFull.value.length !== 0 &&
+            !listPasienFull.value.includes(pra_medical.data_diri.id_pasien)
+          ) {
+            const selectedPasien = listPasien.value.find(
+              (pasien) => pasien.uuid === listPasienFull.value[0]
+            )
+            selectPasien(selectedPasien.uuid, selectedPasien.nama_lengkap)
+          }
         }
       }
     }
 
     onMounted(() => {
       handleChange()
+      store.dispatch('checkCreatedBlankoPra')
       if (receipt.value.pasien_tkis.length === 0) {
         // redirect to rekap kwitansi
         router.replace('/rekap-kwitansi')
@@ -126,22 +137,24 @@ export default {
     const resetFormPra = () => {
       Object.assign(pra_medical, { ...pra_medical_init })
       Object.assign(hasilPemeriksaan, { ...hasilPemeriksaanInit })
+      selectedNamaPasien.value = ''
     }
 
     const selectedNamaPasien = ref('')
     const selectPasienLoading = ref(false)
     const selectPasien = async (pasienId, namaPasien) => {
       selectPasienLoading.value = true
-      selectedNamaPasien.value = namaPasien
       await store.dispatch('getOneBlankoPra', pasienId).then(async (res) => {
         if (res.status !== 200) {
           resetFormPra()
+          selectedNamaPasien.value = namaPasien
           pra_medical.data_diri.id_pasien = pasienId
           pra_medical.data_diri.usia = selectedPasien.value.usia
           pra_medical.data_diri.negara_tujuan = selectedPasien.value.negara_tujuan
           pra_medical.data_diri.kelamin = selectedPasien.value.jenis_kelamin
         } else {
           const blanko = res.data.data
+          selectedNamaPasien.value = namaPasien
           hasilPemeriksaan['pernihakan'] = blanko.status
           hasilPemeriksaan['golDarah'] = blanko.blanko_pra.golongan_darah
           hasilPemeriksaan['rontgen'] = blanko.blanko_pra.rontgen ? 'Normal' : 'Tidak Normal'
@@ -374,6 +387,7 @@ export default {
 
     const handleFileUpload = (event) => {
       const file = event.target.files[0]
+      console.log('filenya', file)
       if (file) {
         const reader = new FileReader()
         reader.onload = (e) => {
@@ -390,8 +404,12 @@ export default {
             // Optionally, if you need to use the full data URL somewhere
             pra_medical.data_diri.foto = result
           } else {
-            // Handle error or invalid format
-            console.error('Invalid data URL')
+            toast.error('Invalid data URL', {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: true,
+              closeOnClick: true,
+              closeButton: true
+            })
           }
           pra_medical.data_diri.foto = result
         }
@@ -408,13 +426,14 @@ export default {
       try {
         // Memanggil aksi createPraMedical dan meneruskan data praMedical
         let response
-        if (praData.type === 'update') {
+        console.log('praData.value', praData.value)
+        if (praData.value.type === 'update') {
           response = await store.dispatch('updatePraMedical', praData.value)
         } else {
           response = await store.dispatch('createPraMedical', praData.value)
         }
 
-        if (response.data.code === 201) {
+        if (response.data.code === 201 || response.data.code === 200) {
           toast.update(promiseToast, {
             render: response.data.message,
             autoClose: true,
@@ -424,8 +443,9 @@ export default {
             isLoading: false
           })
           store.commit('resetFormPra')
-          store.commit('resetReceipt')
-          router.push('/rekap-kwitansi')
+          resetFormPra()
+          // store.commit('resetReceipt')
+          // router.push('/rekap-kwitansi')
         } else {
           toast.update(promiseToast, {
             render: response.data.message,
@@ -465,13 +485,13 @@ export default {
       try {
         // Memanggil aksi createPraMedical dan meneruskan data praMedical
         let response
-        if (fullData.type === 'update') {
+        if (fullData.value.type === 'update') {
           response = await store.dispatch('updateFullMedical', fullData.value)
         } else {
           response = await store.dispatch('createFullMedical', fullData.value)
         }
 
-        if (response.data.code === 201) {
+        if (response.data.code === 201 || response.data.code === 200) {
           toast.update(promiseToast, {
             render: response.data.message,
             autoClose: true,
@@ -480,9 +500,10 @@ export default {
             type: 'success',
             isLoading: false
           })
-          store.commit('resetFormPra')
-          store.commit('resetReceipt')
-          router.push('/rekap-kwitansi')
+          store.commit('resetFormFull')
+          resetFormPra()
+          // store.commit('resetReceipt')
+          // router.push('/rekap-kwitansi')
         } else {
           toast.update(promiseToast, {
             render: response.data.message,
@@ -618,6 +639,12 @@ export default {
                     alt="Unggah Foto"
                     class="w-[130px] h-[130px] object-cover rounded-md"
                   />
+                  <!-- <img
+                    v-else
+                    :src="'data:image/png;base64,' + pra_medical.data_diri.foto"
+                    alt="Unggah Foto"
+                    class="w-[130px] h-[130px] object-cover rounded-md"
+                  /> -->
                   <label
                     class="bg-[#0075FF] text-white justify-center rounded-md flex flex-col items-center gap-3 font-poppins font-semibold cursor-pointer w-[130px] h-[36px] mt-2"
                     for="inputGambar"
@@ -1653,6 +1680,7 @@ export default {
                           class="absolute z-10 mt-1 w-full bg-white shadow-lg rounded-md p-2 flex flex-col gap-2"
                         >
                           <ul
+                            v-if="listPasienFull.length > 0"
                             v-for="pasien in receipt.pasien_tkis.filter((pasien) =>
                               listPasienFull.includes(pasien.uuid)
                             )"
@@ -1686,6 +1714,12 @@ export default {
                               </svg>
                               <span class="sr-only">Loading...</span>
                             </div>
+                          </ul>
+                          <ul
+                            v-else
+                            class="py-1 px-3 cursor-not-allowed flex justify-between items-center rounded-sm"
+                          >
+                            <li class="w-full text-center">Data Pasien Pra tidak ada</li>
                           </ul>
                         </div>
                       </transition>
