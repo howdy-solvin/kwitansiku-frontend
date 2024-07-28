@@ -639,12 +639,6 @@ export default {
                     alt="Unggah Foto"
                     class="w-[130px] h-[130px] object-cover rounded-md"
                   />
-                  <!-- <img
-                    v-else
-                    :src="'data:image/png;base64,' + pra_medical.data_diri.foto"
-                    alt="Unggah Foto"
-                    class="w-[130px] h-[130px] object-cover rounded-md"
-                  /> -->
                   <label
                     class="bg-[#0075FF] text-white justify-center rounded-md flex flex-col items-center gap-3 font-poppins font-semibold cursor-pointer w-[130px] h-[36px] mt-2"
                     for="inputGambar"
