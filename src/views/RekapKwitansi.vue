@@ -6,11 +6,20 @@ import IconRekap from '@/components/icons/IconRekap.vue'
 import { watchEffect, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import ModalBase from '@/components/ModalBase.vue'
+import ModalRekap from '@/components/ModalRekap.vue'
 import IconBlanko from '@/components/icons/IconBlanko.vue'
+import ModalBlanko from '@/components/ModalBlanko.vue'
 
 export default {
-  components: { ProfileInfo, IconRekap, IconSearch, IconCetak, ModalBase, IconBlanko },
+  components: {
+    ProfileInfo,
+    IconRekap,
+    IconSearch,
+    IconCetak,
+    ModalRekap,
+    ModalBlanko,
+    IconBlanko
+  },
 
   setup() {
     const store = useStore()
@@ -51,41 +60,141 @@ export default {
       const response = await store.dispatch('fetchReceiptsPatient', uuid)
 
       if (response.code === 200) {
-        showPrintButton.value = true
-        showPrintDetailButton.value = true
+        showPrintKwitansiBtn.value = true
+        showPrintPasienBtn.value = true
         router.push('/pasien-tki')
       }
     }
 
     //TODO - Interace With modal
-    const showPrintButton = ref(false)
-    const showPrintDetailButton = ref(false)
+    const showPrintBlankoFullBtn = ref(false)
+    const showPrintBlankoPraBtn = ref(false)
+    const showPrintBlankoAllPraBtn = ref(false)
+    const showPrintBlankoAllFullBtn = ref(false)
+    const showPrintKwitansiBtn = ref(false)
+    const showPrintPasienBtn = ref(false)
     const popUpTriggers = ref({
-      buttonTrigger: false
+      triggerRekap: false,
+      triggerBlankoPra: false,
+      triggerBlankoFull: false,
+      triggerBlankoAllPra: false,
+      triggerBlankoAllFull: false
     })
 
-    const tooglePopUp = async (trigger, index) => {
+    const togglePopUpKwitansi = async (trigger, index) => {
       popUpTriggers.value[trigger] = !popUpTriggers.value[trigger]
       if (popUpTriggers.value[trigger]) {
         try {
           // Kirim permintaan GET untuk mengambil data pasien
           const uuid = receipts.value[index].uuid
           const response = await store.dispatch('fetchReceiptsPatient', uuid)
-          response.code === 200 ? (showPrintButton.value = true) : (showPrintButton.value = false)
-          response.code === 200
-            ? (showPrintDetailButton.value = true)
-            : (showPrintDetailButton.value = false)
+          if (response.code === 200) {
+            showPrintKwitansiBtn.value = true
+            showPrintPasienBtn.value = true
+          } else {
+            showPrintKwitansiBtn.value = false
+            showPrintPasienBtn.value = false
+            store.commit('resetRekap')
+          }
         } catch (error) {
           console.error('Error fetching patient data:', error)
         }
       } else {
-        // Atur showPrintButton menjadi false jika popUpTriggers.value[trigger] adalah false
-        showPrintButton.value = false
-        showPrintDetailButton.value = false
+        // Atur showPrintKwitansiBtn menjadi false jika popUpTriggers.value[trigger] adalah false
+        showPrintKwitansiBtn.value = false
+        showPrintPasienBtn.value = false
+        store.commit('resetRekap')
       }
     }
 
     // SECTION - Blanko Section
+    const selectedPasienKey = ref(null)
+    const loadingSelectedPasien = ref(false)
+    const togglePopUpBlanko = async (trigger, index = 0, isClosing = false) => {
+      try {
+        if (isClosing) return (popUpTriggers.value[trigger] = false)
+
+        const uuid = openedKwitansiData.value.pasien_tkis[index].uuid
+        switch (trigger) {
+          case 'triggerBlankoPra':
+            selectedPasienKey.value = `pra-${index}`
+            loadingSelectedPasien.value = true
+            const resPra = await store.dispatch('fetchBlankoPra', uuid)
+            if (resPra.code === 200) {
+              popUpTriggers.value[trigger] = true
+              showPrintBlankoPraBtn.value = true
+            } else {
+              popUpTriggers.value[trigger] = false
+              showPrintBlankoPraBtn.value = false
+            }
+            break
+
+          case 'triggerBlankoFull':
+            selectedPasienKey.value = `full-${index}`
+            loadingSelectedPasien.value = true
+            const resFull = await store.dispatch('fetchBlankoFull', uuid)
+            if (resFull.code === 200) {
+              popUpTriggers.value[trigger] = true
+              showPrintBlankoFullBtn.value = true
+            } else {
+              popUpTriggers.value[trigger] = false
+              showPrintBlankoFullBtn.value = false
+            }
+            break
+
+          case 'triggerBlankoAllPra':
+            selectedPasienKey.value = 'all-pra'
+            loadingSelectedPasien.value = true
+            const resAllPra = await store.dispatch(
+              'fetchAllBlankoPras',
+              openedKwitansiData.value.pasien_tkis
+            )
+            if (resAllPra === true) {
+              popUpTriggers.value[trigger] = true
+              showPrintBlankoAllPraBtn.value = true
+            } else {
+              popUpTriggers.value[trigger] = false
+              showPrintBlankoAllPraBtn.value = false
+            }
+            break
+
+          case 'triggerBlankoAllFull':
+            selectedPasienKey.value = 'all-full'
+            loadingSelectedPasien.value = true
+            const resAllFull = await store.dispatch(
+              'fetchAllBlankoFull',
+              openedKwitansiData.value.pasien_tkis
+            )
+            if (resAllFull === true) {
+              popUpTriggers.value[trigger] = true
+              showPrintBlankoAllFullBtn.value = true
+            } else {
+              popUpTriggers.value[trigger] = false
+              showPrintBlankoAllFullBtn.value = false
+            }
+            break
+
+          default:
+            throw new Error('Invalid trigger')
+        }
+        selectedPasienKey.value = index
+        loadingSelectedPasien.value = true
+        if (!popUpTriggers.value[trigger]) {
+          selectedPasienKey.value = null
+          loadingSelectedPasien.value = false
+          showPrintBlankoPraBtn.value = false
+          showPrintBlankoFullBtn.value = false
+          showPrintBlankoAllPraBtn.value = false
+          showPrintBlankoAllFullBtn.value = false
+          store.commit('resetBlankoPra')
+          store.commit('resetBlankoFull')
+          store.commit('resetAllBlankoPra')
+          store.commit('resetAllBlankoFull')
+        }
+      } catch (error) {
+        console.error('Error fetching blanko data:', error)
+      }
+    }
 
     // TODO: Function to handle get data form receipt
     const getOneRekap = async (index) => {
@@ -94,8 +203,8 @@ export default {
       const response = await store.dispatch('fetchReceiptsPatient', uuid)
 
       if (response.code === 200) {
-        showPrintButton.value = true
-        showPrintDetailButton.value = true
+        showPrintKwitansiBtn.value = true
+        showPrintPasienBtn.value = true
         router.push('/pasien-tki')
       }
     }
@@ -112,13 +221,17 @@ export default {
     const openedKwitansiIndex = ref(null)
     const loadingOpenedKwitansi = ref(false)
     const openedKwitansiData = computed(() => store.getters['getSelectedReceipt'])
+    const blankoPra = computed(() => store.getters['getBlankoPra'])
+    const blankoFull = computed(() => store.getters['getBlankoFull'])
+    const blankoAllPra = computed(() => store.getters['getBlankoAllPra'])
+    const blankoAllFull = computed(() => store.getters['getBlankoAllFull'])
 
     const handleKwitansiPasien = async (kwitansi, i) => {
       loadingOpenedKwitansi.value = true
       if (openedKwitansiIndex.value === i) {
         openedKwitansiIndex.value = null
         loadingOpenedKwitansi.value = false
-        store.dispatch('resetSelectedReceipt')
+        store.commit('resetSelectedReceipt')
         return
       }
       openedKwitansiIndex.value = i
@@ -134,16 +247,27 @@ export default {
       receipts,
       getUid,
       popUpTriggers,
-      tooglePopUp,
+      togglePopUpKwitansi,
+      togglePopUpBlanko,
       kwitansi,
       admin,
       isAdminLoggedIn,
-      showPrintButton,
-      showPrintDetailButton,
+      showPrintKwitansiBtn,
+      showPrintPasienBtn,
+      showPrintBlankoPraBtn,
+      showPrintBlankoFullBtn,
+      showPrintBlankoAllPraBtn,
+      showPrintBlankoAllFullBtn,
       handleKwitansiPasien,
       openedKwitansiIndex,
       openedKwitansiData,
-      loadingOpenedKwitansi
+      blankoPra,
+      blankoFull,
+      blankoAllPra,
+      blankoAllFull,
+      loadingOpenedKwitansi,
+      selectedPasienKey,
+      loadingSelectedPasien
     }
   }
 }
@@ -279,7 +403,7 @@ export default {
                   </button>
                   <button
                     type="button"
-                    @click="tooglePopUp('buttonTrigger', index)"
+                    @click="togglePopUpKwitansi('triggerRekap', index)"
                     class="bg-[#0075FF] hover:bg-[#0456b8] hover:ring-[#0456b8] text-white transition-colors p-3 aspect-square flex items-center justify-center ring-2 ring-[#0075FF] h-full"
                   >
                     <IconCetak></IconCetak>
@@ -350,18 +474,57 @@ export default {
                     <td colspan="2" class="border-[#d7d7d7] border-t border-b px-4 py-3">
                       {{ pasien.harga }}
                     </td>
-                    <td
-                      colspan="2"
-                      class="border-[#d7d7d7]"
-                    >
+                    <td colspan="2" class="border-[#d7d7d7]">
                       <div class="h-full flex">
-                        <button class="flex transition-colors ring-1 ring-[#d7d7d7] hover:ring-[#0075FF] bg-white text-[#4c75a4] hover:text-white hover:bg-[#0075FF] py-3 grow justify-center gap-3">
+                        <button
+                          @click="togglePopUpBlanko('triggerBlankoPra', index)"
+                          class="flex transition-colors ring-1 ring-[#d7d7d7] hover:ring-[#0075FF] bg-white text-[#4c75a4] hover:text-white hover:bg-[#0075FF] py-3 grow justify-center gap-3"
+                        >
                           Pra
-                          <IconCetak></IconCetak>
+                          <div class="flex items-center justify-center aspect-square w-6">
+                            <svg
+                              v-if="loadingSelectedPasien && selectedPasienKey === `pra-${index}`"
+                              class="w-5 aspect-square text-gray-200 animate-spin fill-blue-600"
+                              viewBox="0 0 100 101"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                fill="currentColor"
+                              />
+                              <path
+                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                fill="currentFill"
+                              />
+                            </svg>
+                            <IconCetak v-else></IconCetak>
+                          </div>
                         </button>
-                        <button class="flex transition-colors ring-1 ring-[#d7d7d7] hover:ring-[#0075FF] bg-white text-[#4c75a4] hover:text-white hover:bg-[#0075FF] py-3 grow justify-center gap-3 rounded-e-md">
+                        <button
+                          @click="togglePopUpBlanko('triggerBlankoFull', index)"
+                          class="flex transition-colors ring-1 ring-[#d7d7d7] hover:ring-[#0075FF] bg-white text-[#4c75a4] hover:text-white hover:bg-[#0075FF] py-3 grow justify-center gap-3 rounded-e-md"
+                        >
                           Full
-                          <IconCetak></IconCetak>
+                          <div class="flex items-center justify-center aspect-square w-6">
+                            <svg
+                              v-if="loadingSelectedPasien && selectedPasienKey === `full-${index}`"
+                              class="w-5 aspect-square text-gray-200 animate-spin fill-blue-600"
+                              viewBox="0 0 100 101"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                fill="currentColor"
+                              />
+                              <path
+                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                fill="currentFill"
+                              />
+                            </svg>
+                            <IconCetak v-else></IconCetak>
+                          </div>
                         </button>
                       </div>
                     </td>
@@ -372,17 +535,55 @@ export default {
                     <div class="flex flex-row">
                       <button
                         type="button"
+                        @click="togglePopUpBlanko('triggerBlankoAllPra')"
                         class="bg-transparent rounded-s-md grow hover:bg-[#0075FF] hover:border-[#0075FF] hover:text-white text-[#4c75a4] gap-3 transition-colors p-3 flex items-center justify-center border border-[#699bd5] h-full"
                       >
                         Cetak Semua Blanko Pra
-                        <IconCetak></IconCetak>
+                        <div class="flex items-center justify-center aspect-square w-6">
+                          <svg
+                            v-if="loadingSelectedPasien && selectedPasienKey === 'all-pra'"
+                            class="w-5 aspect-square text-gray-200 animate-spin fill-blue-600"
+                            viewBox="0 0 100 101"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                              fill="currentColor"
+                            />
+                            <path
+                              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                              fill="currentFill"
+                            />
+                          </svg>
+                          <IconCetak v-else></IconCetak>
+                        </div>
                       </button>
                       <button
                         type="button"
+                        @click="togglePopUpBlanko('triggerBlankoAllFull')"
                         class="bg-transparent rounded-e-md grow hover:bg-[#0075FF] hover:border-[#0075FF] hover:text-white text-[#4c75a4] gap-3 transition-colors p-3 flex items-center justify-center border border-[#699bd5] h-full"
                       >
                         Cetak Semua Blanko Full
-                        <IconCetak></IconCetak>
+                        <div class="flex items-center justify-center aspect-square w-6">
+                          <svg
+                            v-if="loadingSelectedPasien && selectedPasienKey === 'all-full'"
+                            class="w-5 aspect-square text-gray-200 animate-spin fill-blue-600"
+                            viewBox="0 0 100 101"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                              fill="currentColor"
+                            />
+                            <path
+                              d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                              fill="currentFill"
+                            />
+                          </svg>
+                          <IconCetak v-else></IconCetak>
+                        </div>
                       </button>
                     </div>
                   </td>
@@ -393,12 +594,115 @@ export default {
           </tbody>
         </table>
       </section>
-      //TODO - creating Modal for blanko pra and blanko full per people, and creating for one kwitansi for pra and full
-      <ModalBase
-        v-if="popUpTriggers.buttonTrigger"
-        :tooglePopUp="() => tooglePopUp('buttonTrigger')"
-        :showPrintButton="showPrintButton"
-        :showPrintDetailButton="showPrintDetailButton"
+      <ModalBlanko
+        v-if="popUpTriggers.triggerBlankoPra"
+        :togglePopUp="() => togglePopUpBlanko('triggerBlankoPra', null, true)"
+        :showPrintButton="showPrintBlankoPraBtn"
+        class="font-poppins"
+      >
+        <template #header>
+          <div>
+            <h4 class="font-bold text-lg">Blanko Pra</h4>
+            <p>Cetak data untuk Blanko Pra</p>
+          </div>
+        </template>
+        <template #banner> </template>
+        <template #main>
+          <p v-for="(value, key) in blankoPra">
+            {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
+            <img v-if="key === 'image_blob'" :src="value" class="w-20" />
+          </p>
+
+          <p class="ps-10" v-for="(value, key) in blankoPra.blanko_pra">
+            {{ `${key}: ${value}` }}
+          </p>
+        </template>
+      </ModalBlanko>
+
+      <ModalBlanko
+        v-if="popUpTriggers.triggerBlankoFull"
+        :togglePopUp="() => togglePopUpBlanko('triggerBlankoFull', null, true)"
+        :showPrintButton="showPrintBlankoFullBtn"
+        class="font-poppins"
+      >
+        <template #header>
+          <div>
+            <h4 class="font-bold text-lg">Blanko Full</h4>
+            <p>Cetak data untuk Blanko Full</p>
+          </div>
+        </template>
+        <template #banner> </template>
+        <template #main>
+          <p v-for="(value, key) in blankoFull">
+            {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
+            <img v-if="key === 'image_blob'" :src="value" class="w-20" />
+          </p>
+
+          <p class="ps-10" v-for="(value, key) in blankoFull.blanko_full">
+            {{ `${key}: ${value}` }}
+          </p>
+        </template>
+      </ModalBlanko>
+
+      <ModalBlanko
+        v-if="popUpTriggers.triggerBlankoAllPra"
+        :togglePopUp="() => togglePopUpBlanko('triggerBlankoAllPra', null, true)"
+        :showPrintButton="showPrintBlankoAllPraBtn"
+        class="font-poppins"
+      >
+        <template #header>
+          <div>
+            <h4 class="font-bold text-lg">All Blanko Pra</h4>
+            <p>Cetak data untuk semua Blanko Pra</p>
+          </div>
+        </template>
+        <template #banner> </template>
+        <template #main>
+          <div v-for="(obj, i) in blankoAllPra">
+            <p :key="i" v-for="(value, key) in obj">
+              {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
+              <img v-if="key === 'image_blob'" :src="value" class="w-20" />
+            </p>
+
+            <p class="ps-10" v-for="(value, key) in obj.blanko_pra">
+              {{ `${key}: ${value}` }}
+            </p>
+          </div>
+        </template>
+      </ModalBlanko>
+
+      <ModalBlanko
+        v-if="popUpTriggers.triggerBlankoAllFull"
+        :togglePopUp="() => togglePopUpBlanko('triggerBlankoAllFull', null, true)"
+        :showPrintButton="showPrintBlankoAllFullBtn"
+        class="font-poppins"
+      >
+        <template #header>
+          <div>
+            <h4 class="font-bold text-lg">All Blanko Full</h4>
+            <p>Cetak data untuk semua Blanko Full</p>
+          </div>
+        </template>
+        <template #banner> </template>
+        <template #main>
+          <div v-for="(obj, i) in blankoAllFull">
+            <p :key="i" v-for="(value, key) in obj">
+              {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
+              <img v-if="key === 'image_blob'" :src="value" class="w-20" />
+            </p>
+
+            <p class="ps-10" v-for="(value, key) in obj.blanko_full">
+              {{ `${key}: ${value}` }}
+            </p>
+          </div>
+        </template>
+      </ModalBlanko>
+
+      <ModalRekap
+        v-if="popUpTriggers.triggerRekap"
+        :togglePopUp="() => togglePopUpKwitansi('triggerRekap')"
+        :showPrintButton="showPrintKwitansiBtn"
+        :showPrintDetailButton="showPrintPasienBtn"
         class="font-poppins"
       >
         <template #header>
@@ -568,7 +872,7 @@ export default {
             </tbody>
           </table>
         </template>
-      </ModalBase>
+      </ModalRekap>
     </main>
   </div>
 </template>
