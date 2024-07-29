@@ -4,10 +4,10 @@ import CloseIcon from './icons/CloseIcon.vue'
 import { ref } from 'vue'
 
 export default {
-  name: 'ModalBase',
+  name: 'ModalRekap',
   components: { CloseIcon, CetakKuitansi },
   props: {
-    tooglePopUp: Boolean,
+    togglePopUp: Boolean,
     showPrintButton: Boolean,
     showPrintDetailButton: Boolean
   },
@@ -49,18 +49,20 @@ export default {
           <button
             v-if="showPrintButton"
             @click="printModal"
-            class="bg-[#0075FF] p-[17px] rounded-lg"
+            class="bg-[#0075FF] group p-[13px] hover:bg-[#2260a8] transition-all rounded-lg flex items-center justify-center hover:gap-3 gap-0 text-white"
           >
+            <p class="w-0 h-0 group-hover:w-fit group-hover:h-fit overflow-hidden">Cetak Kuitansi</p>
             <CetakKuitansi></CetakKuitansi>
           </button>
           <button
             v-if="showPrintDetailButton"
             @click="printDetailModal"
-            class="bg-[#20b648] p-[17px] rounded-lg"
+            class="bg-[#20b648] group p-[13px] transition-all hover:bg-[#219a41] rounded-lg flex justify-center items-center hover:gap-3 gap-0 text-white"
           >
+            <p class="w-0 h-0 group-hover:w-fit group-hover:h-fit overflow-hidden">Cetak Pasien</p>
             <CetakKuitansi></CetakKuitansi>
           </button>
-          <button @click="tooglePopUp()" class="bg-[#F00000] p-[17px] rounded-lg">
+          <button @click="togglePopUp()" class="bg-[#F00000] transition-colors hover:bg-[#b52727] p-[13px] rounded-lg">
             <CloseIcon></CloseIcon>
           </button>
         </div>
