@@ -24,9 +24,11 @@ const authModules = {
       localStorage.setItem('user', JSON.stringify(user))
     },
     setAccessToken(state, token) {
+      state.accessToken = token;
       localStorage.setItem('accessToken', JSON.stringify(token))
     },
     setRefreshToken(state, token) {
+      state.refreshToken = token;
       localStorage.setItem('refreshToken', JSON.stringify(token))
     },
     clearAuthData(state) {
