@@ -55,15 +55,14 @@ const router = createRouter({
 
 router.beforeEach(async (to, from, next) => {
   let isAuthenticated = store.getters['isAuthenticated'];
-  const token = localStorage.getItem('accessToken');
+  let token = localStorage.getItem('accessToken');
 
-  console.log('isAuthenticated', isAuthenticated);
-  if (!isAuthenticated && token) {
+  if (token && (await store.dispatch('isTokenExpired', token))) {
     try {
-      await store.dispatch('auth/refreshToken');
-      isAuthenticated = true; // Update status autentikasi
+      await store.dispatch('refreshToken');
+      isAuthenticated = true;
     } catch (error) {
-      localStorage.removeItem('accessToken');
+      store.commit('clearAuthData');
       isAuthenticated = false;
     }
   }
