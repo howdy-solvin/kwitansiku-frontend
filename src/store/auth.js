@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router';
 
 const env = import.meta.env
 
@@ -83,18 +84,23 @@ const authModules = {
         const response = await axios.post(`${env.VITE_API_BASE_URL}/auth/refresh-token`, {
           refreshToken: state.refreshToken,
         });
-        commit('setAccessToken', response.data.tokens.access);
+        // commit('setAccessToken', response.data.tokens.access);
+        localStorage.setItem('refreshToken', response.data.tokens.refresh);
+
         return response.data.tokens.access;
       } catch (error) {
+        console.log('error auth', error);
         commit('clearAuthData');
         return Promise.reject(error);
       }
     },
 
-    // logout({ commit }) {
-    //   commit('clearAuthData');
-    //   // Redirect to login page or other actions
-    // }
+    isTokenExpired(_, token) {
+      if (!token) return true;
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp;
+      return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+    }
   }
 }
 
