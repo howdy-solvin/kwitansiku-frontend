@@ -41,9 +41,9 @@ watchEffect(() => {
       >
         Jenis Kwitansi
         <svg
-          class="-mr-1 h-5 w-5 transition-colors"
+          class="-mr-1 h-5 w-5 transition-all duration-300 ease-out"
           :class="
-            toggleDropdown ? 'bg-[#0075FF] text-white' : 'text-[#676767] group-hover:text-white'
+            toggleDropdown ? ' text-white rotate-180' : 'text-[#676767] group-hover:text-white rotate-0'
           "
           viewBox="0 0 20 20"
           fill="currentColor"
