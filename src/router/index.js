@@ -56,32 +56,33 @@ const router = createRouter({
 
 
 router.beforeEach(async (to, from, next) => {
-  const isAuthenticated = store.getters['isAuthenticated'];
+  let isAuthenticated = store.getters['isAuthenticated'];
+  const token = localStorage.getItem('accessToken');
+
   console.log('isAuthenticated', isAuthenticated);
-  if (!isAuthenticated && to.name !== 'Login' && to.name !== 'Register' && to.name !== 'Welcome') {
+  if (!isAuthenticated && token) {
     try {
-      if (store.getters['auth/refreshToken']) {
-        await store.dispatch('auth/refreshToken');
-        next();
-      } else {
-        next({ name: 'Login' });
-      }
+      await store.dispatch('auth/refreshToken');
+      isAuthenticated = true; // Update status autentikasi
     } catch (error) {
-      next({ name: 'Login' });
+      localStorage.removeItem('accessToken');
+      isAuthenticated = false;
     }
-  } else if (to.name === 'Login' && isAuthenticated) {
+  }
+
+  if (!isAuthenticated) {
+    if (to.name !== 'Login' && to.name !== 'Register' && to.name !== 'Welcome') {
+      next({ name: 'Login' });
+    } else {
+      next();
+    }
+  } else if (to.name === 'Login' || to.name === 'Register' || to.name === 'Welcome') {
     next({ name: 'Home' });
+    console.log('login successful');
   } else {
     next();
   }
 });
-
-// async function checkAuthentication() {
-//   return new Promise(resolve => {
-//     const isAuthenticated = localStorage.getItem('accessToken');
-//     resolve(isAuthenticated);
-//   });
-// }
 
 
 export default router;
