@@ -24,9 +24,6 @@ export default {
 
     const handleChange = (event) => {
       if (event) {
-        jenis_medikal.value = event.target.value
-        store.commit('setStatusMedical', event.target.value)
-
         if (event.target.value === 'full') {
           store.dispatch('checkCreatedBlankoPra')
           if (
@@ -38,7 +35,15 @@ export default {
             )
             selectPasien(selectedPasien.uuid, selectedPasien.nama_lengkap)
           }
+        } else {
+          store.commit('resetSelectedReceipt')
+          store.commit('resetFormFull')
+          store.commit('resetFormPra')
+          store.commit('resetPasienFull')
+          resetFormPra()
         }
+        jenis_medikal.value = event.target.value
+        store.commit('setStatusMedical', event.target.value)
       }
     }
 
@@ -54,59 +59,61 @@ export default {
     // SECTION - Pra medical
 
     //ANCHOR State pra medical
-    const pra_medical_init = {
-      data_diri: {
-        id_pasien: '',
-        foto: '',
-        bn_bt: '',
-        tgl_cetak: '',
-        tgl_lahir: '',
-        usia: '',
-        kelamin: '',
-        status: null,
-        negara_tujuan: ''
-      },
-      alamat: {
-        negara: '',
-        provinsi: '',
-        daerah: '',
-        pekerjaan_di_negara_tujuan: '',
-        no_visa: '',
-        no_passport: '',
-        masa_berlaku: '',
-        sampai_dengan: ''
-      },
-      fisik: {
-        tinggi: '',
-        berat: '',
-        mata_kanan: '',
-        mata_kiri: '',
-        tekanan_darah_atas: '',
-        tekanan_darah_bawah: '',
-        tekanan_darah_nadi: '',
-        golongan_darah: '',
-        suhu_tubuh: '',
-        rontgen: ''
-      },
-      laboratorium: {
-        gula: '',
-        ph: '',
-        vdrl: '',
-        protein: '',
-        hbs_ag: '',
-        tpha: ''
-      },
-      radiologi: {
-        thorax_pa: ''
-      },
-      hasil_pemeriksaan: {
-        hasil: '',
-        keterangan: '',
-        status_pemeriksaan: '',
-        penanggung_jawab: ''
+    const pra_medical_init = () => {
+      return {
+        data_diri: {
+          id_pasien: null,
+          foto: null,
+          bn_bt: null,
+          tgl_cetak: null,
+          tgl_lahir: null,
+          usia: null,
+          kelamin: null,
+          status: null,
+          negara_tujuan: null
+        },
+        alamat: {
+          negara: null,
+          provinsi: null,
+          daerah: null,
+          pekerjaan_di_negara_tujuan: null,
+          no_visa: null,
+          no_passport: null,
+          masa_berlaku: null,
+          sampai_dengan: null
+        },
+        fisik: {
+          tinggi: null,
+          berat: null,
+          mata_kanan: null,
+          mata_kiri: null,
+          tekanan_darah_atas: null,
+          tekanan_darah_bawah: null,
+          tekanan_darah_nadi: null,
+          golongan_darah: null,
+          suhu_tubuh: null,
+          rontgen: null
+        },
+        laboratorium: {
+          gula: null,
+          ph: null,
+          vdrl: null,
+          protein: null,
+          hbs_ag: null,
+          tpha: null
+        },
+        radiologi: {
+          thorax_pa: null
+        },
+        hasil_pemeriksaan: {
+          hasil: null,
+          keterangan: null,
+          status_pemeriksaan: null,
+          penanggung_jawab: null
+        }
       }
     }
-    const pra_medical = reactive({ ...pra_medical_init })
+    const pra_medical = reactive({ ...pra_medical_init() })
 
     //SECTION Select the patient of blanko
     const selectedPasien = computed(() => {
@@ -135,24 +142,27 @@ export default {
     }
 
     const resetFormPra = () => {
-      Object.assign(pra_medical, { ...pra_medical_init })
-      Object.assign(hasilPemeriksaan, { ...hasilPemeriksaanInit })
       selectedNamaPasien.value = ''
+      valueJk.value = ''
+      Object.assign(pra_medical, pra_medical_init())
+      Object.assign(hasilPemeriksaan, hasilPemeriksaanInit())
     }
 
     const selectedNamaPasien = ref('')
     const selectPasienLoading = ref(false)
     const selectPasien = async (pasienId, namaPasien) => {
       selectPasienLoading.value = true
+      resetFormPra()
       await store.dispatch('getOneBlankoPra', pasienId).then(async (res) => {
         if (res.status !== 200) {
-          resetFormPra()
+          // data pra tidak ada, sehingga status jadi create
           selectedNamaPasien.value = namaPasien
           pra_medical.data_diri.id_pasien = pasienId
           pra_medical.data_diri.usia = selectedPasien.value.usia
           pra_medical.data_diri.negara_tujuan = selectedPasien.value.negara_tujuan
           pra_medical.data_diri.kelamin = selectedPasien.value.jenis_kelamin
         } else {
+          // data pra ada, sehingga status jadi update
           const blanko = res.data.data
           selectedNamaPasien.value = namaPasien
           hasilPemeriksaan['pernihakan'] = blanko.status
@@ -235,19 +245,21 @@ export default {
     const statusPemeriksaan = ['Normal', 'Tidak Normal']
     const listGolonganDarah = ['A', 'B', 'AB', 'O']
     const statusPernikahan = ['Menikah', 'Belum menikah', 'Cerai hidup', 'Cerai mati']
-    const hasilPemeriksaanInit = {
-      pernihakan: '',
-      golDarah: '',
-      rontgen: '',
-      gula: '',
-      protein: '',
-      hbs_ag: '',
-      vdrl: '',
-      tpha: '',
-      thorax_pa: '',
-      hasil_pemeriksaan: ''
+    const hasilPemeriksaanInit = () => {
+      return {
+        pernihakan: null,
+        golDarah: null,
+        rontgen: null,
+        gula: null,
+        protein: null,
+        hbs_ag: null,
+        vdrl: null,
+        tpha: null,
+        thorax_pa: null,
+        hasil_pemeriksaan: null
+      }
     }
-    const hasilPemeriksaan = reactive({ ...hasilPemeriksaanInit })
+    const hasilPemeriksaan = reactive({ ...hasilPemeriksaanInit() })
 
     //ANCHOR Dropdown states
     const dropDownStatusPernikahan = ref(false)
@@ -327,7 +339,7 @@ export default {
         pra_medical.hasil_pemeriksaan.hasil = status === 'Normal'
         dropDownHasilPemeriksaan.value = false
       }
-      inputPraMedical()
+      if (type !== null) inputPraMedical()
     }
 
     //ANCHOR Handle Commit form input
@@ -387,8 +399,8 @@ export default {
 
     const handleFileUpload = (event) => {
       const file = event.target.files[0]
-      console.log('filenya', file)
-      if (file) {
+      console.log('filenya', file.size)
+      if (file && file.size < 2_097_152) {
         const reader = new FileReader()
         reader.onload = (e) => {
           const result = e.target.result
@@ -414,7 +426,38 @@ export default {
           pra_medical.data_diri.foto = result
         }
         reader.readAsDataURL(file)
+      } else {
+        if (file.size > 2_097_152) {
+          toast.error('File size is too large. Max 5MB', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: true,
+            closeOnClick: true,
+            closeButton: true
+          })
+        } else {
+          toast.error('Invalid file', {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: true,
+            closeOnClick: true,
+            closeButton: true
+          })
+        }
       }
+    }
+
+    const calculateAge = (e) => {
+      const birthDate = e.target.value
+      let today = new Date()
+      let birth = new Date(birthDate)
+
+      let age = today.getFullYear() - birth.getFullYear()
+      let monthDifference = today.getMonth() - birth.getMonth()
+
+      if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birth.getDate())) {
+        age--
+      }
+      pra_medical.data_diri.usia = age
+      inputPraMedical()
     }
 
     //ANCHOR Submit Pra Medical
@@ -426,13 +469,11 @@ export default {
       try {
         // Memanggil aksi createPraMedical dan meneruskan data praMedical
         let response
-        console.log('praData.value', praData.value)
         if (praData.value.type === 'update') {
           response = await store.dispatch('updatePraMedical', praData.value)
         } else {
           response = await store.dispatch('createPraMedical', praData.value)
         }
-
         if (response.data.code === 201 || response.data.code === 200) {
           toast.update(promiseToast, {
             render: response.data.message,
@@ -442,10 +483,8 @@ export default {
             type: 'success',
             isLoading: false
           })
-          store.commit('resetFormPra')
           resetFormPra()
-          // store.commit('resetReceipt')
-          // router.push('/rekap-kwitansi')
+          store.commit('resetFormPra')
         } else {
           toast.update(promiseToast, {
             render: response.data.message,
@@ -473,7 +512,6 @@ export default {
     // SECTION - Full Medical
     //ANCHOR Handle form full - medical
     const inputFullMedical = (value) => {
-      console.log('Anjyas')
       store.commit('setFormFull', { ...value })
     }
 
@@ -490,7 +528,6 @@ export default {
         } else {
           response = await store.dispatch('createFullMedical', fullData.value)
         }
-
         if (response.data.code === 201 || response.data.code === 200) {
           toast.update(promiseToast, {
             render: response.data.message,
@@ -502,8 +539,6 @@ export default {
           })
           store.commit('resetFormFull')
           resetFormPra()
-          // store.commit('resetReceipt')
-          // router.push('/rekap-kwitansi')
         } else {
           toast.update(promiseToast, {
             render: response.data.message,
@@ -515,7 +550,6 @@ export default {
           })
         }
       } catch (error) {
-        // Tangani kesalahan jika terjadi
         console.error('Error submitting Pra Medical:', error)
         toast.update(promiseToast, {
           render: 'Error submitting Pra Medical. Please try again later.',
@@ -584,7 +618,8 @@ export default {
       listPasienFull,
       fullData,
       inputFullMedical,
-      submitFullMedical
+      submitFullMedical,
+      calculateAge
     }
   }
 }
@@ -751,6 +786,7 @@ export default {
                         id="tgl-lahir"
                         v-model="pra_medical.data_diri.tgl_lahir"
                         @input="inputPraMedical"
+                        @change="calculateAge"
                         type="date"
                         placeholder="Pilih Nama Pasien"
                         class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md w-full"
@@ -760,10 +796,10 @@ export default {
                     <input
                       id="usia"
                       v-model="pra_medical.data_diri.usia"
-                      @input="inputPraMedical"
-                      type="number"
-                      placeholder=""
-                      class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md w-[10%]"
+                      disabled
+                      type="text"
+                      placeholder="0"
+                      class="border border-[#A2A2A2] bg-[#F4F4F4] text-[#A2A2A2] px-[10px] py-[11px] rounded-md w-[10%]"
                     />
                     <label class="min-w-max">Kelamin</label>
                     <div
@@ -1554,7 +1590,14 @@ export default {
                 </div>
                 <div class="mt-[10px] gap-[5px] flex items-center">
                   <label class="w-[70px]" for="protein">Status</label>
-                  <h1 class="text-[20px] text-[#0075FF]">FIT</h1>
+
+                  <h1
+                    v-if="hasilPemeriksaan.hasil_pemeriksaan === 'Normal'"
+                    class="text-[20px] text-[#0075FF]"
+                  >
+                    FIT
+                  </h1>
+                  <h1 v-else class="text-[20px] text-[#ff0000]">UNFIT</h1>
                 </div>
               </div>
               <div class="flex flex-col w-full">
@@ -1641,11 +1684,6 @@ export default {
                 <section class="flex flex-col gap-[13px] w-full">
                   <div class="flex gap-[20px] items-center">
                     <label for="name" class="min-w-max">Nama Pasien</label>
-                    <!-- <output
-                      id="name"
-                      class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md w-[50%] text-[#A2A2A2]"
-                      >{{ selectedNamaPasien }}</output
-                    > -->
                     <div class="relative w-[50%] bg-white border border-[#A2A2A2] rounded-md">
                       <div
                         placeholder="Pilih nama pasien"

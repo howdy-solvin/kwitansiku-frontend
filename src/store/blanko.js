@@ -212,7 +212,7 @@ const blanko_init = () => {
 }
 
 const blankoModules = {
-  state: blanko_init,
+  state: blanko_init(),
 
   getters: {
     getReceipt: (state) => state.receipt,
@@ -226,6 +226,12 @@ const blankoModules = {
 
   mutations: {
     //!SECTION - Mutations for handle pra medical
+    setPraStatus(state, data) {
+      state.form.pra.type = data
+    },
+    setFullStatus(state, data) {
+      state.form.full.type = data
+    },
     setDataDiri(state, data) {
       state.form.pra.blanko_main = {
         ...state.form.pra.blanko_main,
@@ -393,14 +399,14 @@ const blankoModules = {
             Authorization: `Bearer ${tokenData.token}`
           }
         })
-        console.log('hasil respon', response)
         return response
       } catch (error) {
+        if (error.response) return error.response
         return error
       }
     },
 
-    async updatePraMedical({ rootGetters }, data) {
+    async updatePraMedical({ rootGetters, commit  }, data) {
       try {
         const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
         const tokenData = JSON.parse(stringAccessToken)
@@ -415,9 +421,9 @@ const blankoModules = {
             Authorization: `Bearer ${tokenData.token}`
           }
         })
-        console.log('hasil respon', response)
         return response
       } catch (error) {
+        if (error.response) return error.response
         return error
       }
     },
@@ -436,6 +442,7 @@ const blankoModules = {
         console.log('hasil respon', response)
         return response
       } catch (error) {
+        if (error.response) return error.response
         return error
       }
     },
@@ -454,6 +461,7 @@ const blankoModules = {
         console.log('hasil respon', response)
         return response
       } catch (error) {
+        if (error.response) return error.response
         return error
       }
     },
@@ -516,6 +524,8 @@ const blankoModules = {
           })
         return response
       } catch (error) {
+        console.log("errornya kedetect")
+        commit('resetFormPra')
         return error
       }
     },

@@ -592,16 +592,6 @@ export default {
             </ul>
           </div>
         </div>
-
-        <!-- NOTE - Sementara di fitur di disable karena terdapat bug  -->
-        <!-- <button
-          v-if="sisaRekap !== '0' && sisaRekap !== null"
-          @click="addRekapPatient"
-          type="button"
-          class="border border-dashed border-gray-400 mt-5 py-3 rounded-md w-full flex justify-center"
-        >
-          <IconPlus></IconPlus> Tambah Data
-        </button> -->
       </section>
     </main>
   </form>
