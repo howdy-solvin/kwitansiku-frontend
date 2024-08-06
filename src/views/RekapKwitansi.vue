@@ -240,6 +240,66 @@ export default {
       })
     }
 
+    //NOTE - V-Html
+    const checkGender = computed(() => {
+      if (blankoFull.value.jenis_kelamin === 'L') {
+        if (blankoFull.value.blanko_full.urine_oka_status === true) {
+          return "HIS/<s>HER</s> URINE IS TO CONTAIN OPIATE/CANNABIS/AMPHETAMINE";
+        } else {
+          return "HIS/<s>HER</s> URINE IS NOT TO CONTAIN OPIATE/CANNABIS/AMPHETAMINE";
+        }
+      } else {
+        if (blankoFull.value.blanko_full.urine_oka_status === true) {
+          return "<s>HIS</s>/HER URINE IS TO CONTAIN OPIATE/CANNABIS/AMPHETAMINE";
+        } else {
+          return "<s>HIS</s>/HER URINE IS NOT TO CONTAIN OPIATE/CANNABIS/AMPHETAMINE";
+        }
+      }
+    });
+
+    const checkPregnant = computed(() => {
+      if (blankoFull.value.jenis_kelamin === 'L') {
+        return "HE/<s>SHE</s> IS NOT PREGNANT";
+      } else if (blankoFull.value.blanko_full.dsh_status === 'P') {
+        if (blankoFull.value.blanko_full.dsh_status === true) {
+          return "<s>HE</s>/SHE IS PREGNANT";
+        } else {
+          return "<s>HE</s>/SHE IS NOT PREGNANT";
+        }
+      }
+    })
+
+    const checkFit = computed(() => {
+      if (blankoFull.value.jenis_kelamin === 'L') {
+        if (blankoFull.value.blanko_full.sehat_bekerja_status === true) {
+          return 'HE/<s>SHE</s> IS FIT TO WORK'
+        } else {
+          return 'HE/<s>SHE</s> IS NOT FIT TO WORK'
+        }
+      } else {
+        if (blankoFull.value.blanko_full.sehat_bekerja_status === true) {
+          return '<s>HE</s>/SHE IS FIT TO WORK'
+        } else {
+          return '<s>HE</s>/SHE IS NOT FIT TO WORK'
+        }
+      }
+    })
+    const considerEmployment = computed(() => {
+      if (blankoFull.value.jenis_kelamin === 'L') {
+        if (blankoFull.value.blanko_full.rekom_status === true) {
+          return 'I THEREFORE RECOMMEND THAT HE/<s>SHE</s> BE CONSIDERED FOR EMPLOYMENT'
+        } else {
+          return 'I THEREFORE NOT RECOMMEND THAT HE/<s>SHE</s> BE CONSIDERED FOR EMPLOYMENT'
+        }
+      } else {
+        if (blankoFull.value.blanko_full.rekom_status === true) {
+          return 'I THEREFORE RECOMMEND THAT <s>HE</s>/SHE BE CONSIDERED FOR EMPLOYMENT'
+        } else {
+          return 'I THEREFORE NOT RECOMMEND THAT <s>HE</s>/SHE BE CONSIDERED FOR EMPLOYMENT'
+        }
+      }
+    })
+
     return {
       getBlanko,
       blanko,
@@ -267,7 +327,11 @@ export default {
       blankoAllFull,
       loadingOpenedKwitansi,
       selectedPasienKey,
-      loadingSelectedPasien
+      loadingSelectedPasien,
+      checkGender,
+      checkPregnant,
+      checkFit,
+      considerEmployment
     }
   }
 }
@@ -856,8 +920,8 @@ export default {
             <main class="parent flex flex-wrap gap-2 justify-center px-5 mt-[20px]">
               <section class="section1">
                 <div class="grid grid-cols-4 gap-y-2 items-center">
-                  <label class="col-start-2 text-center font-semibold">Iya</label>
-                  <label class="text-center font-semibold">Tidak</label>
+                  <label class="col-start-2 text-center font-semibold">YES</label>
+                  <label class="text-center font-semibold">NO</label>
                   <label class="text-center font-semibold">Tanggal</label>
 
                   <label class="w-fit">HIV/AIDS <span class="text-red-500 text-[20px]">*</span></label>
@@ -922,8 +986,8 @@ export default {
               </section>
               <section class="section2">
                 <div class="grid grid-cols-4  gap-y-2 items-center">
-                  <label class="col-start-2 text-center font-semibold">Iya</label>
-                  <label class="text-center font-semibold">Tidak</label>
+                  <label class="col-start-2 text-center font-semibold">YES</label>
+                  <label class="text-center font-semibold">NO</label>
                   <label for="">Tanggal</label>
 
                   <label class="">Peptic Ulcer</label>
@@ -998,8 +1062,8 @@ export default {
                 <thead>
                   <tr>
                     <th></th>
-                    <th class="inline-block w-[22px]">Ya</th>
-                    <th>Tidak</th>
+                    <th>YES</th>
+                    <th class="inline-block px-3">NO</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1089,8 +1153,8 @@ export default {
                 <thead>
                   <tr>
                     <th></th>
-                    <th class="inline-block w-[22px]">Ya</th>
-                    <th>Tidak</th>
+                    <th>YES</th>
+                    <th class="inline-block px-3">NO</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -1375,11 +1439,11 @@ export default {
                         Heart Size
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.ukj_status"
                           class="h-[20px] items-center w-full" disabled>
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.ukj_status"
                           class="h-[20px] text-center items-center w-full" disabled>
                       </td>
                     </tr>
@@ -1388,11 +1452,11 @@ export default {
                         Heart sounds
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.pkln_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.saj_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.pkln_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.saj_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1400,13 +1464,12 @@ export default {
                       <td>
                         Other findings
                       </td>
-                      <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.dfab_status"
-                          class="h-[20px] text-center items-center w-full" disabled />
-                      </td>
-                      <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.dfab_status"
-                          class="h-[20px] text-center items-center w-full" disabled />
+                      <td colspan="2" class="bg-gray-200 border border-gray-400">
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.tl_sps">
+                            {{ blankoFull.blanko_full.tl_sps }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
 
@@ -1421,11 +1484,11 @@ export default {
                         Breath Sounds
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.sps_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.sps_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1433,13 +1496,12 @@ export default {
                       <td>
                         Other findings
                       </td>
-                      <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
-                          class="h-[20px] text-center items-center w-full" disabled />
-                      </td>
-                      <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
-                          class="h-[20px] text-center items-center w-full" disabled />
+                      <td colspan="2" class="bg-gray-200 border border-gray-400">
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.tl_jantung">
+                            {{ blankoFull.blanko_full.tl_jantung }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
 
@@ -1454,11 +1516,11 @@ export default {
                         General Mental Status
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.smu_status"
                           class="h-[20px] items-center w-full" disabled>
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.smu_status"
                           class="h-[20px] text-center items-center w-full" disabled>
                       </td>
                     </tr>
@@ -1467,11 +1529,11 @@ export default {
                         Speech
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.berbicara_status"
                           class="h-[20px] items-center w-full" disabled>
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.berbicara_status"
                           class="h-[20px] text-center items-center w-full" disabled>
                       </td>
                     </tr>
@@ -1480,11 +1542,11 @@ export default {
                         Cognitive Function
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.fk_status"
                           class="h-[20px] items-center w-full" disabled>
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.fk_status"
                           class="h-[20px] text-center items-center w-full" disabled>
                       </td>
                     </tr>
@@ -1493,11 +1555,11 @@ export default {
                         Size of Peripheral Nerves
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.usp_status"
                           class="h-[20px] items-center w-full" disabled>
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.usp_status"
                           class="h-[20px] text-center items-center w-full" disabled>
                       </td>
                     </tr>
@@ -1506,11 +1568,11 @@ export default {
                         Motor Power
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.km_status"
                           class="h-[20px] items-center w-full" disabled>
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.rkk_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.km_status"
                           class="h-[20px] text-center items-center w-full" disabled>
                       </td>
                     </tr>
@@ -1532,11 +1594,11 @@ export default {
                         Liver
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.hati_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.hati_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1545,11 +1607,11 @@ export default {
                         Spleen
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.limpa_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.limpa_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1558,11 +1620,11 @@ export default {
                         Kidney
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.ginjal_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.ginjal_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1573,12 +1635,21 @@ export default {
 
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pbk_sp_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pbk_sp_status"
                           class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" class="bg-gray-200 border border-gray-400">
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.tl_sp">
+                            {{ blankoFull.blanko_full.tl_sp }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -1587,11 +1658,11 @@ export default {
 
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pr_sp_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pr_sp_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1601,11 +1672,11 @@ export default {
 
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.sensorik_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.sensorik_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1614,11 +1685,11 @@ export default {
                         Reflexes
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.reflek_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.reflek_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1634,11 +1705,11 @@ export default {
                         Discharge
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.psg_pbn_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.psg_pbn_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1647,11 +1718,11 @@ export default {
                         Sores/Ulcers
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.luka_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.luka_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1667,8 +1738,8 @@ export default {
                   <thead>
                     <tr>
                       <th></th>
-                      <th>NEGATIVE</th>
-                      <th class="ml-3 inline-block">POSITIVE</th>
+                      <th>POSITIVE</th>
+                      <th class="ml-3 inline-block">NEGATIVE</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1678,11 +1749,11 @@ export default {
                         HIV Antibody (ELISA)
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.elisa_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.elisa_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1691,11 +1762,11 @@ export default {
                         HBsAg*
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.hbsag_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.hbsag_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1704,11 +1775,11 @@ export default {
                         HCT*
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.hct_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.hct_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1717,11 +1788,11 @@ export default {
                         VDRL & TPHA*
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.vdrl_tpha_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.vdrl_tpha_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1730,11 +1801,11 @@ export default {
                         Malaria Parasite
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pama_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pama_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1751,11 +1822,11 @@ export default {
                         Filaria Parasite
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pafil_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pafil_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1764,11 +1835,11 @@ export default {
                         Slit Skin Smear (if indicated)
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.ck_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.ck_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1778,21 +1849,24 @@ export default {
                       </td>
                     </tr>
                     <tr>
-                      <td colspan="3" class="bg-gray-200 border border-gray-400">
-                        <p class="h-[30px] items-center w-full bg-inherit">Hasil
-                        </p>
+                      <td colspan="2" class="bg-gray-200 border border-gray-400">
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.cxray_report">
+                            {{ blankoFull.blanko_full.cxray_report }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        <p class="mt-2">Slit Skin Smear (if indicated)</p>
+                        <p class="mt-2">Sputum AFB (if indicated)</p>
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.sptm_afb_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.sptm_afb_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1802,8 +1876,8 @@ export default {
                   <thead>
                     <tr>
                       <th></th>
-                      <th>NEGATIVE</th>
-                      <th class="ml-3 inline-block">POSITIVE</th>
+                      <th>POSITIVE</th>
+                      <th class="ml-3 inline-block">NEGATIVE</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1817,8 +1891,11 @@ export default {
                         Colour
                       </td>
                       <td colspan="2" class="bg-gray-200 border border-gray-400">
-                        <p class="h-[30px] items-center w-full bg-inherit">Hasil
-                        </p>
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.warna_urin">
+                            {{ blankoFull.blanko_full.warna_urin }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -1826,8 +1903,12 @@ export default {
                         Specific Gravity
                       </td>
                       <td colspan="2" class="bg-gray-200 border border-gray-400">
-                        <p class="h-[30px] items-center w-full bg-inherit">Hasil
-                        </p>
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.gravitasi_spesifik">
+                            {{ blankoFull.blanko_full.gravitasi_spesifik }}
+                          </p>
+
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -1835,8 +1916,11 @@ export default {
                         Sugar
                       </td>
                       <td colspan="2" class="bg-gray-200 border border-gray-400">
-                        <p class="h-[30px] items-center w-full bg-inherit">Hasil
-                        </p>
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.gula_status">
+                            {{ blankoFull.blanko_full.gula_status === true ? "Positive" : "Negaive" }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -1844,11 +1928,11 @@ export default {
                         Albumin
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.albumin_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.albumin_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1859,8 +1943,11 @@ export default {
                     </tr>
                     <tr>
                       <td colspan="3" class="bg-gray-200 border border-gray-400">
-                        <p class="h-[30px] items-center w-full bg-inherit">Hasil
-                        </p>
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.pm_miros">
+                            {{ blankoFull.blanko_full.pm_miros }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -1868,11 +1955,11 @@ export default {
                         Opiates / Cannabis / Amphetamine *
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.oga_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.oga_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1881,11 +1968,11 @@ export default {
                         Pregnancy *
                       </td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.kehamilan_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.kehamilan_status"
                           class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
@@ -1899,8 +1986,11 @@ export default {
                         Serum Creatinine
                       </td>
                       <td colspan="2" class="bg-gray-200 border border-gray-400">
-                        <p class="h-[30px] items-center w-full bg-inherit">Hasil
-                        </p>
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="blankoFull.blanko_full.serum_krtnn">
+                            {{ blankoFull.blanko_full.serum_krtnn }}
+                          </p>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -1913,8 +2003,237 @@ export default {
                     <tr>
                       <td>Rectal Swab for Salmonella</td>
                       <td>
-                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                        <input type="checkbox" :checked="blankoFull.blanko_full.urus_status"
                           class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.urus_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <p class="italic text-[10px]">(Only those in Food Industry)</p>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+            </main>
+          </section>
+
+          <!-- ANCHOR Part 5 -->
+          <section class="mt-2">
+            <header class="justify-center justify-items-center text-center">
+              <p class="font-poppins font-bold">(Part V : Certification by Attending Doctor)</p>
+            </header>
+            <main class="mt-2">
+              <h4 class="font-bold mt-2" for="section-a">I HAVE EXAMINED THE ABOVE AND FOUND :</h4>
+
+              <section class="flex flex-col gap-7">
+                <table class=" w-[100%]">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>POSITIVE</th>
+                      <th>NEGATIVE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <h4 for="" class="font-bold inline-block w-fit">HE/SHE IS FREE FROM THE FOLLOWING DISEASES </h4>
+                    <tr>
+                      <td>
+                        HIV/AIDS
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hiv_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hiv_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        TUBERCULOSIS
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_tbc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_tbc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        MALARIA
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_malaria_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_malaria_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        LEPROSY
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_kusta_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_kusta_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        STDS
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_pms_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_pms_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        HEPATITIS B
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hpb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hpb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        HEPATITIS C
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hpc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hpc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        FILARIASIS
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_filariasis_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_filariasis_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        MAJOR PSYCHIATRIC DISORDERS
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.gpu_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.gpu_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <p class="italic text-[10px]">(Schizophrenia, Bipolar Affective Disorder, Major Depression,
+                          Delusional Disorder and other Psychosis)</p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        OTHER CHRONIC DISEASES
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_pkl_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                      <td>
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_pkl_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <td colspan="3">
+                        <p v-html="checkGender"></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <p v-html="checkPregnant"></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <p v-html="checkFit"></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">
+                        <p v-html="considerEmployment"></p>
+                      </td>
+                    </tr>
+                    <p class="italic text-[10px]">(If not considered for employment please state the reason)</p>
+                    <tr>
+                      <td colspan="3" class="bg-gray-200 border border-gray-400">
+                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                          <p v-if="!blankoFull.blanko_full.rekom_status">
+                            {{ blankoFull.blanko_full.rekom_alasan }}
+                          </p>
+                          <p class="font-bold" v-if="blankoFull.blanko_full.rekom_status">
+
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <hr class="w-full border border-black ">
+
+                <table class="w-full border-collapse border border-slate-500">
+                  <thead>
+                    <tr>
+                      <th class="border border-slate-600">Signature and name of the Doctor</th>
+                      <th class="border border-slate-600">Date of Examination</th>
+                      <th class="border border-slate-600">Expired Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-center font-bold border border-slate-600">
+                        {{ blankoFull.blanko_full.dokter }} <br> Qualification of the Doctor
+                      </td>
+                      <td class="text-center font-bold border border-slate-600">
+                        {{ blankoFull.blanko_full.masa_berlaku.split('T')[0] }}
+                      </td>
+                      <td class="text-center font-bold border border-slate-600">
+                        {{ blankoFull.blanko_full.sampai_dengan.split('T')[0] }}
                       </td>
                     </tr>
                   </tbody>
@@ -2212,7 +2531,7 @@ export default {
         </template>
         <template #banner> </template>
         <template #main>
-          <div v-for="(obj, i) in blankoAllFull">
+          <!-- <div v-for="(obj, i) in blankoAllFull">
             <p :key="i" v-for="(value, key) in obj">
               {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
               <img v-if="key === 'image_blob'" :src="value" class="w-20" />
@@ -2221,7 +2540,7 @@ export default {
             <p class="ps-10" v-for="(value, key) in obj.blanko_full">
               {{ `${key}: ${value}` }}
             </p>
-          </div>
+          </div> -->
         </template>
       </ModalBlanko>
 
