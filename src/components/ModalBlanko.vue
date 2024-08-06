@@ -4,32 +4,20 @@ import CloseIcon from './icons/CloseIcon.vue'
 import { ref } from 'vue'
 
 export default {
-  name: 'ModalBase',
+  name: 'ModalBlanko',
   components: { CloseIcon, CetakKuitansi },
   props: {
-    tooglePopUp: Boolean,
-    showPrintButton: Boolean,
-    showPrintDetailButton: Boolean
+    togglePopUp: Boolean,
+    showPrintButton: Boolean
   },
   setup() {
-    const kwitansiSection = ref(null)
-    const pasienSection = ref(null)
+    const blankoSection = ref(null)
 
     const printModal = () => {
-      if (kwitansiSection.value) {
-        kwitansiSection.value.classList.add('enable-print-view')
-        pasienSection.value.classList.remove('enable-print-view')
-        window.print()
-      }
+      blankoSection.value.classList.add('enable-print-view')
+      window.print()
     }
-    const printDetailModal = () => {
-      if (pasienSection.value) {
-        kwitansiSection.value.classList.remove('enable-print-view') // Menghapus kelas 'enable-print-view' dari kwitansi-section
-        pasienSection.value.classList.add('enable-print-view')
-        window.print()
-      }
-    }
-    return { printModal, kwitansiSection, pasienSection, printDetailModal }
+    return { printModal, blankoSection }
   }
 }
 </script>
@@ -53,26 +41,15 @@ export default {
           >
             <CetakKuitansi></CetakKuitansi>
           </button>
-          <button
-            v-if="showPrintDetailButton"
-            @click="printDetailModal"
-            class="bg-[#20b648] p-[17px] rounded-lg"
-          >
-            <CetakKuitansi></CetakKuitansi>
-          </button>
-          <button @click="tooglePopUp()" class="bg-[#F00000] p-[17px] rounded-lg">
+          <button @click="togglePopUp()" class="bg-[#F00000] p-[17px] rounded-lg">
             <CloseIcon></CloseIcon>
           </button>
         </div>
       </section>
       <section class="overflow-y-auto flex flex-col gap-4">
-        <div class="bg-slate-300 p-6 relative" ref="kwitansiSection" id="kwitansi-section">
+        <div class="bg-slate-300 p-6 relative" ref="blankoSection" id="blanko-section">
           <slot name="banner" />
           <slot name="main" />
-        </div>
-        <div class="p-6 bg-slate-300 relative" ref="pasienSection" id="pasien-section">
-          <slot name="banner" />
-          <slot name="pasien" />
         </div>
       </section>
     </main>
@@ -93,15 +70,6 @@ export default {
     margin: 0 0 !important;
   }
 
-  #pasien-section {
-    display: block;
-    width: 100%;
-    /* height: 100%; */
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
   .print-view {
     width: 100vw;
     height: 100%;
@@ -112,7 +80,7 @@ export default {
     visibility: visible !important;
   }
 
-  #kwitansi-section {
+  #blanko-section {
     width: 100%;
     display: block;
     /* height: 100%; */

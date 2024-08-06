@@ -5,9 +5,6 @@ const router = useRouter();
 const goToLogin = () => {
   router.push({ name: "Login" });
 };
-const goToDaftar = () => {
-  router.push({ name: "Register" });
-};
 </script>
 
 <template>
@@ -26,15 +23,9 @@ const goToDaftar = () => {
           <div class="flex justify-between gap-x-5 mt-14">
             <button
               @click="goToLogin()"
-              class="px-14 py-2 rounded-md bg-[#0075FF] text-white"
+              class="px-14 py-2 rounded-md w-full bg-[#0075FF] text-white"
             >
               Masuk
-            </button>
-            <button
-              @click="goToDaftar()"
-              class="px-14 py-2 rounded-md bg-black text-white"
-            >
-              Daftar
             </button>
           </div>
         </div>

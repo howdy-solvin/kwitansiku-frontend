@@ -4,9 +4,9 @@ const env = import.meta.env
 
 const toastModules = {
   state: {
-    toastMessage: undefined,
-    toastType: undefined,
-    toastDate: undefined,
+    toastMessage: null,
+    toastType: null,
+    toastDate: null,
     isLoading: false
   },
 
@@ -28,8 +28,7 @@ const toastModules = {
       state.isLoading = isLoading
       state.toastDate = new Date()
     }
-  },
-  actions: {}
+  }
 }
 
 export default toastModules

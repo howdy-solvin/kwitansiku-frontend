@@ -2,7 +2,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import TheWelcome from '@/views/TheWelcome.vue';
 import LoginView from '@/views/LoginView.vue';
-import RegisterView from '@/views/RegisterView.vue';
 import DashboardView from '@/views/DashboardView.vue';
 import HomeView from '@/views/HomeView.vue';
 import PasienTki from '@/views/pasien/PasienTki.vue';
@@ -14,7 +13,6 @@ import store from '@/store';
 const routes = [
   { path: '/', name: 'Welcome', component: TheWelcome },
   { path: '/login', name: 'Login', component: LoginView },
-  { path: '/register', name: 'Register', component: RegisterView },
   {
     path: '/dashboard',
     name: 'Dashboard',
@@ -56,32 +54,32 @@ const router = createRouter({
 
 
 router.beforeEach(async (to, from, next) => {
-  const isAuthenticated = store.getters['isAuthenticated'];
-  console.log('isAuthenticated', isAuthenticated);
-  if (!isAuthenticated && to.name !== 'Login' && to.name !== 'Register' && to.name !== 'Welcome') {
+  let isAuthenticated = store.getters['isAuthenticated'];
+  let token = localStorage.getItem('accessToken');
+
+  if (token && (await store.dispatch('isTokenExpired', token))) {
     try {
-      if (store.getters['auth/refreshToken']) {
-        await store.dispatch('auth/refreshToken');
-        next();
-      } else {
-        next({ name: 'Login' });
-      }
+      await store.dispatch('refreshToken');
+      isAuthenticated = true;
     } catch (error) {
-      next({ name: 'Login' });
+      store.commit('clearAuthData');
+      isAuthenticated = false;
     }
-  } else if (to.name === 'Login' && isAuthenticated) {
+  }
+
+  if (!isAuthenticated) {
+    if (to.name !== 'Login' && to.name !== 'Register' && to.name !== 'Welcome') {
+      next({ name: 'Login' });
+    } else {
+      next();
+    }
+  } else if (to.name === 'Login' || to.name === 'Register' || to.name === 'Welcome') {
     next({ name: 'Home' });
+    console.log('login successful');
   } else {
     next();
   }
 });
-
-// async function checkAuthentication() {
-//   return new Promise(resolve => {
-//     const isAuthenticated = localStorage.getItem('accessToken');
-//     resolve(isAuthenticated);
-//   });
-// }
 
 
 export default router;
