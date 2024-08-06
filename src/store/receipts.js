@@ -298,15 +298,15 @@ const receiptsModules = {
 
         response.status === 200
           ? commit('setAlertData', {
-              message: response.data.message,
-              type: 'success',
-              isLoading: false
-            })
+            message: response.data.message,
+            type: 'success',
+            isLoading: false
+          })
           : commit('setAlertData', {
-              message: response.data.message,
-              type: 'error',
-              isLoading: false
-            })
+            message: response.data.message,
+            type: 'error',
+            isLoading: false
+          })
         // Menyimpan data yang diterima dari API ke dalam state receipts
         commit('setReceipts', response.data.data)
       } catch (e) {
@@ -327,15 +327,15 @@ const receiptsModules = {
         })
         response.status === 200
           ? commit('setAlertData', {
-              message: response.data.message,
-              type: 'success',
-              isLoading: false
-            })
+            message: response.data.message,
+            type: 'success',
+            isLoading: false
+          })
           : commit('setAlertData', {
-              message: response.data.message,
-              type: 'error',
-              isLoading: false
-            })
+            message: response.data.message,
+            type: 'error',
+            isLoading: false
+          })
         const rekapData = response.data.data
         rekapData.tanggal = formatTanggal(rekapData.tanggal)
         commit('setRekap', { ...rekapData, status: true })
@@ -453,7 +453,7 @@ const receiptsModules = {
           isLoading: false
         })
 
-        commit('setAllBlankoPra', { ...blankoPraAll, status: true })
+        commit('setAllBlankoPra', { ...blankoPraAll })
         return !isError
       } catch (e) {
         commit('setAlertData', {
@@ -498,7 +498,7 @@ const receiptsModules = {
           isLoading: false
         })
 
-        commit('setAllBlankoFull', { ...blankoFullAll, status: true })
+        commit('setAllBlankoFull', { ...blankoFullAll })
         return !isError
       } catch (e) {
         commit('setAlertData', {
