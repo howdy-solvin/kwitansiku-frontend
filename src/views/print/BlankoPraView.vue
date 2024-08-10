@@ -90,7 +90,7 @@ export default {
         </div>
         <div>
           <!-- SECTION Keterangan Sehat -->
-          <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+          <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
             KETERANGAN SEHAT
           </h1>
           <p class="font-poppins text-center">Informasi Hasil Pemeriksaan</p>
@@ -154,10 +154,10 @@ export default {
 
           <!-- SECTION Pemeriksaan Fisik -->
 
-          <h1 class="mt-5 text-center font-semibold border-2 border-t-black border-b-black">
+          <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
             KETERANGAN SEHAT
           </h1>
-          <div class="flex flex-col">
+          <div class="flex flex-col mt-2">
             <p class="flex gap-3 justify-end font-poppins">
               Beri tanda
               <svg
@@ -192,7 +192,7 @@ export default {
             </p>
           </div>
 
-          <section class="flex flex-wrap gap-x-14 gap-y-3 justify-center mt-5">
+          <section class="flex justify-around my-2">
             <div>
               <h1 class="font-bold">Fisik</h1>
               <div class="flex gap-3 items-center">
@@ -300,7 +300,7 @@ export default {
               </p>
             </div>
 
-            <div class="w-full px-4">
+            <div>
               <h1 class="font-bold">Lain-lain</h1>
               <div class="flex gap-3 items-center">
                 <span class="label2">Suhu Tubuh</span>
@@ -326,10 +326,10 @@ export default {
           </section>
 
           <!-- SECTION Pemeriksaan Laboratorium -->
-          <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+          <h1 class="mt-1 text-center font-semibold py-1 border-y-2 border-y-black">
             PEMERIKSAAN LABORATORIUM
           </h1>
-          <section class="flex gap-10 justify-around mt-5">
+          <section class="flex gap-10 justify-around mt-3">
             <div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Gula</span>
@@ -400,11 +400,11 @@ export default {
 
           <!-- SECTION - RADIOLOGI -->
 
-          <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+          <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
             PEMERIKSAAN RADIOLOGI
           </h1>
 
-          <section class="flex gap-10 justify-around mt-5">
+          <section class="flex gap-10 justify-around mt-3">
             <div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Thorax PA</span>
@@ -421,10 +421,8 @@ export default {
 
           <!-- SECTION - HASIL -->
 
-          <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
-            HASIL
-          </h1>
-          <section class="flex mt-5">
+          <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">HASIL</h1>
+          <section class="flex mt-2">
             <div class="w-full">
               <p class="">
                 <span class="w-[230px] inline-block">Dinyatakan</span>
@@ -494,7 +492,7 @@ export default {
           </div>
           <div>
             <!-- SECTION Keterangan Sehat -->
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
               KETERANGAN SEHAT
             </h1>
             <p class="font-poppins text-center">Informasi Hasil Pemeriksaan</p>
@@ -537,7 +535,7 @@ export default {
 
             <!-- SECTION Pemeriksaan Fisik -->
 
-            <h1 class="mt-5 text-center font-semibold border-2 border-t-black border-b-black">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
               KETERANGAN SEHAT
             </h1>
             <div class="flex flex-col">
@@ -662,10 +660,10 @@ export default {
             </section>
 
             <!-- SECTION Pemeriksaan Laboratorium -->
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+            <h1 class="mt-2 text-center font-semibold py-1 border-y-2 border-y-black">
               PEMERIKSAAN LABORATORIUM
             </h1>
-            <section class="flex gap-10 justify-around mt-5">
+            <section class="flex gap-10 justify-around mt-3">
               <div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Gula</span>
@@ -707,11 +705,11 @@ export default {
 
             <!-- SECTION - RADIOLOGI -->
 
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
               PEMERIKSAAN RADIOLOGI
             </h1>
 
-            <section class="flex gap-10 justify-around mt-5">
+            <section class="flex gap-10 justify-around mt-3">
               <div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Thorax PA</span>
@@ -723,10 +721,8 @@ export default {
 
             <!-- SECTION - HASIL -->
 
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
-              HASIL
-            </h1>
-            <section class="flex mt-5">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">HASIL</h1>
+            <section class="flex mt-3">
               <div class="w-full">
                 <p class="">
                   <span class="w-[230px] inline-block">Dinyatakan</span>
@@ -788,7 +784,7 @@ export default {
           </div>
           <div>
             <!-- SECTION Keterangan Sehat -->
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
               KETERANGAN SEHAT
             </h1>
             <p class="font-poppins text-center">Informasi Hasil Pemeriksaan</p>
@@ -852,7 +848,7 @@ export default {
 
             <!-- SECTION Pemeriksaan Fisik -->
 
-            <h1 class="mt-5 text-center font-semibold border-2 border-t-black border-b-black">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
               KETERANGAN SEHAT
             </h1>
             <div class="flex flex-col">
@@ -1022,10 +1018,10 @@ export default {
             </section>
 
             <!-- SECTION Pemeriksaan Laboratorium -->
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+            <h1 class="mt-1 text-center font-semibold py-1 border-y-2 border-y-black">
               PEMERIKSAAN LABORATORIUM
             </h1>
-            <section class="flex gap-10 justify-around mt-5">
+            <section class="flex gap-10 justify-around mt-3">
               <div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Gula</span>
@@ -1096,11 +1092,11 @@ export default {
 
             <!-- SECTION - RADIOLOGI -->
 
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
               PEMERIKSAAN RADIOLOGI
             </h1>
 
-            <section class="flex gap-10 justify-around mt-5">
+            <section class="flex gap-10 justify-around mt-3">
               <div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Thorax PA</span>
@@ -1117,10 +1113,8 @@ export default {
 
             <!-- SECTION - HASIL -->
 
-            <h1 class="mt-5 text-center font-semibold py-2 border-2 border-t-black border-b-black">
-              HASIL
-            </h1>
-            <section class="flex mt-5">
+            <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">HASIL</h1>
+            <section class="flex mt-3">
               <div class="w-full">
                 <p class="">
                   <span class="w-[230px] inline-block">Dinyatakan</span>
