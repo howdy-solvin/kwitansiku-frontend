@@ -319,23 +319,11 @@ const receiptsModules = {
         const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
         const tokenData = JSON.parse(stringAccessToken)
 
-        commit('setAlertData', { message: 'Mengambil data', type: 'info', isLoading: false })
         const response = await axios.get(`${env.VITE_API_BASE_URL}/receipt/one/${uuid}`, {
           headers: {
             Authorization: `Bearer ${tokenData.token}`
           }
         })
-        response.status === 200
-          ? commit('setAlertData', {
-            message: response.data.message,
-            type: 'success',
-            isLoading: false
-          })
-          : commit('setAlertData', {
-            message: response.data.message,
-            type: 'error',
-            isLoading: false
-          })
         const rekapData = response.data.data
         rekapData.tanggal = formatTanggal(rekapData.tanggal)
         commit('setRekap', { ...rekapData, status: true })
@@ -358,20 +346,13 @@ const receiptsModules = {
             }
           }
         )
-        if (response.status === 200) {
-          commit('setAlertData', {
-            message: response.data.message,
-            type: 'success',
-            isLoading: false
-          })
-        }
         const blankoPraData = response.data.data
         blankoPraData.tanggal_lahir = formatTanggal(blankoPraData.tanggal_lahir)
         blankoPraData.tanggal_cetak = formatTanggal(blankoPraData.tanggal_cetak)
         blankoPraData.masa_berlaku = formatTanggal(blankoPraData.masa_berlaku)
         blankoPraData.sampai_dengan = formatTanggal(blankoPraData.sampai_dengan)
         commit('setBlankoPra', { ...blankoPraData, status: true })
-        return response.data
+        return response
       } catch (e) {
         commit('setAlertData', {
           message: e.response.data.message || e,
@@ -395,13 +376,6 @@ const receiptsModules = {
             }
           }
         )
-        if (response.status === 200) {
-          commit('setAlertData', {
-            message: response.data.message,
-            type: 'success',
-            isLoading: false
-          })
-        }
 
         const blankoFullData = response.data.data
         blankoFullData.tanggal_lahir = formatTanggal(blankoFullData.tanggal_lahir)
@@ -409,7 +383,7 @@ const receiptsModules = {
         blankoFullData.masa_berlaku = formatTanggal(blankoFullData.masa_berlaku)
         blankoFullData.sampai_dengan = formatTanggal(blankoFullData.sampai_dengan)
         commit('setBlankoFull', { ...blankoFullData, status: true })
-        return response.data
+        return response
       } catch (e) {
         commit('setAlertData', {
           message: e.response.data.message || e,
@@ -428,7 +402,7 @@ const receiptsModules = {
         let blankoPraAll = []
         for (let i = 0; i < pasiens.length; i++) {
           const response = await axios.get(
-            `${env.VITE_API_BASE_URL}/blanko/one/${pasiens[i].uuid}?type=pra`,
+            `${env.VITE_API_BASE_URL}/blanko/one/${pasiens[i]}?type=pra`,
             {
               headers: {
                 Authorization: `Bearer ${tokenData.token}`
