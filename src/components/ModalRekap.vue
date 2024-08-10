@@ -80,7 +80,7 @@ export default {
     </main>
   </div>
 </template>
-<style>
+<style scoped>
 @media print {
   html,
   body {

@@ -55,7 +55,7 @@ export default {
     </main>
   </div>
 </template>
-<style>
+<style scoped>
 @media print {
   html,
   body {
@@ -66,7 +66,7 @@ export default {
   }
 
   @page {
-    size: 21.7cm 13.8cm;
+    size: 21.7cm 13.8cm portrait;
     margin: 0 0 !important;
   }
 
