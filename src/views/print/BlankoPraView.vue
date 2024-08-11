@@ -19,8 +19,9 @@ export default {
     const type = router.currentRoute.value.query.type
 
     onBeforeMount(async () => {
+      isLoading.value = true
       console.log('query', router.currentRoute.value)
-      if (router.currentRoute.value.query.type === 'single') {
+      if (type === 'single') {
         const uuid = router.currentRoute.value.query.id
         await store
           .dispatch('fetchBlankoPra', uuid)

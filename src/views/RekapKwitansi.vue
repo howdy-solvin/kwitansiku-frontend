@@ -580,9 +580,17 @@ export default {
                           <IconCetak v-else></IconCetak>
                         </div>
                       </router-link>
-                      <button
-                        type="button"
-                        @click="togglePopUpBlanko('triggerBlankoAllFull')"
+                      <router-link
+                        :to="{
+                          name: 'PrintBlankoFull',
+                          query: {
+                            type: 'multi',
+                            id: openedKwitansiData.pasien_tkis
+                              .map((pasien) => pasien.uuid)
+                              .join(',')
+                          }
+                        }"
+                        target="_blank"
                         class="bg-transparent rounded-e-md grow hover:bg-[#0075FF] hover:border-[#0075FF] hover:text-white text-[#4c75a4] gap-3 transition-colors p-3 flex items-center justify-center border border-[#699bd5] h-full"
                       >
                         Cetak Semua Blanko Full
@@ -605,7 +613,7 @@ export default {
                           </svg>
                           <IconCetak v-else></IconCetak>
                         </div>
-                      </button>
+                      </router-link>
                     </div>
                   </td>
                 </tr>

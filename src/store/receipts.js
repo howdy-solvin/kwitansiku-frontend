@@ -447,7 +447,7 @@ const receiptsModules = {
         let isError = false
         for (let i = 0; i < pasiens.length; i++) {
           const response = await axios.get(
-            `${env.VITE_API_BASE_URL}/blanko/one/${pasiens[i].uuid}?type=full`,
+            `${env.VITE_API_BASE_URL}/blanko/one/${pasiens[i]}?type=full`,
             {
               headers: {
                 Authorization: `Bearer ${tokenData.token}`
