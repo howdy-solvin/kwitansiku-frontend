@@ -1,5 +1,6 @@
 <script>
 import CetakKuitansi from '@/components/icons/CetakKuitansi.vue'
+import printJS from 'print-js'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
@@ -40,20 +41,54 @@ export default {
     })
 
     const printModal = () => {
+      const printOptions = (targetID) => ({
+        printable: targetID,
+        type: 'html',
+        targetStyles: ['*', 'page-break-after'],
+        showModal: true,
+        documentTitle: type === 'single' ? 'Blanko Pra - Single' : 'Blanko Pra - All',
+        targetStyle: ['page-break-after'],
+        modalMessage: 'Sedang memproses dokumen, harap tunggu...',
+        font_size: '',
+        onError: (error) => {
+          console.error(error)
+        },
+        style: `
+          .screen {
+            padding: 0;
+            margin: 0;
+          }
+          
+          #${targetID} {
+            width: auto;
+            padding: 0 !important;
+            margin: 0 !important;
+            page-break-after: always;
+          }
+
+          @media print {
+            @page {
+              size: A4 portrait;
+              margin: 1cm !important;
+              padding: 0 !important;
+            }
+          }
+          `
+      })
       if (type === 'single') {
-        blankoSection.value.classList.add('enable-print-view-pra')
+        printJS(printOptions('blanko-pra'))
       } else {
-        blankoAllSection.value.classList.add('enable-print-view-pra-all')
+        printJS(printOptions('blanko-pra-all'))
       }
-      window.print()
+      // window.print()
     }
     return { printModal, isLoading, blankoSection, blankoAllSection, blankoPra, blankoAllPra, type }
   }
 }
 </script>
 <template>
-  <div class="screen min-h-screen bg-[#1a1a1a] p-0 m-0 w-screen h-full">
-    <div class="container max-w-[950px] bg-white p-0 m-0 h-fit mx-auto px-5 pb-5 pt-3">
+  <div class="min-h-screen bg-[#1a1a1a] p-0 m-0 w-screen h-full">
+    <div class="screen max-w-[950px] bg-white p-0 m-0 h-fit mx-auto px-5 pb-5 pt-3">
       <header
         class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-4 justify-between"
       >
@@ -71,7 +106,7 @@ export default {
           <CetakKuitansi></CetakKuitansi>
         </button>
       </header>
-      <main v-if="type === 'single'" ref="blankoSection" class="bg-white w-full">
+      <main v-if="type === 'single'" ref="blankoSection" id="blanko-pra" class="bg-white w-full">
         <div class="flex justify-around items-center">
           <img
             class="w-[80px] h-[80px] object-contain"
@@ -472,7 +507,12 @@ export default {
           </section>
         </div>
       </main>
-      <main v-if="type === 'multi'" ref="blankoAllSection" class="bg-white w-full">
+      <main
+        v-if="type === 'multi'"
+        ref="blankoAllSection"
+        id="blanko-pra-all"
+        class="bg-white w-full"
+      >
         <div v-if="isLoading">
           <div class="flex justify-around items-center">
             <img
@@ -851,7 +891,7 @@ export default {
             <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
               KETERANGAN SEHAT
             </h1>
-            <div class="flex flex-col">
+            <div class="flex flex-col mt-2">
               <p class="flex gap-3 justify-end font-poppins">
                 Beri tanda
                 <svg
@@ -886,7 +926,7 @@ export default {
               </p>
             </div>
 
-            <section class="flex flex-wrap gap-x-14 gap-y-3 justify-center mt-5">
+            <section class="flex justify-around my-2">
               <div>
                 <h1 class="font-bold">Fisik</h1>
                 <div class="flex gap-3 items-center">
@@ -994,7 +1034,7 @@ export default {
                 </p>
               </div>
 
-              <div class="w-full px-4">
+              <div>
                 <h1 class="font-bold">Lain-lain</h1>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Suhu Tubuh</span>
@@ -1114,7 +1154,7 @@ export default {
             <!-- SECTION - HASIL -->
 
             <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">HASIL</h1>
-            <section class="flex mt-3">
+            <section class="flex mt-2">
               <div class="w-full">
                 <p class="">
                   <span class="w-[230px] inline-block">Dinyatakan</span>
@@ -1155,7 +1195,7 @@ export default {
               </div>
             </section>
 
-            <section class="flex justify-end mt-3">
+            <section style="page-break-after: always" class="flex justify-end mt-3">
               <div class="text-center">
                 <p class="mb-24">Dokter Pemeriksa,</p>
                 <p v-if="blanko.blanko_pra.pic">{{ blanko.blanko_pra.pic }}</p>
@@ -1168,7 +1208,7 @@ export default {
     </div>
   </div>
 </template>
-<style scoped>
+<!-- <style scoped>
 @media print {
   html,
   body,
@@ -1195,19 +1235,17 @@ export default {
     padding: 15px 15px;
   }
 
-  @page pra {
-    size: A4 portrait !important;
+  @page {
+    size: A4 portrait;
     margin: 0 0 !important;
   }
 
   .enable-print-view-pra {
-    page: pra;
     visibility: visible !important;
   }
 
   .enable-print-view-pra-all {
-    page: pra;
     visibility: visible !important;
   }
 }
-</style>
+</style> -->
