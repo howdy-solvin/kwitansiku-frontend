@@ -3,6 +3,7 @@ import CetakKuitansi from '@/components/icons/CetakKuitansi.vue'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import printJS from 'print-js'
 
 export default {
   components: { CetakKuitansi },
@@ -37,16 +38,74 @@ export default {
 
     const printModal = () => {
       if (kwitansiSection.value) {
-        kwitansiSection.value.classList.add('enable-print-view-kwitansi')
-        pasienSection.value.classList.remove('enable-print-view-kwitansi')
-        window.print()
+        // kwitansiSection.value.classList.add('enable-print-view-kwitansi')
+        // pasienSection.value.classList.remove('enable-print-view-kwitansi')
+        // window.print()
+        printJS({
+          printable: 'kwitansi',
+          type: 'html',
+          targetStyles: ['*'],
+          showModal: true,
+          modalMessage: 'Sedang memproses dokumen, harap tunggu...',
+          font_size: '',
+          onError: (error) => {
+            console.error(error)
+          },
+          style: `
+          .screen {
+            padding: 0;
+            margin: 0;
+          }
+          
+          @media print {
+            #kwitansi {
+              width: auto;
+              padding: 0 !important;
+              margin: 0 !important;
+            }
+            @page {
+                size: 21.7cm 13.8cm;
+                margin: 0 !important;
+                padding: 0 !important;
+              }
+            }
+          `
+        })
       }
     }
     const printDetailModal = () => {
       if (pasienSection.value) {
-        kwitansiSection.value.classList.remove('enable-print-view-kwitansi') // Menghapus kelas 'enable-print-view-kwitansi' dari kwitansi-section
-        pasienSection.value.classList.add('enable-print-view-kwitansi')
-        window.print()
+        // kwitansiSection.value.classList.remove('enable-print-view-kwitansi') // Menghapus kelas 'enable-print-view-kwitansi' dari kwitansi-section
+        // pasienSection.value.classList.add('enable-print-view-kwitansi')
+        // window.print()
+        printJS({
+          printable: 'pasien',
+          type: 'html',
+          css: ['https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css'],
+          targetStyles: ['*'],
+          showModal: true,
+          modalMessage: 'Sedang memproses dokumen, harap tunggu...',
+          font_size: '',
+          onError: (error) => {
+            console.error(error)
+          },
+          style: `
+          .class-pasien {
+            margin: 0 !important;
+          }
+            #pasien {
+              width: auto;
+              padding: 0 !important; 
+              margin: 10px !important;
+            }
+            @media print {
+              @page {
+                size: 21.7cm 13.8cm;
+                margin: 0 !important;
+              }
+            }
+          `
+        })
       }
     }
 
@@ -63,8 +122,8 @@ export default {
 }
 </script>
 <template>
-  <div class="screen bg-[#1a1a1a] p-0 m-0 w-screen min-h-screen h-full">
-    <div class="container max-w-[950px] bg-white p-0 m-0 h-fit mx-auto pt-3">
+  <div class="bg-[#1a1a1a] w-screen min-h-screen h-full">
+    <div class="max-w-[950px] screen bg-white h-fit mx-auto pt-3">
       <header class="px-5">
         <div
           class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-2 justify-between"
@@ -118,7 +177,7 @@ export default {
         </div>
       </header>
       <main class="bg-[#1a1a1a] pb-10">
-        <section ref="kwitansiSection" id="kwitansi" class="bg-white px-5 pb-5">
+        <section ref="kwitansiSection" id="kwitansi" class="bg-white relative w-full px-5 h-fit">
           <div class="flex justify-between items-center">
             <img
               class="w-[80px] h-[80px] object-contain"
@@ -136,7 +195,7 @@ export default {
           <div>
             <div
               v-if="kwitansi.total_harga <= kwitansi.total_pembayaran"
-              class="absolute left-1/2 -translate-x-1/2 top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[130px] font-semibold"
+              class="absolute left-1/2 -translate-x-[65%] top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[140px] font-semibold"
             >
               LUNAS
             </div>
@@ -158,8 +217,8 @@ export default {
                 ></span>
               </p>
             </div>
-            <div class="flex w-full justify-end gap-2 mt-3">
-              <p class="w-[180px] text-end">Tanggal / No. Daftar</p>
+            <div class="flex w-full justify-end gap-2">
+              <p class="text-end">Tanggal / No. Daftar</p>
               <p v-if="kwitansi.tanggal && kwitansi.no_pendaftaran" class="text-end">
                 : {{ kwitansi.tanggal }} / {{ kwitansi.no_pendaftaran }}
               </p>
@@ -173,7 +232,7 @@ export default {
                 ></span>
               </p>
             </div>
-            <ul class="flex flex-col gap-2">
+            <ul class="flex flex-col gap-0">
               <li class="flex justify-between">
                 <div class="flex gap-8">
                   <p class="w-[150px]">Nama PJ-TKI</p>
@@ -244,7 +303,7 @@ export default {
                 </p>
               </li>
             </ul>
-            <div class="mt-7 flex justify-betweens w-full">
+            <div class="mt-3 flex justify-betweens w-full">
               <div class="w-full">
                 <p>NB. -Detail Terlampir</p>
               </div>
@@ -257,13 +316,13 @@ export default {
                   ></span>
                 </p>
                 <p>Kasir</p>
-                <p class="mt-16">{{ isAdminLoggedIn }}</p>
+                <p class="mt-10">{{ isAdminLoggedIn }}</p>
               </div>
             </div>
           </div>
         </section>
-        <section ref="pasienSection" id="pasien" class="bg-white px-5 mt-5 pb-5">
-          <div class="flex justify-between items-center">
+        <section ref="pasienSection" id="pasien" class="px-5 mt-5 pb-5 mx-auto bg-white max-w-[25cm]">
+          <div class="flex justify-between items-center w-full">
             <img
               class="w-[80px] h-[80px] object-contain"
               src="../../components/icons/klinikGoraLogo.png"
@@ -277,7 +336,7 @@ export default {
             </div>
           </div>
 
-          <div>
+          <div class="w-full relative">
             <ul class="flex flex-col gap-1 mt-10">
               <li class="flex gap-8">
                 <p class="w-[150px]">Tanggal / No. Daftar</p>
@@ -312,70 +371,67 @@ export default {
                 </p>
               </li>
             </ul>
-            <table class="w-full mt-5">
-              <thead>
-                <tr class="border-b-4 border-b-black">
-                  <th class="border border-black px-3 py-1">
-                    <h1 class="font-medium text-start">No.</h1>
-                  </th>
-                  <th class="border border-black px-3 py-1">
-                    <h1 class="font-medium text-start">Nama Lengkap</h1>
-                  </th>
-                  <th class="border border-black px-3 py-1">
-                    <h1 class="font-medium text-start">Jenis Medikal</h1>
-                  </th>
-                  <th class="border border-black px-3 py-1">
-                    <h1 class="font-medium text-start">Register</h1>
-                  </th>
-                  <th class="border border-black px-3 py-1">
-                    <h1 class="font-medium text-start">Harga</h1>
-                  </th>
-                  <th class="border border-black px-3 py-1">
-                    <h1 class="font-medium text-start">Bayar</h1>
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="text-sm" v-for="(item, index) in kwitansi.pasien_tkis" :key="index">
-                <tr>
-                  <td class="px-3 py-1">
-                    <p class="text-start">{{ index + 1 }}</p>
-                  </td>
-                  <td class="px-3 py-1">
-                    <p class="text-start">{{ item.nama_lengkap }}</p>
-                  </td>
-                  <td class="px-3 py-1">
-                    <p class="text-start">{{ item.negara_tujuan }}</p>
-                  </td>
-                  <td class="px-3 py-1">
-                    <p class="text-start">{{ item.no_form }}</p>
-                  </td>
-                  <td class="px-3 py-1">
-                    <p class="text-start">{{ item.harga }}</p>
-                  </td>
-                  <td class="px-3 py-1">
-                    <p class="text-start">
-                      {{ kwitansi.total_pembayaran / kwitansi.pasien_tkis.length }}
-                    </p>
-                  </td>
-                </tr>
-              </tbody>
-              <tbody class="text-sm font-semibold italic">
-                <tr>
-                  <td class="px-3 py-1 border border-black" colspan="4">Total Keseluruhan</td>
-                  <td class="px-3 py-1 border border-black">{{ kwitansi.total_harga }}</td>
-                  <td class="px-3 py-1 border border-black">
-                    {{ kwitansi.total_pembayaran }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div
+              class="class-pasien max-w-[21.1cm] mx-auto mt-5 grid grid-cols-[repeat(16,minmax(0,1fr))]"
+            >
+              <div class="border border-black px-3 py-1">
+                <h1 class="font-medium text-start">No.</h1>
+              </div>
+              <div class="border border-black px-3 py-1 col-span-4">
+                <h1 class="font-medium text-start w-fit">Nama Lengkap</h1>
+              </div>
+              <div class="border border-black px-3 py-1 col-span-3">
+                <h1 class="font-medium text-start w-fit">Jenis Medikal</h1>
+              </div>
+              <div class="border border-black px-3 py-1 col-span-4">
+                <h1 class="font-medium text-start w-fit">Register</h1>
+              </div>
+              <div class="border border-black px-3 py-1 col-span-2">
+                <h1 class="font-medium text-start w-fit">Harga</h1>
+              </div>
+              <div class="border border-black px-3 py-1 col-span-2">
+                <h1 class="font-medium text-start w-fit">Bayar</h1>
+              </div>
+
+              <template v-for="(item, index) in kwitansi.pasien_tkis" :key="index">
+                <div class="px-3 py-1">
+                  <p class="text-start w-fit">{{ index + 1 }}</p>
+                </div>
+                <div class="px-3 py-1 col-span-4">
+                  <p class="text-start w-fit">{{ item.nama_lengkap }}</p>
+                </div>
+                <div class="px-3 py-1 col-span-3">
+                  <p class="text-start w-fit">{{ item.negara_tujuan }}</p>
+                </div>
+                <div class="px-3 py-1 col-span-4">
+                  <p class="text-start w-fit">{{ item.no_form }}</p>
+                </div>
+                <div class="px-3 py-1 col-span-2">
+                  <p class="text-start w-fit">{{ item.harga }}</p>
+                </div>
+                <div class="px-3 py-1 col-span-2">
+                  <p class="text-start w-fit">
+                    {{ kwitansi.total_pembayaran / kwitansi.pasien_tkis.length }}
+                  </p>
+                </div>
+              </template>
+              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-12">
+                Total Keseluruhan
+              </div>
+              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-2">
+                {{ kwitansi.total_harga }}
+              </div>
+              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-2">
+                {{ kwitansi.total_pembayaran }}
+              </div>
+            </div>
           </div>
         </section>
       </main>
     </div>
   </div>
 </template>
-<style scoped>
+<!-- <style scoped>
 @media print {
   html,
   body,
@@ -385,7 +441,7 @@ export default {
     font-size: 12px;
   }
 
-  *:not(.enable-print-view-kwitansi *) {
+  *:not(.enable-print-view-kwitansi, .enable-print-view-kwitansi *) {
     visibility: hidden;
     height: 0 !important;
     padding: 0;
@@ -415,15 +471,15 @@ export default {
     padding: 15px 15px;
   }
 
-  @page kwitansi {
-    size: 21.7cm 13.8cm !important;
-}
+  @page {
+    size: 21.7cm 21.7cm;
+  }
 
-.enable-print-view-kwitansi, .enable-print-view-kwitansi * {
-    page: kwitansi;
+  .enable-print-view-kwitansi,
+  .enable-print-view-kwitansi * {
     visibility: visible !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 }
-</style>
+</style> -->
