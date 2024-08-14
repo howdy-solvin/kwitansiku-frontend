@@ -107,7 +107,17 @@ export default {
           <CetakKuitansi></CetakKuitansi>
         </button>
       </header>
-      <main v-if="type === 'single'" ref="blankoSection" id="blanko-pra" class="bg-white w-full">
+      <main
+        v-if="type === 'single'"
+        ref="blankoSection"
+        id="blanko-pra"
+        class="bg-white z-[1] w-full relative"
+      >
+        <img
+          class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
+          src="../../components/icons/klinikGoraLogo.png"
+          alt=""
+        />
         <div class="flex justify-around items-center">
           <img
             class="w-[80px] h-[80px] object-contain"
@@ -806,7 +816,12 @@ export default {
             </section>
           </div>
         </div>
-        <div v-for="(blanko, i) in blankoAllPra" :key="i">
+        <div v-for="(blanko, i) in blankoAllPra" :key="i" class="relative z-[1]">
+          <img
+            class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
+            src="../../components/icons/klinikGoraLogo.png"
+            alt=""
+          />
           <div class="flex justify-around items-center">
             <img
               class="w-[80px] h-[80px] object-contain"
@@ -1209,44 +1224,3 @@ export default {
     </div>
   </div>
 </template>
-<!-- <style scoped>
-@media print {
-  html,
-  body,
-  header {
-    visibility: hidden;
-    font-size: 12px;
-  }
-
-  header {
-    height: 0;
-    padding: 0;
-    margin: 0;
-  }
-
-  .screen,
-  .container {
-    padding: 0;
-    margin: 0;
-    background-color: transparent;
-    width: 100%;
-  }
-
-  .screen {
-    padding: 15px 15px;
-  }
-
-  @page {
-    size: A4 portrait;
-    margin: 0 0 !important;
-  }
-
-  .enable-print-view-pra {
-    visibility: visible !important;
-  }
-
-  .enable-print-view-pra-all {
-    visibility: visible !important;
-  }
-}
-</style> -->

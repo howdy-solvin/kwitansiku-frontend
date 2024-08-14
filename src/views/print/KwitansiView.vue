@@ -38,9 +38,6 @@ export default {
 
     const printModal = () => {
       if (kwitansiSection.value) {
-        // kwitansiSection.value.classList.add('enable-print-view-kwitansi')
-        // pasienSection.value.classList.remove('enable-print-view-kwitansi')
-        // window.print()
         printJS({
           printable: 'kwitansi',
           type: 'html',
@@ -57,15 +54,15 @@ export default {
             margin: 0;
           }
           
+          #kwitansi {
+            width: auto;
+            padding: 0 !important;
+            margin: 0 !important;
+          }
           @media print {
-            #kwitansi {
-              width: auto;
-              padding: 0 !important;
-              margin: 0 !important;
-            }
             @page {
-                size: 21.7cm 13.8cm;
-                margin: 0 !important;
+                size: A5 landscape;
+                margin: 10px !important;
                 padding: 0 !important;
               }
             }
@@ -75,9 +72,6 @@ export default {
     }
     const printDetailModal = () => {
       if (pasienSection.value) {
-        // kwitansiSection.value.classList.remove('enable-print-view-kwitansi') // Menghapus kelas 'enable-print-view-kwitansi' dari kwitansi-section
-        // pasienSection.value.classList.add('enable-print-view-kwitansi')
-        // window.print()
         printJS({
           printable: 'pasien',
           type: 'html',
@@ -96,17 +90,24 @@ export default {
             #pasien {
               width: auto;
               padding: 0 !important; 
-              margin: 10px !important;
+              margin: 0 !important;
             }
             @media print {
               @page {
-                size: 21.7cm 13.8cm;
-                margin: 0 !important;
+                size: A5 landscape;
+                margin: 10px !important;
               }
             }
           `
         })
       }
+    }
+
+    const roundNumberFormat = (value) => {
+      return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR'
+      }).format(Math.round(value))
     }
 
     return {
@@ -116,7 +117,8 @@ export default {
       printDetailModal,
       isAdminLoggedIn,
       isLoading,
-      pasienSection
+      pasienSection,
+      roundNumberFormat
     }
   }
 }
@@ -217,7 +219,7 @@ export default {
                 ></span>
               </p>
             </div>
-            <div class="flex w-full justify-end gap-2">
+            <div class="flex w-full justify-end gap-2 mt-3">
               <p class="text-end">Tanggal / No. Daftar</p>
               <p v-if="kwitansi.tanggal && kwitansi.no_pendaftaran" class="text-end">
                 : {{ kwitansi.tanggal }} / {{ kwitansi.no_pendaftaran }}
@@ -321,7 +323,11 @@ export default {
             </div>
           </div>
         </section>
-        <section ref="pasienSection" id="pasien" class="px-5 mt-5 pb-5 mx-auto bg-white max-w-[25cm]">
+        <section
+          ref="pasienSection"
+          id="pasien"
+          class="px-5 mt-5 pb-5 mx-auto bg-white max-w-[25cm]"
+        >
           <div class="flex justify-between items-center w-full">
             <img
               class="w-[80px] h-[80px] object-contain"
@@ -372,7 +378,7 @@ export default {
               </li>
             </ul>
             <div
-              class="class-pasien max-w-[21.1cm] mx-auto mt-5 grid grid-cols-[repeat(16,minmax(0,1fr))]"
+              class="class-pasien max-w-[21.1cm] mx-auto mt-5 grid grid-cols-[repeat(17,minmax(0,1fr))]"
             >
               <div class="border border-black px-3 py-1">
                 <h1 class="font-medium text-start">No.</h1>
@@ -383,13 +389,13 @@ export default {
               <div class="border border-black px-3 py-1 col-span-3">
                 <h1 class="font-medium text-start w-fit">Jenis Medikal</h1>
               </div>
-              <div class="border border-black px-3 py-1 col-span-4">
+              <div class="border border-black px-3 py-1 col-span-3">
                 <h1 class="font-medium text-start w-fit">Register</h1>
               </div>
-              <div class="border border-black px-3 py-1 col-span-2">
+              <div class="border border-black px-3 py-1 col-span-3">
                 <h1 class="font-medium text-start w-fit">Harga</h1>
               </div>
-              <div class="border border-black px-3 py-1 col-span-2">
+              <div class="border border-black px-3 py-1 col-span-3">
                 <h1 class="font-medium text-start w-fit">Bayar</h1>
               </div>
 
@@ -403,25 +409,25 @@ export default {
                 <div class="px-3 py-1 col-span-3">
                   <p class="text-start w-fit">{{ item.negara_tujuan }}</p>
                 </div>
-                <div class="px-3 py-1 col-span-4">
+                <div class="px-3 py-1 col-span-3">
                   <p class="text-start w-fit">{{ item.no_form }}</p>
                 </div>
-                <div class="px-3 py-1 col-span-2">
-                  <p class="text-start w-fit">{{ item.harga }}</p>
+                <div class="px-3 py-1 col-span-3">
+                  <p class="text-start w-fit">{{ roundNumberFormat(item.harga) }}</p>
                 </div>
-                <div class="px-3 py-1 col-span-2">
+                <div class="px-3 py-1 col-span-3">
                   <p class="text-start w-fit">
-                    {{ kwitansi.total_pembayaran / kwitansi.pasien_tkis.length }}
+                    {{ roundNumberFormat(kwitansi.total_pembayaran / kwitansi.pasien_tkis.length) }}
                   </p>
                 </div>
               </template>
-              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-12">
+              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-11">
                 Total Keseluruhan
               </div>
-              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-2">
+              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-3">
                 {{ kwitansi.total_harga }}
               </div>
-              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-2">
+              <div class="px-3 py-1 border border-black text-sm font-semibold italic col-span-3">
                 {{ kwitansi.total_pembayaran }}
               </div>
             </div>
@@ -431,55 +437,3 @@ export default {
     </div>
   </div>
 </template>
-<!-- <style scoped>
-@media print {
-  html,
-  body,
-  header,
-  main {
-    visibility: hidden;
-    font-size: 12px;
-  }
-
-  *:not(.enable-print-view-kwitansi, .enable-print-view-kwitansi *) {
-    visibility: hidden;
-    height: 0 !important;
-    padding: 0;
-    margin: 0;
-  }
-
-  header {
-    height: 0;
-    padding: 0;
-    margin: 0;
-  }
-
-  #pasien {
-    padding: 0;
-    margin: 0;
-  }
-
-  .screen,
-  .container {
-    padding: 0;
-    margin: 0;
-    background-color: transparent;
-    width: 100%;
-  }
-
-  .screen {
-    padding: 15px 15px;
-  }
-
-  @page {
-    size: 21.7cm 21.7cm;
-  }
-
-  .enable-print-view-kwitansi,
-  .enable-print-view-kwitansi * {
-    visibility: visible !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-}
-</style> -->
