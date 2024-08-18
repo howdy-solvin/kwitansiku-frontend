@@ -60,39 +60,39 @@ const blanko_init = () => {
         type: 'create', // create | update
         blanko_id: '',
         hiv_status: false,
-        hiv_date: '',
+        hiv_date: null,
         tbc_status: false,
-        tbc_date: '',
+        tbc_date: null,
         malaria_status: false,
-        malaria_date: '',
+        malaria_date: null,
         leprosy_status: false,
-        leprosy_date: '',
+        leprosy_date: null,
         std_status: false,
-        std_date: '',
+        std_date: null,
         asma_status: false,
-        asma_date: '',
+        asma_date: null,
         hd_status: false,
-        hd_date: '',
+        hd_date: null,
         hypt_status: false,
-        hypt_date: '',
+        hypt_date: null,
         dbm_status: false,
-        dbm_date: '',
+        dbm_date: null,
         ptu_status: false,
-        ptu_date: '',
+        ptu_date: null,
         kidney_status: false,
-        kidney_date: '',
+        kidney_date: null,
         cancer_status: false,
-        cancer_date: '',
+        cancer_date: null,
         epylepsy_status: false,
-        epylepsy_date: '',
+        epylepsy_date: null,
         psin_status: false,
-        psin_date: '',
+        psin_date: null,
         hepo_status: false,
-        hepo_date: '',
+        hepo_date: null,
         hpts_status: false,
-        hpts_date: '',
+        hpts_date: null,
         other_status: false,
-        other_date: '',
+        other_date: null,
         snf_status: false,
         nyd_status: false,
         dbj_status: false,
@@ -406,7 +406,7 @@ const blankoModules = {
       }
     },
 
-    async updatePraMedical({ rootGetters, commit  }, data) {
+    async updatePraMedical({ rootGetters, commit }, data) {
       try {
         const stringAccessToken = JSON.stringify(rootGetters.getAccessToken)
         const tokenData = JSON.parse(stringAccessToken)
@@ -524,7 +524,7 @@ const blankoModules = {
           })
         return response
       } catch (error) {
-        console.log("errornya kedetect")
+        console.log('errornya kedetect')
         commit('resetFormPra')
         return error
       }
