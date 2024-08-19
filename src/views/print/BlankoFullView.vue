@@ -60,7 +60,6 @@ export default {
           }
           
           #${targetID} {
-            width: auto;
             padding: 0 !important;
             margin: 0 !important;
             page-break-after: always;
@@ -69,7 +68,7 @@ export default {
           @media print {
             @page {
               size: A4 portrait;
-              margin: 1cm !important;
+              margin: 10px !important;
               padding: 0 !important;
             }
           }
@@ -179,7 +178,7 @@ export default {
       </header>
 
       <main v-if="type === 'single'" ref="blankoSection" id="blanko-full" class="bg-white w-full">
-        <div>
+        <div class="bg-black/50 w-full">
           <h1 class="mt-2 text-center text-xl font-bold py-2">MEDICAL REPORT</h1>
           <div class="flex justify-end font-bold">
             <span class="label1 w-full">No. Register</span>
@@ -235,40 +234,40 @@ export default {
                       ></span>
                     </p>
                   </div>
-                  <div class="flex flex-col gap-y-1">
-                    <p>
-                      <span class="w-[200px] inline-block">FATHER'S NAME</span>
-                      <span v-if="blankoFull.usia">:a</span>
-                      <span v-else
-                        >:
-                        <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
-                    </p>
-                    <p>
-                      <span class="w-[200px] inline-block">PASSPORT NO</span>
-                      <span v-if="blankoFull.no_passpor">: {{ blankoFull.no_passpor }}</span>
-                      <span v-else
-                        >:
-                        <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
-                    </p>
-                    <p>
-                      <span class="w-[200px] inline-block">TYPE OF JOB APPLIED</span>
-                      <span v-if="blankoFull.pekerjaan_negara_tujuan"
-                        >: {{ blankoFull.pekerjaan_negara_tujuan }}</span
-                      >
-                      <span v-else
-                        >:
-                        <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
-                    </p>
-                  </div>
+                </div>
+                <div class="flex flex-col gap-y-1">
+                  <p>
+                    <span class="inline-block">FATHER'S NAME</span>
+                    <span v-if="blankoFull.usia">:a</span>
+                    <span v-else
+                      >:
+                      <span
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
+                      ></span
+                    ></span>
+                  </p>
+                  <p>
+                    <span class="inline-block">PASSPORT NO</span>
+                    <span v-if="blankoFull.no_passpor">: {{ blankoFull.no_passpor }}</span>
+                    <span v-else
+                      >:
+                      <span
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
+                      ></span
+                    ></span>
+                  </p>
+                  <p>
+                    <span class="inline-block">TYPE OF JOB APPLIED</span>
+                    <span v-if="blankoFull.pekerjaan_negara_tujuan"
+                      >: {{ blankoFull.pekerjaan_negara_tujuan }}</span
+                    >
+                    <span v-else
+                      >:
+                      <span
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
+                      ></span
+                    ></span>
+                  </p>
                 </div>
                 <span>4. RESIDENCE IN COUNTRY OF ORIGIN</span>
                 <div class="flex gap-4 justify-start ml-4">
@@ -306,7 +305,7 @@ export default {
 
                 <!-- NOTE untuk nama employee masih belum di tentukan -->
                 <p>
-                  <span class="w-[400px] inline-block">5. NAME OF EMPLOYER/RECRUITING AGENCY</span>
+                  <span class="inline-block">5. NAME OF EMPLOYER/RECRUITING AGENCY</span>
                   <span v-if="blankoFull.usia">: {{ blankoFull.usia }}</span>
                   <span v-else
                     >:
@@ -316,9 +315,7 @@ export default {
                   ></span>
                 </p>
                 <p>
-                  <span class="w-[400px] inline-block"
-                    >6. ADDRESS OF EMPLOYER/RECRUITING AGENCY
-                  </span>
+                  <span class="inline-block">6. ADDRESS OF EMPLOYER/RECRUITING AGENCY </span>
                   <span v-if="blankoFull.usia">: {{ blankoFull.usia }}</span>
                   <span v-else
                     >:
@@ -334,7 +331,12 @@ export default {
 
         <div>
           <!-- ANCHOR Part 2 -->
-          <section class="mt-2">
+          <section class="mt-2 relative z-[1]">
+            <img
+              class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
+              src="../../components/icons/klinikGoraLogo.png"
+              alt=""
+            />
             <div class="text-center">
               <p class="font-poppins font-bold">Part II : Medical History</p>
               <p class="font-poppins font-bold">(To be completed by attending physician)</p>
@@ -1126,7 +1128,7 @@ export default {
                   <p>Blood Pressure : 124/68 mm/hg</p>
                 </div>
               </section>
-              <section class="flex gap-7 mt-5">
+              <section class="flex gap-7 mt-5 bg-black/50 w-full">
                 <table class="w-[50%]">
                   <thead>
                     <tr>
@@ -1325,8 +1327,8 @@ export default {
 
               <!-- SECTION Medical Report 2 -->
               <!-- NOTE SECTION B... -->
-              <h4 class="font-bold mt-4" for="section-b">Section B : System Examination</h4>
-              <section class="flex gap-7">
+              <h4 class="font-bold mt-4 bg-black/50">Section B : System Examination</h4>
+              <section class="flex gap-7 bg-red-400/40">
                 <table class="w-[50%]">
                   <thead>
                     <tr>
@@ -1338,7 +1340,7 @@ export default {
                   <tbody>
                     <tr>
                       <td colspan="3">
-                        <h4 for="" class="font-bold">Cardiovascular System</h4>
+                        <h4 class="font-bold">Cardiovascular System</h4>
                       </td>
                     </tr>
                     <tr class="">
@@ -1390,7 +1392,7 @@ export default {
                             : 'bg-gray-400 border-gray-500 animate-pulse'
                         ]"
                       >
-                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                        <div class="flex items-center h-[30px] bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.tl_sps">
                             {{ blankoFull.blanko_full.tl_sps }}
                           </p>
@@ -1434,7 +1436,7 @@ export default {
                             : 'bg-gray-400 border-gray-500 animate-pulse'
                         ]"
                       >
-                        <div class="flex items-center h-[30px] w-full bg-inherit px-2">
+                        <div class="flex items-center h-[30px] bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.tl_jantung">
                             {{ blankoFull.blanko_full.tl_jantung }}
                           </p>
@@ -1636,7 +1638,7 @@ export default {
                     </tr>
                     <tr class="">
                       <td
-                        colspan="3"
+                        colspan="2"
                         class="border"
                         :class="[
                           blankoFull.blanko_full.tl_sps
@@ -2911,7 +2913,12 @@ export default {
           </section>
         </div>
       </main>
-      <main v-if="type === 'multi'" ref="blankoSection" id="blanko-full-all" class="bg-white w-full">
+      <main
+        v-if="type === 'multi'"
+        ref="blankoSection"
+        id="blanko-full-all"
+        class="bg-white w-full"
+      >
         <div v-for="(blanko, i) in blankoAllFull">
           <div>
             <h1 class="mt-2 text-center text-xl font-bold py-2">MEDICAL REPORT</h1>
@@ -4770,9 +4777,7 @@ export default {
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="!blanko.blanko_full.gula_status !== undefined">
                               {{
-                                blanko.blanko_full.gula_status === true
-                                  ? 'POSITIVE'
-                                  : 'NEGATIVE'
+                                blanko.blanko_full.gula_status === true ? 'POSITIVE' : 'NEGATIVE'
                               }}
                             </p>
                           </div>
@@ -5231,11 +5236,7 @@ export default {
                 <section class="flex items-center w-full border-b-4 border-b-black py-2">
                   <aside class="self-start mt-4">
                     <div class="w-20 mr-4">
-                      <img
-                        v-if="blanko.image_blob"
-                        :src="blanko.image_blob"
-                        class="w-full"
-                      />
+                      <img v-if="blanko.image_blob" :src="blanko.image_blob" class="w-full" />
                       <div
                         v-else
                         class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"
