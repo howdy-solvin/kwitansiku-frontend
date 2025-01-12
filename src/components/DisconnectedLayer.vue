@@ -37,7 +37,7 @@ export default {
     class="w-screen h-screen fixed flex items-center justify-center overflow-hidden bg-black/60 z-[1000]"
   >
     <div class="md:w-[25%] rounded-3xl w-[90%] h-fit bg-white px-4 py-3">
-      <img src="/public/bad-connection.svg" class="w-full h-fit" alt="asd" />
+      <img src="/bad-connection.svg" class="w-full h-fit" alt="asd" />
       <p class="text-center text-xl font-medium">Waduh,</p>
       <p class="text-center mb-2 text-xl font-medium">Jaringan anda terputus!</p>
       <p class="text-center mb-5 text-base font-normal leading-5">

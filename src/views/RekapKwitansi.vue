@@ -6,9 +6,7 @@ import IconRekap from '@/components/icons/IconRekap.vue'
 import { watchEffect, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import ModalRekap from '@/components/ModalRekap.vue'
 import IconBlanko from '@/components/icons/IconBlanko.vue'
-import ModalBlanko from '@/components/ModalBlanko.vue'
 
 export default {
   components: {
@@ -16,8 +14,6 @@ export default {
     IconRekap,
     IconSearch,
     IconCetak,
-    ModalRekap,
-    ModalBlanko,
     IconBlanko
   },
 
@@ -267,7 +263,7 @@ export default {
       blankoAllFull,
       loadingOpenedKwitansi,
       selectedPasienKey,
-      loadingSelectedPasien
+      loadingSelectedPasien,
     }
   }
 }
@@ -401,13 +397,16 @@ export default {
                   >
                     <IconRekap class=""></IconRekap>
                   </button>
-                  <button
-                    type="button"
-                    @click="togglePopUpKwitansi('triggerRekap', index)"
+                  <router-link
+                    :to="{
+                      name: 'PrintKwitansi',
+                      query: { id: receipt.uuid }
+                    }"
+                    target="_blank"
                     class="bg-[#0075FF] hover:bg-[#0456b8] hover:ring-[#0456b8] text-white transition-colors p-3 aspect-square flex items-center justify-center ring-2 ring-[#0075FF] h-full"
                   >
                     <IconCetak></IconCetak>
-                  </button>
+                  </router-link>
                   <button
                     type="button"
                     @click="getBlanko(receipt.uuid)"
@@ -476,8 +475,15 @@ export default {
                     </td>
                     <td colspan="2" class="border-[#d7d7d7]">
                       <div class="h-full flex">
-                        <button
-                          @click="togglePopUpBlanko('triggerBlankoPra', index)"
+                        <router-link
+                          :to="{
+                            name: 'PrintBlankoPra',
+                            query: {
+                              type: 'single',
+                              id: pasien.uuid
+                            }
+                          }"
+                          target="_blank"
                           class="flex transition-colors ring-1 ring-[#d7d7d7] hover:ring-[#0075FF] bg-white text-[#4c75a4] hover:text-white hover:bg-[#0075FF] py-3 grow justify-center gap-3"
                         >
                           Pra
@@ -500,9 +506,16 @@ export default {
                             </svg>
                             <IconCetak v-else></IconCetak>
                           </div>
-                        </button>
-                        <button
-                          @click="togglePopUpBlanko('triggerBlankoFull', index)"
+                        </router-link>
+                        <router-link
+                          :to="{
+                            name: 'PrintBlankoFull',
+                            query: {
+                              type: 'single',
+                              id: pasien.uuid
+                            }
+                          }"
+                          target="_blank"
                           class="flex transition-colors ring-1 ring-[#d7d7d7] hover:ring-[#0075FF] bg-white text-[#4c75a4] hover:text-white hover:bg-[#0075FF] py-3 grow justify-center gap-3 rounded-e-md"
                         >
                           Full
@@ -525,7 +538,7 @@ export default {
                             </svg>
                             <IconCetak v-else></IconCetak>
                           </div>
-                        </button>
+                        </router-link>
                       </div>
                     </td>
                   </tr>
@@ -533,9 +546,17 @@ export default {
                 <tr>
                   <td colspan="9">
                     <div class="flex flex-row">
-                      <button
-                        type="button"
-                        @click="togglePopUpBlanko('triggerBlankoAllPra')"
+                      <router-link
+                        :to="{
+                          name: 'PrintBlankoPra',
+                          query: {
+                            type: 'multi',
+                            id: openedKwitansiData.pasien_tkis
+                              .map((pasien) => pasien.uuid)
+                              .join(',')
+                          }
+                        }"
+                        target="_blank"
                         class="bg-transparent rounded-s-md grow hover:bg-[#0075FF] hover:border-[#0075FF] hover:text-white text-[#4c75a4] gap-3 transition-colors p-3 flex items-center justify-center border border-[#699bd5] h-full"
                       >
                         Cetak Semua Blanko Pra
@@ -558,10 +579,18 @@ export default {
                           </svg>
                           <IconCetak v-else></IconCetak>
                         </div>
-                      </button>
-                      <button
-                        type="button"
-                        @click="togglePopUpBlanko('triggerBlankoAllFull')"
+                      </router-link>
+                      <router-link
+                        :to="{
+                          name: 'PrintBlankoFull',
+                          query: {
+                            type: 'multi',
+                            id: openedKwitansiData.pasien_tkis
+                              .map((pasien) => pasien.uuid)
+                              .join(',')
+                          }
+                        }"
+                        target="_blank"
                         class="bg-transparent rounded-e-md grow hover:bg-[#0075FF] hover:border-[#0075FF] hover:text-white text-[#4c75a4] gap-3 transition-colors p-3 flex items-center justify-center border border-[#699bd5] h-full"
                       >
                         Cetak Semua Blanko Full
@@ -584,7 +613,7 @@ export default {
                           </svg>
                           <IconCetak v-else></IconCetak>
                         </div>
-                      </button>
+                      </router-link>
                     </div>
                   </td>
                 </tr>
@@ -594,285 +623,36 @@ export default {
           </tbody>
         </table>
       </section>
-      <ModalBlanko
-        v-if="popUpTriggers.triggerBlankoPra"
-        :togglePopUp="() => togglePopUpBlanko('triggerBlankoPra', null, true)"
-        :showPrintButton="showPrintBlankoPraBtn"
-        class="font-poppins"
-      >
-        <template #header>
-          <div>
-            <h4 class="font-bold text-lg">Blanko Pra</h4>
-            <p>Cetak data untuk Blanko Pra</p>
-          </div>
-        </template>
-        <template #banner> </template>
-        <template #main>
-          <p v-for="(value, key) in blankoPra">
-            {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
-            <img v-if="key === 'image_blob'" :src="value" class="w-20" />
-          </p>
-
-          <p class="ps-10" v-for="(value, key) in blankoPra.blanko_pra">
-            {{ `${key}: ${value}` }}
-          </p>
-        </template>
-      </ModalBlanko>
-
-      <ModalBlanko
-        v-if="popUpTriggers.triggerBlankoFull"
-        :togglePopUp="() => togglePopUpBlanko('triggerBlankoFull', null, true)"
-        :showPrintButton="showPrintBlankoFullBtn"
-        class="font-poppins"
-      >
-        <template #header>
-          <div>
-            <h4 class="font-bold text-lg">Blanko Full</h4>
-            <p>Cetak data untuk Blanko Full</p>
-          </div>
-        </template>
-        <template #banner> </template>
-        <template #main>
-          <p v-for="(value, key) in blankoFull">
-            {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
-            <img v-if="key === 'image_blob'" :src="value" class="w-20" />
-          </p>
-
-          <p class="ps-10" v-for="(value, key) in blankoFull.blanko_full">
-            {{ `${key}: ${value}` }}
-          </p>
-        </template>
-      </ModalBlanko>
-
-      <ModalBlanko
-        v-if="popUpTriggers.triggerBlankoAllPra"
-        :togglePopUp="() => togglePopUpBlanko('triggerBlankoAllPra', null, true)"
-        :showPrintButton="showPrintBlankoAllPraBtn"
-        class="font-poppins"
-      >
-        <template #header>
-          <div>
-            <h4 class="font-bold text-lg">All Blanko Pra</h4>
-            <p>Cetak data untuk semua Blanko Pra</p>
-          </div>
-        </template>
-        <template #banner> </template>
-        <template #main>
-          <div v-for="(obj, i) in blankoAllPra">
-            <p :key="i" v-for="(value, key) in obj">
-              {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
-              <img v-if="key === 'image_blob'" :src="value" class="w-20" />
-            </p>
-
-            <p class="ps-10" v-for="(value, key) in obj.blanko_pra">
-              {{ `${key}: ${value}` }}
-            </p>
-          </div>
-        </template>
-      </ModalBlanko>
-
-      <ModalBlanko
-        v-if="popUpTriggers.triggerBlankoAllFull"
-        :togglePopUp="() => togglePopUpBlanko('triggerBlankoAllFull', null, true)"
-        :showPrintButton="showPrintBlankoAllFullBtn"
-        class="font-poppins"
-      >
-        <template #header>
-          <div>
-            <h4 class="font-bold text-lg">All Blanko Full</h4>
-            <p>Cetak data untuk semua Blanko Full</p>
-          </div>
-        </template>
-        <template #banner> </template>
-        <template #main>
-          <div v-for="(obj, i) in blankoAllFull">
-            <p :key="i" v-for="(value, key) in obj">
-              {{ key !== 'image_blob' ? `${key}: ${value}` : 'image_blob:' }}
-              <img v-if="key === 'image_blob'" :src="value" class="w-20" />
-            </p>
-
-            <p class="ps-10" v-for="(value, key) in obj.blanko_full">
-              {{ `${key}: ${value}` }}
-            </p>
-          </div>
-        </template>
-      </ModalBlanko>
-
-      <ModalRekap
-        v-if="popUpTriggers.triggerRekap"
-        :togglePopUp="() => togglePopUpKwitansi('triggerRekap')"
-        :showPrintButton="showPrintKwitansiBtn"
-        :showPrintDetailButton="showPrintPasienBtn"
-        class="font-poppins"
-      >
-        <template #header>
-          <div>
-            <h4 class="font-bold text-lg">Kwitansi {{ kwitansi.no_pendaftaran }}</h4>
-            <p>
-              <span class="text-blue-500 font-semibold">{{ kwitansi.tanggal }} </span>
-              | {{ kwitansi.nama_sponsor }}
-            </p>
-          </div>
-        </template>
-        <template #banner>
-          <div class="flex justify-between items-center">
-            <img
-              class="w-[80px] h-[80px] object-contain"
-              src="../components/icons/klinikGoraLogo.png"
-              alt=""
-            />
-            <div class="text-right">
-              <h1 class="font-bold text-lg">KLINIK GORA MATARAM</h1>
-              <p>Jl. RA. Kartini No. 77 Mojok - Mataram - NTB Mataram</p>
-              <p>Indonesia - Telp.(0370) 635661 Fax (0370) 635661</p>
-              <p>goraklinik@gmail.com</p>
-            </div>
-          </div>
-        </template>
-
-        <!-- //NOTE - Kwitansi -->
-        <template #main>
-          <div
-            v-if="kwitansi.total_harga <= kwitansi.total_pembayaran"
-            class="absolute left-1/2 -translate-x-1/2 top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[130px] font-semibold"
-          >
-            LUNAS
-          </div>
-          <div class="flex flex-col items-center">
-            <h1 class="font-bold text-[25px] text-center">KWITANSI PEMBAYARAN</h1>
-            <div class="w-[40%] border h-1 bg-black" />
-            <p class="text-center">
-              NO :
-              {{
-                kwitansi.tanggal.split('-')[0].slice(2, 4) +
-                kwitansi.tanggal.split('-')[1] +
-                kwitansi.tanggal.split('-')[2]
-              }}01{{ kwitansi.no_pendaftaran }}
-            </p>
-          </div>
-          <div class="flex w-full justify-end gap-2 mt-3">
-            <p class="w-[180px] text-end">Tanggal / No. Daftar</p>
-            <p class="text-end">: {{ kwitansi.tanggal }} / {{ kwitansi.no_pendaftaran }}</p>
-          </div>
-          <ul class="flex flex-col gap-2">
-            <li class="flex justify-between">
-              <div class="flex gap-8">
-                <p class="w-[150px]">Nama PJ-TKI</p>
-                <p>: {{ kwitansi.nama_penanggungjawab }}</p>
-              </div>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Nama Sponsor</p>
-              <p>: {{ kwitansi.nama_sponsor }}</p>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Untuk Pembayaran</p>
-              <p>:</p>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Jumlah Peserta</p>
-              <p>: {{ kwitansi.total_pendaftar }} Orang</p>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Total Harga</p>
-              <p>: Rp. {{ kwitansi.total_harga }},-</p>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Pembayaran</p>
-              <p>: Rp. {{ kwitansi.total_pembayaran }},-</p>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Sisa Kredit</p>
-              <p>: Rp. {{ kwitansi.total_harga - kwitansi.total_pembayaran }},-</p>
-            </li>
-          </ul>
-          <div class="mt-7 flex justify-betweens w-full">
-            <div class="w-full">
-              <p>NB. -Detail Terlampir</p>
-            </div>
-            <div class="w-full flex flex-col items-center">
-              <p>Mataram, {{ kwitansi.tanggal }}</p>
-              <p>Kasir</p>
-              <p class="mt-20">{{ isAdminLoggedIn }}</p>
-            </div>
-          </div>
-        </template>
-
-        <!-- //NOTE - Detail Pasien -->
-        <template #pasien>
-          <ul class="flex flex-col gap-1 mt-10">
-            <li class="flex gap-8">
-              <p class="w-[150px]">Tanggal / No. Daftar</p>
-              <p>: {{ kwitansi.tanggal }}/{{ kwitansi.no_pendaftaran }}</p>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Nama PJ-TKI</p>
-              <p>: {{ kwitansi.nama_penanggungjawab }}</p>
-            </li>
-            <li class="flex gap-8">
-              <p class="w-[150px]">Nama Sponsor</p>
-              <p>: {{ kwitansi.nama_sponsor }}</p>
-            </li>
-          </ul>
-          <table class="w-full mt-5">
-            <thead>
-              <tr class="border-b-4 border-b-black">
-                <th class="border border-black px-3 py-1">
-                  <h1 class="font-medium text-start">No.</h1>
-                </th>
-                <th class="border border-black px-3 py-1">
-                  <h1 class="font-medium text-start">Nama Lengkap</h1>
-                </th>
-                <th class="border border-black px-3 py-1">
-                  <h1 class="font-medium text-start">Jenis Medikal</h1>
-                </th>
-                <th class="border border-black px-3 py-1">
-                  <h1 class="font-medium text-start">Register</h1>
-                </th>
-                <th class="border border-black px-3 py-1">
-                  <h1 class="font-medium text-start">Harga</h1>
-                </th>
-                <th class="border border-black px-3 py-1">
-                  <h1 class="font-medium text-start">Bayar</h1>
-                </th>
-              </tr>
-            </thead>
-            <tbody class="text-sm" v-for="(item, index) in kwitansi.pasien_tkis" :key="index">
-              <tr>
-                <td class="px-3 py-1">
-                  <p class="text-start">{{ index + 1 }}</p>
-                </td>
-                <td class="px-3 py-1">
-                  <p class="text-start">{{ item.nama_lengkap }}</p>
-                </td>
-                <td class="px-3 py-1">
-                  <p class="text-start">{{ item.negara_tujuan }}</p>
-                </td>
-                <td class="px-3 py-1">
-                  <p class="text-start">{{ item.no_form }}</p>
-                </td>
-                <td class="px-3 py-1">
-                  <p class="text-start">{{ item.harga }}</p>
-                </td>
-                <td class="px-3 py-1">
-                  <p class="text-start">
-                    {{ kwitansi.total_pembayaran / kwitansi.pasien_tkis.length }}
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-            <tbody class="text-sm font-semibold italic">
-              <tr>
-                <td class="px-3 py-1 border border-black" colspan="4">Total Keseluruhan</td>
-                <td class="px-3 py-1 border border-black">{{ kwitansi.total_harga }}</td>
-                <td class="px-3 py-1 border border-black">
-                  {{ kwitansi.total_pembayaran }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </template>
-      </ModalRekap>
     </main>
   </div>
 </template>
+
+<style scoped>
+.flex {
+  display: flex;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+
+.w-20 {
+  width: 5rem;
+}
+
+.mr-4 {
+  margin-right: 1rem;
+}
+
+.label1 {
+  display: inline-block;
+  width: 120px;
+  /* Set this width according to your needs */
+}
+
+.label2 {
+  display: inline-block;
+  width: 90px;
+  /* Set this width according to your needs */
+}
+</style>

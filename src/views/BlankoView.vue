@@ -65,12 +65,13 @@ export default {
           id_pasien: null,
           foto: null,
           bn_bt: null,
-          tgl_cetak: null,
-          tgl_lahir: null,
+          tgl_cetak: '',
+          tgl_lahir: '',
           usia: null,
           kelamin: null,
           status: null,
-          negara_tujuan: null
+          negara_tujuan: null,
+          no_reg: null
         },
         alamat: {
           negara: null,
@@ -79,8 +80,8 @@ export default {
           pekerjaan_di_negara_tujuan: null,
           no_visa: null,
           no_passport: null,
-          masa_berlaku: null,
-          sampai_dengan: null
+          masa_berlaku: '',
+          sampai_dengan: ''
         },
         fisik: {
           tinggi: null,
@@ -150,6 +151,7 @@ export default {
 
     const selectedNamaPasien = ref('')
     const selectPasienLoading = ref(false)
+
     const selectPasien = async (pasienId, namaPasien) => {
       selectPasienLoading.value = true
       resetFormPra()
@@ -161,6 +163,7 @@ export default {
           pra_medical.data_diri.usia = selectedPasien.value.usia
           pra_medical.data_diri.negara_tujuan = selectedPasien.value.negara_tujuan
           pra_medical.data_diri.kelamin = selectedPasien.value.jenis_kelamin
+          pra_medical.data_diri.no_reg = selectedPasien.value.no_form
         } else {
           // data pra ada, sehingga status jadi update
           const blanko = res.data.data
@@ -877,13 +880,19 @@ export default {
                       <output
                         id="no-reg"
                         class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md w-full text-[#A2A2A2]"
-                        >Pending</output
+                        >{{
+                          pra_medical.data_diri.no_reg ? pra_medical.data_diri.no_reg : 'No. Reg'
+                        }}</output
                       >
                       <label for="tgl-daftar" class="min-w-max">Tgl & No. Daftar</label>
                       <output
                         id="tgl-daftar"
                         class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md w-full text-[#A2A2A2]"
-                        >{{ receipt.no_pendaftaran }}</output
+                        >{{
+                          receipt.tanggal
+                            ? receipt.tanggal.split('T')[0]
+                            : '' + '-' + receipt.no_pendaftaran
+                        }}</output
                       >
                       <label for="negara-tujuan" class="min-w-max">Negara Tujuan</label>
                       <output
@@ -1831,13 +1840,19 @@ export default {
                       <output
                         id="no-reg"
                         class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md w-full text-[#A2A2A2]"
-                        >Pending</output
+                        >{{
+                          pra_medical.data_diri.no_reg ? pra_medical.data_diri.no_reg : 'No. Reg'
+                        }}</output
                       >
                       <label for="tgl-daftar" class="min-w-max">Tgl & No. Daftar</label>
                       <output
                         id="tgl-daftar"
                         class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md w-full text-[#A2A2A2]"
-                        >{{ receipt.no_pendaftaran }}</output
+                        >{{
+                          receipt.tanggal
+                            ? receipt.tanggal.split('T')[0]
+                            : '' + '-' + receipt.no_pendaftaran
+                        }}</output
                       >
                       <label for="negara-tujuan" class="min-w-max">Negara Tujuan</label>
                       <output
@@ -1999,8 +2014,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.hiv_date.split('T')[0]"
-                  @input="inputFullMedical({ hiv_date: $event.target.value })"
+                  :value="fullData.hiv_date ? fullData.hiv_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      hiv_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2020,8 +2039,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.tbc_date.split('T')[0]"
-                  @input="inputFullMedical({ tbc_date: $event.target.value })"
+                  :value="fullData.tbc_date ? fullData.tbc_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      tbc_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2041,8 +2064,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.malaria_date.split('T')[0]"
-                  @input="inputFullMedical({ malaria_date: $event.target.value })"
+                  :value="fullData.malaria_date ? fullData.malaria_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      malaria_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2062,8 +2089,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.leprosy_date.split('T')[0]"
-                  @input="inputFullMedical({ leprosy_date: $event.target.value })"
+                  :value="fullData.leprosy_date ? fullData.leprosy_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      leprosy_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2083,8 +2114,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.std_date.split('T')[0]"
-                  @input="inputFullMedical({ std_date: $event.target.value })"
+                  :value="fullData.std_date ? fullData.std_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      std_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2104,8 +2139,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.asma_date.split('T')[0]"
-                  @input="inputFullMedical({ asma_date: $event.target.value })"
+                  :value="fullData.asma_date ? fullData.asma_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      asma_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2132,8 +2171,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.hd_date.split('T')[0]"
-                  @input="inputFullMedical({ hd_date: $event.target.value })"
+                  :value="fullData.hd_date ? fullData.hd_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      hd_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2153,8 +2196,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.hypt_date.split('T')[0]"
-                  @input="inputFullMedical({ hypt_date: $event.target.value })"
+                  :value="fullData.hypt_date ? fullData.hypt_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      hypt_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2174,8 +2221,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.dbm_date.split('T')[0]"
-                  @input="inputFullMedical({ dbm_date: $event.target.value })"
+                  :value="fullData.dbm_date ? fullData.dbm_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      dbm_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2195,8 +2246,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.ptu_date.split('T')[0]"
-                  @input="inputFullMedical({ ptu_date: $event.target.value })"
+                  :value="fullData.ptu_date ? fullData.ptu_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      ptu_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2216,8 +2271,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.kidney_date.split('T')[0]"
-                  @input="inputFullMedical({ kidney_date: $event.target.value })"
+                  :value="fullData.kidney_date ? fullData.kidney_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      kidney_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2237,8 +2296,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.cancer_date.split('T')[0]"
-                  @input="inputFullMedical({ cancer_date: $event.target.value })"
+                  :value="fullData.cancer_date ? fullData.cancer_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      cancer_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2265,8 +2328,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.epylepsy_date.split('T')[0]"
-                  @input="inputFullMedical({ epylepsy_date: $event.target.value })"
+                  :value="fullData.epylepsy_date ? fullData.epylepsy_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      epylepsy_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2288,8 +2355,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.psin_date.split('T')[0]"
-                  @input="inputFullMedical({ psin_date: $event.target.value })"
+                  :value="fullData.psin_date ? fullData.psin_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      psin_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2309,8 +2380,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.hepo_date.split('T')[0]"
-                  @input="inputFullMedical({ hepo_date: $event.target.value })"
+                  :value="fullData.hepo_date ? fullData.hepo_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      hepo_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2332,8 +2407,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.hpts_date.split('T')[0]"
-                  @input="inputFullMedical({ hpts_date: $event.target.value })"
+                  :value="fullData.hpts_date ? fullData.hpts_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      hpts_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -2353,8 +2432,12 @@ export default {
                 />
                 <input
                   type="date"
-                  :value="fullData.other_date.split('T')[0]"
-                  @input="inputFullMedical({ other_date: $event.target.value })"
+                  :value="fullData.other_date ? fullData.other_date.split('T')[0] : ''"
+                  @input="
+                    inputFullMedical({
+                      other_date: $event.target.value !== '' ? $event.target.value : null
+                    })
+                  "
                   placeholder="Pilih Tanggal"
                   class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
                 />
@@ -3764,7 +3847,7 @@ export default {
                   <label>Masa Berlaku</label>
                   <input
                     type="date"
-                    :value="fullData.masa_berlaku.split('T')[0]"
+                    :value="fullData.masa_berlaku ? fullData.masa_berlaku.split('T')[0] : ''"
                     @input="inputFullMedical({ masa_berlaku: $event.target.value })"
                     placeholder="Pilih Tanggal"
                     class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
@@ -3773,7 +3856,7 @@ export default {
                   <label for="">Sampai Dengan</label>
                   <input
                     type="date"
-                    :value="fullData.sampai_dengan.split('T')[0]"
+                    :value="fullData.sampai_dengan ? fullData.sampai_dengan.split('T')[0] : ''"
                     @input="inputFullMedical({ sampai_dengan: $event.target.value })"
                     placeholder="Pilih Tanggal"
                     class="border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
