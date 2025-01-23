@@ -67,14 +67,20 @@ export default {
             page-break-after: always;
           }
 
-          @media print {
+          @media print  {
             @page {
-              size: A4 portrait;
+              size: A4 portrait !important;
               margin: 1cm !important;
               padding: 0 !important;
+              @top-left {
+                content: ''
+              }
+              @bottom-left{
+                content: ''
+              }
             }
           }
-          `
+        `
       })
       if (type === 'single') {
         printJS(printOptions('blanko-pra'))
@@ -90,40 +96,24 @@ export default {
 <template>
   <div class="min-h-screen bg-[#1a1a1a] p-0 m-0 w-screen h-full">
     <div class="screen max-w-[950px] bg-white p-0 m-0 h-fit mx-auto px-5 pb-5 pt-3">
-      <header
-        class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-4 justify-between"
-      >
+      <header class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-4 justify-between">
         <div>
           <h4 class="font-bold text-lg">Blanko Pra</h4>
           <p>Cetak data untuk Blanko Pra</p>
         </div>
-        <button
-          @click="printModal"
-          :disabled="isLoading"
+        <button @click="printModal" :disabled="isLoading"
           class="p-[13px] transition-all rounded-lg flex items-center justify-center gap-3 text-white"
-          :class="[isLoading ? 'bg-[#91accc]' : 'bg-[#0075FF] hover:bg-[#2260a8]']"
-        >
+          :class="[isLoading ? 'bg-[#91accc]' : 'bg-[#0075FF] hover:bg-[#2260a8]']">
           <p>Cetak Blanko Pra</p>
           <CetakKuitansi></CetakKuitansi>
         </button>
       </header>
-      <main
-        v-if="type === 'single'"
-        ref="blankoSection"
-        id="blanko-pra"
-        class="bg-white z-[1] w-full relative"
-      >
+      <main v-if="type === 'single'" ref="blankoSection" id="blanko-pra" class="z-[1] w-full relative">
         <img
           class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
-          src="../../components/icons/klinikGoraLogo.png"
-          alt=""
-        />
-        <div class="flex justify-around items-center">
-          <img
-            class="w-[80px] h-[80px] object-contain"
-            src="../../components/icons/klinikGoraLogo.png"
-            alt=""
-          />
+          src="../../components/icons/klinikGoraLogo.png" alt="" />
+        <header class="flex justify-around items-center">
+          <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
           <div class="text-center">
             <h1 class="text-xl text-green-500 font-semibold">
               Klinik <span class="text-yellow-500">GORA</span> Mataram
@@ -133,110 +123,93 @@ export default {
             </p>
             <p class="italic text-green-700 font-semibold">Email : goraklinik@gmail.com</p>
           </div>
-        </div>
-        <div>
+        </header>
+        <section>
           <!-- SECTION Keterangan Sehat -->
-          <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
+          <h1 class="mt-5 text-center font-semibold py-1 border-y-2 border-y-black">
             KETERANGAN SEHAT
           </h1>
           <p class="font-poppins text-center">Informasi Hasil Pemeriksaan</p>
 
-          <div class="flex justify-end mt-3">
-            <span class="label1 w-full">No. Register</span>
-            <span class="w-auto">092834ASd</span>
+          <div class="flex gap-3 w-full justify-end">
+            <span class="label1" id="label1">No. Register :</span>
+            <span class="w-auto">092834AS</span>
           </div>
 
-          <section class="flex items-start mt-5">
-            <div class="w-20 mr-4">
+          <section class="flex w-full items-start mt-5">
+            <section class="w-[15%] mr-4">
               <img v-if="blankoPra.image_blob" :src="blankoPra.image_blob" class="w-full" />
               <div v-else class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"></div>
-            </div>
-            <div>
-              <div class="flex gap-3 items-center">
-                <span class="label1">Jenis Kelamin: </span>
+            </section>
+            <section class="w-[60%]">
+              <!-- NOTE not clear -->
+              <div class="grid grid-cols-[25%_5%_auto] items-center">
+                <span class="label1">Nama</span>
+                <span>:</span>
+                <span v-if="blankoPra.nama">{{
+                  blankoPra.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'
+                }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
+              </div>
+              <div class="grid grid-cols-[25%_5%_auto] w-full items-center">
+                <span class="label1 w-full">Jenis Kelamin</span>
+                <span>:</span>
                 <span v-if="blankoPra.jenis_kelamin">{{
                   blankoPra.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'
                 }}</span>
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
-              <div class="flex gap-3 items-center">
+              <div class="grid grid-cols-[25%_5%_auto] items-center">
                 <span class="label1">Usia</span>
-                <span v-if="blankoPra.usia">: {{ blankoPra.usia }}</span>
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span>:</span>
+                <span v-if="blankoPra.usia">{{ blankoPra.usia }} Tahun</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
-
-              <div class="flex gap-3 items-center">
+              <div class="grid grid-cols-[25%_5%_auto_auto] items-center">
                 <span class="label1">Daerah</span>
-                <span v-if="blankoPra.daerah">: {{ blankoPra.daerah }}</span>
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span>:</span>
+                <span v-if="blankoPra.daerah">{{ blankoPra.daerah }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
-              <div class="flex gap-3 items-center">
+              <div class="grid grid-cols-[25%_5%_auto_auto] items-center">
                 <span class="label1">Provinsi</span>
-                <span v-if="blankoPra.provinsi">: {{ blankoPra.provinsi }}</span>
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span>:</span>
+                <span v-if="blankoPra.provinsi">{{ blankoPra.provinsi }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
-              <div class="flex gap-3 items-center">
+              <div class="grid grid-cols-[25%_5%_auto_auto] items-center">
                 <span class="label1">Negara</span>
-                <span v-if="blankoPra.negara">: {{ blankoPra.negara }}</span>
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span>:</span>
+                <span v-if="blankoPra.negara">{{ blankoPra.negara }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
-            </div>
+            </section>
           </section>
 
           <!-- SECTION Pemeriksaan Fisik -->
-
-          <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
-            KETERANGAN SEHAT
-          </h1>
-          <div class="flex flex-col mt-2">
-            <p class="flex gap-3 justify-end font-poppins">
+          <div class="flex justify-end gap-3 mt-5">
+            <p class="flex gap-2 justify-end font-poppins">
               Beri tanda
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
               </svg>
               Jika Normal
             </p>
-            <p class="flex gap-3 font-poppins justify-end">
+            <hr class="h-5 bg-black w-[3px]">
+            <p class="flex gap-1 font-poppins justify-end">
               Beri tanda
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="size-6"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
               Jika Abnormal
             </p>
           </div>
+          <h1 class="text-center font-semibold py-1 border-y-2 border-y-black">
+            KETERANGAN SEHAT
+          </h1>
 
           <section class="flex justify-around my-2">
             <div>
@@ -244,41 +217,25 @@ export default {
               <div class="flex gap-3 items-center">
                 <span class="label2">Tinggi</span>
                 <span v-if="blankoPra.blanko_pra.tinggi">: {{ blankoPra.blanko_pra.tinggi }}</span>
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Berat</span>
                 <span v-if="blankoPra.blanko_pra.berat">: {{ blankoPra.blanko_pra.berat }}</span>
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
             </div>
             <div>
               <h1 class="font-bold">Penglihatan</h1>
               <div class="flex gap-3 items-center">
                 <span class="label2">Mata kanan</span>
-                <span v-if="blankoPra.blanko_pra.mata_kanan"
-                  >: {{ blankoPra.blanko_pra.mata_kanan }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.mata_kanan">: {{ blankoPra.blanko_pra.mata_kanan }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Mata kiri</span>
-                <span v-if="blankoPra.blanko_pra.mata_kiri"
-                  >: {{ blankoPra.blanko_pra.mata_kiri }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.mata_kiri">: {{ blankoPra.blanko_pra.mata_kiri }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <p>
                 <span class="label2" for="mata-kanan">Mata kanan</span>
@@ -294,43 +251,26 @@ export default {
               <h1 class="font-bold">Tekanan Darah</h1>
               <div class="flex gap-3 items-center">
                 <span class="label2">Atas</span>
-                <span v-if="blankoPra.blanko_pra.tekanan_darah_atas"
-                  >: {{ blankoPra.blanko_pra.tekanan_darah_atas }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.tekanan_darah_atas">: {{ blankoPra.blanko_pra.tekanan_darah_atas
+                  }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Bawah</span>
-                <span v-if="blankoPra.blanko_pra.tekanan_darah_bawah"
-                  >: {{ blankoPra.blanko_pra.tekanan_darah_bawah }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.tekanan_darah_bawah">: {{ blankoPra.blanko_pra.tekanan_darah_bawah
+                  }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Nadi</span>
-                <span v-if="blankoPra.blanko_pra.tekanan_darah_nadi"
-                  >: {{ blankoPra.blanko_pra.tekanan_darah_nadi }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.tekanan_darah_nadi">: {{ blankoPra.blanko_pra.tekanan_darah_nadi
+                  }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Gol</span>
-                <span v-if="blankoPra.blanko_pra.golongan_darah"
-                  >: {{ blankoPra.blanko_pra.golongan_darah }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.golongan_darah">: {{ blankoPra.blanko_pra.golongan_darah }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
             </div>
 
@@ -350,52 +290,34 @@ export default {
               <h1 class="font-bold">Lain-lain</h1>
               <div class="flex gap-3 items-center">
                 <span class="label2">Suhu Tubuh</span>
-                <span v-if="blankoPra.blanko_pra.suhu_tubuh"
-                  >: {{ blankoPra.blanko_pra.suhu_tubuh }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.suhu_tubuh">: {{ blankoPra.blanko_pra.suhu_tubuh }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Rontgen</span>
-                <span v-if="blankoPra.blanko_pra.rontgen"
-                  >: {{ blankoPra.blanko_pra.rontgen }}</span
-                >
-                <span
-                  v-else
-                  class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.rontgen">: {{ blankoPra.blanko_pra.rontgen }}</span>
+                <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
             </div>
           </section>
 
           <!-- SECTION Pemeriksaan Laboratorium -->
-          <h1 class="mt-1 text-center font-semibold py-1 border-y-2 border-y-black">
+          <h1 class="mt-5 text-center font-semibold py-1 border-y-2 border-y-black">
             PEMERIKSAAN LABORATORIUM
           </h1>
           <section class="flex gap-10 justify-around mt-3">
             <div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Gula</span>
-                <span v-if="blankoPra.blanko_pra.gula"
-                  >: {{ blankoPra.blanko_pra.gula === true ? 'Normal' : 'Abnormal' }}</span
-                >
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.gula">: {{ blankoPra.blanko_pra.gula === true ? 'Normal' : 'Abnormal'
+                  }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Protein</span>
-                <span v-if="blankoPra.blanko_pra.protein"
-                  >: {{ blankoPra.blanko_pra.protein === true ? 'Normal' : 'Abnormal' }}</span
-                >
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.protein">: {{ blankoPra.blanko_pra.protein === true ? 'Normal' :
+                  'Abnormal' }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
             </div>
 
@@ -403,50 +325,35 @@ export default {
               <div class="flex gap-3 items-center">
                 <span class="label2">PH</span>
                 <span v-if="blankoPra.blanko_pra.ph">: {{ blankoPra.blanko_pra.ph }}</span>
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">HBs-AG</span>
-                <span v-if="blankoPra.blanko_pra.hbs_ag"
-                  >: {{ blankoPra.blanko_pra.hbs_ag === true ? 'Normal' : 'Abnormal' }}</span
-                >
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.hbs_ag">: {{ blankoPra.blanko_pra.hbs_ag === true ? 'Normal' :
+                  'Abnormal' }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
             </div>
 
             <div>
               <div class="flex gap-3 items-center">
                 <span class="label2">VDRL</span>
-                <span v-if="blankoPra.blanko_pra.vdrl"
-                  >: {{ blankoPra.blanko_pra.vdrl === true ? 'Normal' : 'Abnormal' }}</span
-                >
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.vdrl">: {{ blankoPra.blanko_pra.vdrl === true ? 'Normal' : 'Abnormal'
+                  }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
               <div class="flex gap-3 items-center">
                 <span class="label2">TPHA</span>
-                <span v-if="blankoPra.blanko_pra.tpha"
-                  >: {{ blankoPra.blanko_pra.tpha === true ? 'Normal' : 'Abnormal' }}</span
-                >
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.tpha">: {{ blankoPra.blanko_pra.tpha === true ? 'Normal' : 'Abnormal'
+                  }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
             </div>
           </section>
 
           <!-- SECTION - RADIOLOGI -->
 
-          <h1 class="mt-3 text-center font-semibold py-1 border-y-2 border-y-black">
+          <h1 class="mt-5 text-center font-semibold py-1 border-y-2 border-y-black">
             PEMERIKSAAN RADIOLOGI
           </h1>
 
@@ -454,13 +361,8 @@ export default {
             <div>
               <div class="flex gap-3 items-center">
                 <span class="label2">Thorax PA</span>
-                <span v-if="blankoPra.blanko_pra.thorax_pa"
-                  >: {{ blankoPra.blanko_pra.thorax_pa }}</span
-                >
-                <span
-                  v-else
-                  class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span v-if="blankoPra.blanko_pra.thorax_pa">: {{ blankoPra.blanko_pra.thorax_pa }}</span>
+                <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
               </div>
             </div>
           </section>
@@ -472,39 +374,25 @@ export default {
             <div class="w-full">
               <p class="">
                 <span class="w-[230px] inline-block">Dinyatakan</span>
-                <span v-if="blankoPra.blanko_pra.hasil" class="font-bold"
-                  >: {{ blankoPra.blanko_pra.hasil === true ? 'SEHAT' : 'TIDAK SEHAT' }}</span
-                >
-                <span v-else class="font-bold"
-                  >:
+                <span v-if="blankoPra.blanko_pra.hasil" class="font-bold">: {{ blankoPra.blanko_pra.hasil === true ?
+                  'SEHAT' : 'TIDAK SEHAT' }}</span>
+                <span v-else class="font-bold">:
                   <span
-                    class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span
-                ></span>
+                    class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
               </p>
               <p class="">
                 <span class="w-[230px] inline-block">Tanggal Pemeriksaan</span>
-                <span v-if="blankoPra.tanggal_cetak" class="font-bold"
-                  >: {{ blankoPra.tanggal_cetak }}</span
-                >
-                <span v-else class="font-bold"
-                  >:
+                <span v-if="blankoPra.tanggal_cetak" class="font-bold">: {{ blankoPra.tanggal_cetak }}</span>
+                <span v-else class="font-bold">:
                   <span
-                    class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span
-                ></span>
+                    class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
               </p>
               <p class="">
                 <span class="w-[230px] inline-block">Masa Berlaku</span>
-                <span v-if="blankoPra.masa_berlaku" class="font-bold"
-                  >: {{ blankoPra.masa_berlaku }}</span
-                >
-                <span v-else class="font-bold"
-                  >:
+                <span v-if="blankoPra.masa_berlaku" class="font-bold">: {{ blankoPra.masa_berlaku }}</span>
+                <span v-else class="font-bold">:
                   <span
-                    class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span
-                ></span>
+                    class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
               </p>
             </div>
           </section>
@@ -516,21 +404,12 @@ export default {
               <p v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></p>
             </div>
           </section>
-        </div>
+        </section>
       </main>
-      <main
-        v-if="type === 'multi'"
-        ref="blankoAllSection"
-        id="blanko-pra-all"
-        class="bg-white w-full"
-      >
+      <main v-if="type === 'multi'" ref="blankoAllSection" id="blanko-pra-all" class="bg-white w-full">
         <div v-if="isLoading">
           <div class="flex justify-around items-center">
-            <img
-              class="w-[80px] h-[80px] object-contain"
-              src="../../components/icons/klinikGoraLogo.png"
-              alt=""
-            />
+            <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-center">
               <h1 class="text-xl text-green-500 font-semibold">
                 Klinik <span class="text-yellow-500">GORA</span> Mataram
@@ -592,32 +471,17 @@ export default {
             <div class="flex flex-col">
               <p class="flex gap-3 justify-end font-poppins">
                 Beri tanda
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
                 Jika Normal
               </p>
               <p class="flex gap-3 font-poppins justify-end">
                 Beri tanda
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
                 Jika Abnormal
@@ -778,32 +642,23 @@ export default {
                 <p class="">
                   <span class="w-[230px] inline-block">Dinyatakan</span>
 
-                  <span class="font-bold"
-                    >:
+                  <span class="font-bold">:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
                 <p class="">
                   <span class="w-[230px] inline-block">Tanggal Pemeriksaan</span>
 
-                  <span class="font-bold"
-                    >:
+                  <span class="font-bold">:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
                 <p class="">
                   <span class="w-[230px] inline-block">Masa Berlaku</span>
 
-                  <span class="font-bold"
-                    >:
+                  <span class="font-bold">:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
               </div>
             </section>
@@ -819,15 +674,9 @@ export default {
         <div v-for="(blanko, i) in blankoAllPra" :key="i" class="relative z-[1]">
           <img
             class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
-            src="../../components/icons/klinikGoraLogo.png"
-            alt=""
-          />
+            src="../../components/icons/klinikGoraLogo.png" alt="" />
           <div class="flex justify-around items-center">
-            <img
-              class="w-[80px] h-[80px] object-contain"
-              src="../../components/icons/klinikGoraLogo.png"
-              alt=""
-            />
+            <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-center">
               <h1 class="text-xl text-green-500 font-semibold">
                 Klinik <span class="text-yellow-500">GORA</span> Mataram
@@ -861,43 +710,28 @@ export default {
                   <span v-if="blanko.jenis_kelamin">{{
                     blanko.jenis_kelamin === 'L' ? 'Laki-laki' : 'Perempuan'
                   }}</span>
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label1">Usia</span>
                   <span v-if="blanko.usia">: {{ blanko.usia }}</span>
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
 
                 <div class="flex gap-3 items-center">
                   <span class="label1">Daerah</span>
                   <span v-if="blanko.daerah">: {{ blanko.daerah }}</span>
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label1">Provinsi</span>
                   <span v-if="blanko.provinsi">: {{ blanko.provinsi }}</span>
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label1">Negara</span>
                   <span v-if="blanko.negara">: {{ blanko.negara }}</span>
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
             </section>
@@ -910,32 +744,17 @@ export default {
             <div class="flex flex-col mt-2">
               <p class="flex gap-3 justify-end font-poppins">
                 Beri tanda
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                 </svg>
                 Jika Normal
               </p>
               <p class="flex gap-3 font-poppins justify-end">
                 Beri tanda
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-6"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  stroke="currentColor" class="size-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                 </svg>
                 Jika Abnormal
@@ -948,41 +767,25 @@ export default {
                 <div class="flex gap-3 items-center">
                   <span class="label2">Tinggi</span>
                   <span v-if="blanko.blanko_pra.tinggi">: {{ blanko.blanko_pra.tinggi }}</span>
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Berat</span>
                   <span v-if="blanko.blanko_pra.berat">: {{ blanko.blanko_pra.berat }}</span>
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
               <div>
                 <h1 class="font-bold">Penglihatan</h1>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Mata kanan</span>
-                  <span v-if="blanko.blanko_pra.mata_kanan"
-                    >: {{ blanko.blanko_pra.mata_kanan }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.mata_kanan">: {{ blanko.blanko_pra.mata_kanan }}</span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Mata kiri</span>
-                  <span v-if="blanko.blanko_pra.mata_kiri"
-                    >: {{ blanko.blanko_pra.mata_kiri }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.mata_kiri">: {{ blanko.blanko_pra.mata_kiri }}</span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <p>
                   <span class="label2" for="mata-kanan">Mata kanan</span>
@@ -998,43 +801,24 @@ export default {
                 <h1 class="font-bold">Tekanan Darah</h1>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Atas</span>
-                  <span v-if="blanko.blanko_pra.tekanan_darah_atas"
-                    >: {{ blanko.blanko_pra.tekanan_darah_atas }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.tekanan_darah_atas">: {{ blanko.blanko_pra.tekanan_darah_atas }}</span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Bawah</span>
-                  <span v-if="blanko.blanko_pra.tekanan_darah_bawah"
-                    >: {{ blanko.blanko_pra.tekanan_darah_bawah }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.tekanan_darah_bawah">: {{ blanko.blanko_pra.tekanan_darah_bawah
+                    }}</span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Nadi</span>
-                  <span v-if="blanko.blanko_pra.tekanan_darah_nadi"
-                    >: {{ blanko.blanko_pra.tekanan_darah_nadi }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.tekanan_darah_nadi">: {{ blanko.blanko_pra.tekanan_darah_nadi }}</span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Gol</span>
-                  <span v-if="blanko.blanko_pra.golongan_darah"
-                    >: {{ blanko.blanko_pra.golongan_darah }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.golongan_darah">: {{ blanko.blanko_pra.golongan_darah }}</span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
 
@@ -1054,21 +838,13 @@ export default {
                 <h1 class="font-bold">Lain-lain</h1>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Suhu Tubuh</span>
-                  <span v-if="blanko.blanko_pra.suhu_tubuh"
-                    >: {{ blanko.blanko_pra.suhu_tubuh }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.suhu_tubuh">: {{ blanko.blanko_pra.suhu_tubuh }}</span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Rontgen</span>
                   <span v-if="blanko.blanko_pra.rontgen">: {{ blanko.blanko_pra.rontgen }}</span>
-                  <span
-                    v-else
-                    class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-10 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
             </section>
@@ -1081,23 +857,15 @@ export default {
               <div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Gula</span>
-                  <span v-if="blanko.blanko_pra.gula"
-                    >: {{ blanko.blanko_pra.gula === true ? 'Normal' : 'Abnormal' }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.gula">: {{ blanko.blanko_pra.gula === true ? 'Normal' : 'Abnormal'
+                    }}</span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Protein</span>
-                  <span v-if="blanko.blanko_pra.protein"
-                    >: {{ blanko.blanko_pra.protein === true ? 'Normal' : 'Abnormal' }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.protein">: {{ blanko.blanko_pra.protein === true ? 'Normal' : 'Abnormal'
+                    }}</span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
 
@@ -1105,43 +873,28 @@ export default {
                 <div class="flex gap-3 items-center">
                   <span class="label2">PH</span>
                   <span v-if="blanko.blanko_pra.ph">: {{ blanko.blanko_pra.ph }}</span>
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">HBs-AG</span>
-                  <span v-if="blanko.blanko_pra.hbs_ag"
-                    >: {{ blanko.blanko_pra.hbs_ag === true ? 'Normal' : 'Abnormal' }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.hbs_ag">: {{ blanko.blanko_pra.hbs_ag === true ? 'Normal' : 'Abnormal'
+                    }}</span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
 
               <div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">VDRL</span>
-                  <span v-if="blanko.blanko_pra.vdrl"
-                    >: {{ blanko.blanko_pra.vdrl === true ? 'Normal' : 'Abnormal' }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.vdrl">: {{ blanko.blanko_pra.vdrl === true ? 'Normal' : 'Abnormal'
+                    }}</span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">TPHA</span>
-                  <span v-if="blanko.blanko_pra.tpha"
-                    >: {{ blanko.blanko_pra.tpha === true ? 'Normal' : 'Abnormal' }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.tpha">: {{ blanko.blanko_pra.tpha === true ? 'Normal' : 'Abnormal'
+                    }}</span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
             </section>
@@ -1156,13 +909,8 @@ export default {
               <div>
                 <div class="flex gap-3 items-center">
                   <span class="label2">Thorax PA</span>
-                  <span v-if="blanko.blanko_pra.thorax_pa"
-                    >: {{ blanko.blanko_pra.thorax_pa }}</span
-                  >
-                  <span
-                    v-else
-                    class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span v-if="blanko.blanko_pra.thorax_pa">: {{ blanko.blanko_pra.thorax_pa }}</span>
+                  <span v-else class="w-28 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </div>
             </section>
@@ -1174,39 +922,25 @@ export default {
               <div class="w-full">
                 <p class="">
                   <span class="w-[230px] inline-block">Dinyatakan</span>
-                  <span v-if="blanko.blanko_pra.hasil" class="font-bold"
-                    >: {{ blanko.blanko_pra.hasil === true ? 'SEHAT' : 'TIDAK SEHAT' }}</span
-                  >
-                  <span v-else class="font-bold"
-                    >:
+                  <span v-if="blanko.blanko_pra.hasil" class="font-bold">: {{ blanko.blanko_pra.hasil === true ? 'SEHAT'
+                    : 'TIDAK SEHAT' }}</span>
+                  <span v-else class="font-bold">:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
                 <p class="">
                   <span class="w-[230px] inline-block">Tanggal Pemeriksaan</span>
-                  <span v-if="blanko.tanggal_cetak" class="font-bold"
-                    >: {{ blanko.tanggal_cetak }}</span
-                  >
-                  <span v-else class="font-bold"
-                    >:
+                  <span v-if="blanko.tanggal_cetak" class="font-bold">: {{ blanko.tanggal_cetak }}</span>
+                  <span v-else class="font-bold">:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
                 <p class="">
                   <span class="w-[230px] inline-block">Masa Berlaku</span>
-                  <span v-if="blanko.masa_berlaku" class="font-bold"
-                    >: {{ blanko.masa_berlaku }}</span
-                  >
-                  <span v-else class="font-bold"
-                    >:
+                  <span v-if="blanko.masa_berlaku" class="font-bold">: {{ blanko.masa_berlaku }}</span>
+                  <span v-else class="font-bold">:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
               </div>
             </section>
@@ -1224,3 +958,15 @@ export default {
     </div>
   </div>
 </template>
+
+<style scoped>
+@page {
+  @bottom-right {
+    content: "Pageee " counter(pageNumber);
+  }
+
+  @top-left {
+    content: none;
+  }
+}
+</style>
