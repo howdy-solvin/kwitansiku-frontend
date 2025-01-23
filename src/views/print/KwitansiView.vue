@@ -61,11 +61,16 @@ export default {
           }
           @media print {
             @page {
-                size: A5 landscape;
-                margin: 10px !important;
-                padding: 0 !important;
+                size: A4 portrait;
+                margin: 1cm !important;
+              @top-left {
+                content: ''
+              }
+              @bottom-left{
+                content: ''
               }
             }
+          }
           `
         })
       }
@@ -87,17 +92,27 @@ export default {
           .class-pasien {
             margin: 0 !important;
           }
-            #pasien {
-              width: auto;
-              padding: 0 !important; 
-              margin: 0 !important;
+          .screen {
+            padding: 0;
+            margin: 0;
+          }
+          #pasien {
+            width: auto;
+            padding: 0 !important; 
+            margin: 0 !important;
+          }
+          @media print {
+            @page {
+              size: A4 portrait;
+              margin: 1cm !important;
+            @top-left {
+              content: ''
             }
-            @media print {
-              @page {
-                size: A5 landscape;
-                margin: 10px !important;
-              }
+            @bottom-left{
+              content: ''
             }
+            }
+          }
           `
         })
       }
@@ -127,65 +142,43 @@ export default {
   <div class="bg-[#1a1a1a] w-screen min-h-screen h-full">
     <div class="max-w-[950px] screen bg-white h-fit mx-auto pt-3">
       <header class="px-5">
-        <div
-          class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-2 justify-between"
-        >
+        <div class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-2 justify-between">
           <div class="grow">
             <h4 class="font-bold text-lg">
               Kwitansi
               <span v-if="kwitansi.no_pendaftaran">
                 {{ kwitansi.no_pendaftaran }}
               </span>
-              <span
-                v-else
-                class="w-14 inline-block h-6 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-              ></span>
+              <span v-else class="w-14 inline-block h-6 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
             </h4>
             <p>
-              <span v-if="kwitansi.tanggal" class="text-blue-500 font-semibold"
-                >{{ kwitansi.tanggal }} </span
-              ><span
-                v-else
-                class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-              ></span>
+              <span v-if="kwitansi.tanggal" class="text-blue-500 font-semibold">{{ kwitansi.tanggal }} </span><span
+                v-else class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
               |
               <span v-if="kwitansi.nama_sponsor">
                 {{ kwitansi.nama_sponsor }}
               </span>
-              <span
-                v-else
-                class="w-14 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-              ></span>
+              <span v-else class="w-14 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
             </p>
           </div>
-          <button
-            :disabled="isLoading"
-            @click="printModal"
-            class="bg-[#0075FF] group p-[13px] hover:bg-[#2260a8] transition-all rounded-lg flex items-center justify-center hover:gap-3 gap-0 text-white"
-          >
+          <button :disabled="isLoading" @click="printModal"
+            class="bg-[#0075FF] group p-[13px] hover:bg-[#2260a8] transition-all rounded-lg flex items-center justify-center hover:gap-3 gap-0 text-white">
             <p class="w-0 h-0 group-hover:w-fit group-hover:h-fit overflow-hidden">
               Cetak Kuitansi
             </p>
             <CetakKuitansi></CetakKuitansi>
           </button>
-          <button
-            :disabled="isLoading"
-            @click="printDetailModal"
-            class="bg-[#20b648] group p-[13px] transition-all hover:bg-[#219a41] rounded-lg flex justify-center items-center hover:gap-3 gap-0 text-white"
-          >
+          <button :disabled="isLoading" @click="printDetailModal"
+            class="bg-[#20b648] group p-[13px] transition-all hover:bg-[#219a41] rounded-lg flex justify-center items-center hover:gap-3 gap-0 text-white">
             <p class="w-0 h-0 group-hover:w-fit group-hover:h-fit overflow-hidden">Cetak Pasien</p>
             <CetakKuitansi></CetakKuitansi>
           </button>
         </div>
       </header>
       <main class="bg-[#1a1a1a] pb-10">
-        <section ref="kwitansiSection" id="kwitansi" class="bg-white relative w-full px-5 h-fit">
-          <div class="flex justify-between items-center">
-            <img
-              class="w-[80px] h-[80px] object-contain"
-              src="../../components/icons/klinikGoraLogo.png"
-              alt=""
-            />
+        <section ref="kwitansiSection" id="kwitansi" class="bg-red-300 relative px-5 h-fit mt-5">
+          <div class="flex justify-between items-center w-full">
+            <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-right">
               <h1 class="font-bold text-lg">KLINIK GORA MATARAM</h1>
               <p>Jl. RA. Kartini No. 77 Mojok - Mataram - NTB Mataram</p>
@@ -194,11 +187,9 @@ export default {
             </div>
           </div>
 
-          <div>
-            <div
-              v-if="kwitansi.total_harga <= kwitansi.total_pembayaran"
-              class="absolute left-1/2 -translate-x-[65%] top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[140px] font-semibold"
-            >
+          <div class="w-full">
+            <div v-if="kwitansi.total_harga <= kwitansi.total_pembayaran"
+              class="absolute left-1/2 -translate-x-[65%] top-1/2 transform rotate-45 text-black/10 -translate-y-1/2 text-[140px] font-semibold">
               LUNAS
             </div>
             <div class="flex flex-col items-center">
@@ -214,9 +205,7 @@ export default {
               </p>
               <p v-else class="text-center">
                 NO :
-                <span
-                  class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
               </p>
             </div>
             <div class="flex w-full justify-end gap-2 mt-3">
@@ -225,13 +214,9 @@ export default {
                 : {{ kwitansi.tanggal }} / {{ kwitansi.no_pendaftaran }}
               </p>
               <p v-else>
-                <span
-                  class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 /
-                <span
-                  class="w-5 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                ></span>
+                <span class="w-5 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
               </p>
             </div>
             <ul class="flex flex-col gap-0">
@@ -241,9 +226,7 @@ export default {
                   <p v-if="kwitansi.nama_penanggungjawab">: {{ kwitansi.nama_penanggungjawab }}</p>
                   <p v-else>
                     :
-                    <span
-                      class="w-40 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <span class="w-40 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                   </p>
                 </div>
               </li>
@@ -252,9 +235,7 @@ export default {
                 <p v-if="kwitansi.nama_sponsor">: {{ kwitansi.nama_sponsor }}</p>
                 <p v-else>
                   :
-                  <span
-                    class="w-16 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-16 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
               </li>
               <li class="flex gap-8">
@@ -266,9 +247,7 @@ export default {
                 <p v-if="kwitansi.total_pendaftar">: {{ kwitansi.total_pendaftar }} Orang</p>
                 <p v-else>
                   :
-                  <span
-                    class="w-4 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-4 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                   Orang
                 </p>
               </li>
@@ -277,9 +256,7 @@ export default {
                 <p v-if="kwitansi.total_harga">: Rp. {{ kwitansi.total_harga }},-</p>
                 <p v-else>
                   :
-                  <span
-                    class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
               </li>
               <li class="flex gap-8">
@@ -287,9 +264,7 @@ export default {
                 <p v-if="kwitansi.total_pembayaran">: Rp. {{ kwitansi.total_pembayaran }},-</p>
                 <p v-else>
                   :
-                  <span
-                    class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
               </li>
               <li class="flex gap-8">
@@ -299,9 +274,7 @@ export default {
                 </p>
                 <p v-else>
                   :
-                  <span
-                    class="w-16 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-16 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
               </li>
             </ul>
@@ -313,9 +286,7 @@ export default {
                 <p v-if="kwitansi.tanggal">Mataram, {{ kwitansi.tanggal }}</p>
                 <p v-else>
                   :
-                  <span
-                    class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
                 <p>Kasir</p>
                 <p class="mt-10">{{ isAdminLoggedIn }}</p>
@@ -323,17 +294,9 @@ export default {
             </div>
           </div>
         </section>
-        <section
-          ref="pasienSection"
-          id="pasien"
-          class="px-5 mt-5 pb-5 mx-auto bg-white max-w-[25cm]"
-        >
+        <section ref="pasienSection" id="pasien" class="bg-red-400 px-5 mt-5 mx-auto pb-5">
           <div class="flex justify-between items-center w-full">
-            <img
-              class="w-[80px] h-[80px] object-contain"
-              src="../../components/icons/klinikGoraLogo.png"
-              alt=""
-            />
+            <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-right">
               <h1 class="font-bold text-lg">KLINIK GORA MATARAM</h1>
               <p>Jl. RA. Kartini No. 77 Mojok - Mataram - NTB Mataram</p>
@@ -351,9 +314,7 @@ export default {
                 </p>
                 <p v-else>
                   :
-                  <span
-                    class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
               </li>
               <li class="flex gap-8">
@@ -361,9 +322,7 @@ export default {
                 <p v-if="kwitansi.nama_penanggungjawab">: {{ kwitansi.nama_penanggungjawab }}</p>
                 <p v-else>
                   :
-                  <span
-                    class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
               </li>
               <li class="flex gap-8">
@@ -371,15 +330,11 @@ export default {
                 <p v-if="kwitansi.nama_sponsor">: {{ kwitansi.nama_sponsor }}</p>
                 <p v-else>
                   :
-                  <span
-                    class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <span class="w-24 inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span>
                 </p>
               </li>
             </ul>
-            <div
-              class="class-pasien max-w-[21.1cm] mx-auto mt-5 grid grid-cols-[repeat(17,minmax(0,1fr))]"
-            >
+            <div class="class-pasien max-w-[21.1cm] mx-auto mt-5 grid grid-cols-[repeat(17,minmax(0,1fr))]">
               <div class="border border-black px-3 py-1">
                 <h1 class="font-medium text-start">No.</h1>
               </div>
