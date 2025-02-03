@@ -176,7 +176,7 @@ export default {
         </div>
       </header>
       <main class="bg-[#1a1a1a] pb-10">
-        <section ref="kwitansiSection" id="kwitansi" class="bg-red-300 relative px-5 h-fit mt-5">
+        <section ref="kwitansiSection" id="kwitansi" class="bg-white relative px-5 h-fit mt-5">
           <div class="flex justify-between items-center w-full">
             <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-right">
@@ -294,7 +294,7 @@ export default {
             </div>
           </div>
         </section>
-        <section ref="pasienSection" id="pasien" class="bg-red-400 px-5 mt-5 mx-auto pb-5">
+        <section ref="pasienSection" id="pasien" class="bg-white px-5 mt-5 mx-auto pb-5">
           <div class="flex justify-between items-center w-full">
             <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-right">
