@@ -160,25 +160,21 @@ export default {
 <template>
   <div class="screen min-h-screen bg-[#1a1a1a] p-0 m-0 w-screen h-full">
     <div class="container max-w-[950px] bg-white p-0 m-0 h-fit mx-auto px-5 pb-5 pt-3">
-      <header
-        class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-4 justify-between"
-      >
+      <header class="w-full border rounded-lg ps-5 py-1 pe-1 mb-10 flex items-stretch gap-4 justify-between">
         <div>
           <h4 class="font-bold text-lg">Blanko Full</h4>
           <p>Cetak data untuk Blanko Full</p>
         </div>
-        <button
-          @click="printModal"
+        <button @click="printModal"
           class="p-[13px] transition-all rounded-lg flex items-center justify-center gap-3 text-white"
-          :class="[isLoading ? 'bg-[#91accc]' : 'bg-[#0075FF] hover:bg-[#2260a8]']"
-        >
+          :class="[isLoading ? 'bg-[#91accc]' : 'bg-[#0075FF] hover:bg-[#2260a8]']">
           <p>Cetak Blanko Full</p>
           <CetakKuitansi></CetakKuitansi>
         </button>
       </header>
 
       <main v-if="type === 'single'" ref="blankoSection" id="blanko-full" class="bg-white w-full">
-        <div class="bg-black/50 w-full">
+        <div class=" w-full">
           <h1 class="mt-2 text-center text-xl font-bold py-2">MEDICAL REPORT</h1>
           <div class="flex justify-end font-bold">
             <span class="label1 w-full">No. Register</span>
@@ -204,34 +200,24 @@ export default {
                     <p>
                       <span class="label1 inline-block">1. FULL NAME</span>
                       <span v-if="blankoFull.usia">: a</span>
-                      <span v-else
-                        >:
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                     <p>
                       <span class="label1">2. SEX</span>
-                      <span v-if="blankoFull.jenis_kelamin"
-                        >: {{ blankoFull.jenis_kelamin === 'L' ? 'MALE' : 'FEMALE' }}</span
-                      >
-                      <span v-else
-                        >:
+                      <span v-if="blankoFull.jenis_kelamin">: {{ blankoFull.jenis_kelamin === 'L' ? 'MALE' : 'FEMALE'
+                        }}</span>
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                     <p>
                       <span class="label1">3. AGE</span>
                       <span v-if="blankoFull.usia">: {{ blankoFull.usia }} YEAR</span>
-                      <span v-else
-                        >:
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                   </div>
                 </div>
@@ -239,34 +225,23 @@ export default {
                   <p>
                     <span class="inline-block">FATHER'S NAME</span>
                     <span v-if="blankoFull.usia">:a</span>
-                    <span v-else
-                      >:
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                   <p>
                     <span class="inline-block">PASSPORT NO</span>
                     <span v-if="blankoFull.no_passpor">: {{ blankoFull.no_passpor }}</span>
-                    <span v-else
-                      >:
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                   <p>
                     <span class="inline-block">TYPE OF JOB APPLIED</span>
-                    <span v-if="blankoFull.pekerjaan_negara_tujuan"
-                      >: {{ blankoFull.pekerjaan_negara_tujuan }}</span
-                    >
-                    <span v-else
-                      >:
+                    <span v-if="blankoFull.pekerjaan_negara_tujuan">: {{ blankoFull.pekerjaan_negara_tujuan }}</span>
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                 </div>
                 <span>4. RESIDENCE IN COUNTRY OF ORIGIN</span>
@@ -274,32 +249,23 @@ export default {
                   <p>
                     <span class="">Distric</span>
                     <span v-if="blankoFull.daerah">: {{ blankoFull.daerah }}</span>
-                    <span v-else
-                      >:
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                   <p>
                     <span class="">Province</span>
                     <span v-if="blankoFull.provinsi">: {{ blankoFull.provinsi }}</span>
-                    <span v-else
-                      >:
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                   <p>
                     <span class="">Country</span>
                     <span v-if="blankoFull.negara">: {{ blankoFull.negara }}</span>
-                    <span v-else
-                      >:
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                 </div>
 
@@ -307,22 +273,16 @@ export default {
                 <p>
                   <span class="inline-block">5. NAME OF EMPLOYER/RECRUITING AGENCY</span>
                   <span v-if="blankoFull.usia">: {{ blankoFull.usia }}</span>
-                  <span v-else
-                    >:
+                  <span v-else>:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
                 <p>
                   <span class="inline-block">6. ADDRESS OF EMPLOYER/RECRUITING AGENCY </span>
                   <span v-if="blankoFull.usia">: {{ blankoFull.usia }}</span>
-                  <span v-else
-                    >:
+                  <span v-else>:
                     <span
-                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                    ></span
-                  ></span>
+                      class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                 </p>
               </div>
             </div>
@@ -332,11 +292,7 @@ export default {
         <div>
           <!-- ANCHOR Part 2 -->
           <section class="mt-2 relative z-[1]">
-            <img
-              class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
-              src="../../components/icons/klinikGoraLogo.png"
-              alt=""
-            />
+
             <div class="text-center">
               <p class="font-poppins font-bold">Part II : Medical History</p>
               <p class="font-poppins font-bold">(To be completed by attending physician)</p>
@@ -348,249 +304,77 @@ export default {
                   <label class="text-center font-semibold">NO</label>
                   <label class="col-span-2 text-center font-semibold">Tanggal</label>
 
-                  <label class="w-fit col-span-3"
-                    >HIV/AIDS <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.hiv_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.hiv_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.hiv_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.hiv_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="border border-[#A2A2A2] col-span-2 px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="w-fit col-span-3">HIV/AIDS <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.hiv_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.hiv_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.hiv_date" type="date"
+                    :value="blankoFull.blanko_full.hiv_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="border border-[#A2A2A2] col-span-2 px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                  <label class="w-fit col-span-3"
-                    >Tuberculosis <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.tbc_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.tbc_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.tbc_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.tbc_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="w-fit col-span-3">Tuberculosis <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.tbc_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.tbc_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.tbc_date" type="date"
+                    :value="blankoFull.blanko_full.tbc_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                  <label class="w-fit col-span-3"
-                    >Malaria <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.malaria_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.malaria_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.malaria_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.malaria_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="w-fit col-span-3">Malaria <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.malaria_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.malaria_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.malaria_date" type="date"
+                    :value="blankoFull.blanko_full.malaria_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                  <label class="w-fit col-span-3"
-                    >Leprosy <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.leprosy_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.leprosy_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.leprosy_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.leprosy_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="w-fit col-span-3">Leprosy <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.leprosy_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.leprosy_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.leprosy_date" type="date"
+                    :value="blankoFull.blanko_full.leprosy_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                  <label class="w-fit col-span-3"
-                    >STD <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.std_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.std_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.std_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.std_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="w-fit col-span-3">STD <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.std_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.std_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.std_date" type="date"
+                    :value="blankoFull.blanko_full.std_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="w-fit col-span-3">Bronchial Asthma </label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.asma_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.asma_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.asma_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.asma_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.asma_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.asma_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.asma_date" type="date"
+                    :value="blankoFull.blanko_full.asma_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="w-fit col-span-3">Heart Disease </label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.hd_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.hd_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.hd_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.hd_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.hd_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.hd_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.hd_date" type="date"
+                    :value="blankoFull.blanko_full.hd_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="w-fit col-span-3">Hypertension </label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.hypt_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.hypt_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.hypt_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.hypt_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.hypt_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.hypt_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.hypt_date" type="date"
+                    :value="blankoFull.blanko_full.hypt_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="w-fit col-span-3">Diabetes Mellitus </label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.dbm_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.dbm_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.dbm_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.dbm_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.dbm_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.dbm_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.dbm_date" type="date"
+                    :value="blankoFull.blanko_full.dbm_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </section>
               <section class="section2">
@@ -600,218 +384,68 @@ export default {
                   <label class="col-span-2 font-semibold text-center" for="">Tanggal</label>
 
                   <label class="col-span-3">Peptic Ulcer</label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.ptu_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.ptu_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.ptu_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.ptu_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.ptu_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.ptu_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.ptu_date" type="date"
+                    :value="blankoFull.blanko_full.ptu_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="col-span-3">Kidney Disease</label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.kidney_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.kidney_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.kidney_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.kidney_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.kidney_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.kidney_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.kidney_date" type="date"
+                    :value="blankoFull.blanko_full.kidney_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="col-span-3">Cancer</label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.cancer_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.cancer_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.cancer_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.cancer_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.cancer_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.cancer_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.cancer_date" type="date"
+                    :value="blankoFull.blanko_full.cancer_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                  <label class="col-span-3"
-                    >Epylepsy <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.epylepsy_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.epylepsy_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.epylepsy_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.epylepsy_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="col-span-3">Epylepsy <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.epylepsy_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.epylepsy_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.epylepsy_date" type="date"
+                    :value="blankoFull.blanko_full.epylepsy_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                  <label class="col-span-3"
-                    >Psychiatric Illnes <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.psin_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.psin_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.psin_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.psin_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="col-span-3">Psychiatric Illnes <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.psin_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.psin_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.psin_date" type="date"
+                    :value="blankoFull.blanko_full.psin_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="col-span-3">Hearing Problem</label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.hepo_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.hepo_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.hepo_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.hepo_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.hepo_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.hepo_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.hepo_date" type="date"
+                    :value="blankoFull.blanko_full.hepo_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                  <label class="col-span-3"
-                    >Hepatitis B & C <span class="text-red-500 text-[20px]">*</span></label
-                  >
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.hpts_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.hpts_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.hpts_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.hpts_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <label class="col-span-3">Hepatitis B & C <span class="text-red-500 text-[20px]">*</span></label>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.hpts_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.hpts_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.hpts_date" type="date"
+                    :value="blankoFull.blanko_full.hpts_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                   <label class="col-span-3">Other</label>
-                  <input
-                    type="checkbox"
-                    :checked="blankoFull.blanko_full.other_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    type="checkbox"
-                    :checked="!blankoFull.blanko_full.other_status"
-                    class="h-[20px]"
-                    disabled
-                  />
-                  <input
-                    v-if="blankoFull.blanko_full.other_date"
-                    type="date"
-                    :value="blankoFull.blanko_full.other_date.split('T')[0]"
-                    placeholder="Pilih Tanggal"
-                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                    disabled
-                  />
-                  <span
-                    v-else
-                    class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                  ></span>
+                  <input type="checkbox" :checked="blankoFull.blanko_full.other_status" class="h-[20px]" disabled />
+                  <input type="checkbox" :checked="!blankoFull.blanko_full.other_status" class="h-[20px]" disabled />
+                  <input v-if="blankoFull.blanko_full.other_date" type="date"
+                    :value="blankoFull.blanko_full.other_date.split('T')[0]" placeholder="Pilih Tanggal"
+                    class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                  <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                 </div>
               </section>
             </div>
@@ -843,20 +477,12 @@ export default {
                       <span class="text-red-500 text-[20px]">*</span>
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.snf_status"
-                        class="h-[20px] items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.snf_status"
+                        class="h-[20px] items-center w-full" disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.snf_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.snf_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                   </tr>
                   <tr>
@@ -864,96 +490,56 @@ export default {
                       Chest pain during exertion <span class="text-red-500 text-[20px]">*</span>
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.nyd_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.nyd_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.nyd_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.nyd_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Palpitation <span class="text-red-500 text-[20px]">*</span></td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.dbj_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.dbj_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.dbj_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.dbj_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Swelling of feet</td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.pbk_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.pbk_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.pbk_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.pbk_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Giddiness of headache <span class="text-red-500 text-[20px]">*</span></td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.rspks_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.rspks_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.rspks_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.rspks_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Cough for more than 2 weeks or haemoplysis</td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.hmp_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.hmp_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.hmp_status"
-                        class="h-[20px] text-center items-center w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.hmp_status"
+                        class="h-[20px] text-center items-center w-full" disabled />
                     </td>
                   </tr>
                 </tbody>
@@ -974,20 +560,12 @@ export default {
                       <span class="text-red-500 text-[20px]">*</span>
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.ksm_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.ksm_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.ksm_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.ksm_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                   </tr>
                   <tr>
@@ -996,20 +574,12 @@ export default {
                       <span class="text-red-500 text-[20px]">*</span>
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.rhb_sbk_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.rhb_sbk_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.rhb_sbk_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.rhb_sbk_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                   </tr>
                   <tr>
@@ -1018,20 +588,12 @@ export default {
                       <span class="text-red-500 text-[20px]">*</span>
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.gskl_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.gskl_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.gskl_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.gskl_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                   </tr>
                   <tr>
@@ -1040,20 +602,12 @@ export default {
                       <span class="text-red-500 text-[20px]">*</span>
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.kcuv_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.kcuv_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.kcuv_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.kcuv_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                   </tr>
                   <tr>
@@ -1062,39 +616,23 @@ export default {
                       <span class="text-red-500 text-[20px]">*</span>
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.nsm_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.nsm_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.nsm_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.nsm_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                   </tr>
                   <tr>
                     <td>Visual problem/colour blindness</td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="blankoFull.blanko_full.mpbw_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="blankoFull.blanko_full.mpbw_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                     <td>
-                      <input
-                        type="checkbox"
-                        :checked="!blankoFull.blanko_full.mpbw_status"
-                        class="h-[20px] w-full"
-                        disabled
-                      />
+                      <input type="checkbox" :checked="!blankoFull.blanko_full.mpbw_status" class="h-[20px] w-full"
+                        disabled />
                     </td>
                   </tr>
                 </tbody>
@@ -1128,7 +666,7 @@ export default {
                   <p>Blood Pressure : 124/68 mm/hg</p>
                 </div>
               </section>
-              <section class="flex gap-7 mt-5 bg-black/50 w-full">
+              <section class="flex gap-7 mt-5 w-full">
                 <table class="w-[50%]">
                   <thead>
                     <tr>
@@ -1141,96 +679,56 @@ export default {
                     <tr class="">
                       <td class="w-full">Chronic Skin Rash</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.rkk_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.rkk_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.rkk_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.rkk_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Anaesthetic Skin Pach, Peripheral Nerve Enlargement or Nodular Lesion</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.pkln_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pkln_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.pkln_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pkln_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Deformities of Limbs</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.dfab_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.dfab_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.dfab_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.dfab_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Anemia</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.anemia_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.anemia_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Juandice</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.anemia_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.anemia_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.anemia_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.anemia_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                   </tbody>
@@ -1248,77 +746,45 @@ export default {
                     <tr>
                       <td class="flex flex-col">UNAIDED</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.tb_mt_kiri"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.tb_mt_kiri"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.tb_mt_kanan"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.tb_mt_kanan"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td class="flex flex-col">AIDED</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.db_mt_kiri"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.db_mt_kiri"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.db_mt_kanan"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.db_mt_kanan"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Hearing Impairment Present</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.tgp_kiri"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.tgp_kiri"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.tgp_kanan"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.tgp_kanan"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Colour Blindness</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.kbw_kiri"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.kbw_kiri"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.kbw_kanan"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.kbw_kanan"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                   </tbody>
@@ -1327,8 +793,8 @@ export default {
 
               <!-- SECTION Medical Report 2 -->
               <!-- NOTE SECTION B... -->
-              <h4 class="font-bold mt-4 bg-black/50">Section B : System Examination</h4>
-              <section class="flex gap-7 bg-red-400/40">
+              <h4 class="font-bold mt-4">Section B : System Examination</h4>
+              <section class="flex gap-7">
                 <table class="w-[50%]">
                   <thead>
                     <tr>
@@ -1346,52 +812,32 @@ export default {
                     <tr class="">
                       <td class="w-full">Heart Size</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.ukj_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.ukj_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.ukj_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.ukj_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Heart sounds</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.saj_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.saj_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.saj_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.saj_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Other findings</td>
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.tl_sps
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.tl_sps
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.tl_sps">
                             {{ blankoFull.blanko_full.tl_sps }}
@@ -1409,33 +855,21 @@ export default {
                     <tr>
                       <td>Breath Sounds</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.sps_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.sps_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.sps_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.sps_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Other findings</td>
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.tl_jantung
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.tl_jantung
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.tl_jantung">
                             {{ blankoFull.blanko_full.tl_jantung }}
@@ -1453,96 +887,56 @@ export default {
                     <tr class="">
                       <td class="w-full">General Mental Status</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.smu_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.smu_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.smu_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.smu_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr class="">
                       <td class="w-full">Speech</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.berbicara_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.berbicara_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.berbicara_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.berbicara_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr class="">
                       <td class="w-full">Cognitive Function</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.fk_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.fk_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.fk_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.fk_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr class="">
                       <td class="w-full">Size of Peripheral Nerves</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.usp_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.usp_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.usp_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.usp_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr class="">
                       <td class="w-full">Motor Power</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.km_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.km_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.km_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.km_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                   </tbody>
@@ -1560,58 +954,34 @@ export default {
                     <tr>
                       <td>Liver</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.hati_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.hati_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.hati_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.hati_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Spleen</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.limpa_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.limpa_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.limpa_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.limpa_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Kidney</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.ginjal_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.ginjal_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.ginjal_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.ginjal_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -1620,32 +990,20 @@ export default {
                         YES / NO Indicate if YES .............
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.pbk_sp_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pbk_sp_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.pbk_sp_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pbk_sp_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr class="">
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.tl_sps
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.tl_sps
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.tl_sp">
                             {{ blankoFull.blanko_full.tl_sp }}
@@ -1656,58 +1014,34 @@ export default {
                     <tr>
                       <td>Rectal Examination (if indicated)</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.pr_sp_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pr_sp_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.pr_sp_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pr_sp_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Sensory</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.sensorik_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.sensorik_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.sensorik_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.sensorik_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Reflexes</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.reflek_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.reflek_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.reflek_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.reflek_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
 
@@ -1722,39 +1056,23 @@ export default {
                     <tr>
                       <td>Discharge</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.psg_pbn_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.psg_pbn_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.psg_pbn_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.psg_pbn_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Sores/Ulcers</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.luka_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.luka_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.luka_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.luka_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                   </tbody>
@@ -1782,96 +1100,56 @@ export default {
                     <tr>
                       <td>HIV Antibody (ELISA)</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.elisa_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.elisa_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.elisa_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.elisa_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>HBsAg<span class="text-red-500 text-[20px]">*</span></td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.hbsag_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.hbsag_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.hbsag_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.hbsag_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>HCT<span class="text-red-500 text-[20px]">*</span></td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.hct_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.hct_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.hct_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.hct_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>VDRL & TPHA<span class="text-red-500 text-[20px]">*</span></td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.vdrl_tpha_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.vdrl_tpha_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.vdrl_tpha_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.vdrl_tpha_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Malaria Parasite</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.pama_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pama_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.pama_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pama_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -1885,39 +1163,23 @@ export default {
                     <tr>
                       <td>Filaria Parasite</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.pafil_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.pafil_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.pafil_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.pafil_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Slit Skin Smear (if indicated)</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.ck_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.ck_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.ck_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.ck_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -1926,15 +1188,11 @@ export default {
                       </td>
                     </tr>
                     <tr>
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.cxray_report
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.cxray_report
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.cxray_report">
                             {{ blankoFull.blanko_full.cxray_report }}
@@ -1947,20 +1205,12 @@ export default {
                         <p class="mt-2">Sputum AFB (if indicated)</p>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.sptm_afb_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.sptm_afb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.sptm_afb_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.sptm_afb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                   </tbody>
@@ -1981,15 +1231,11 @@ export default {
                     </tr>
                     <tr>
                       <td>Colour</td>
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.warna_urin
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.warna_urin
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.warna_urin">
                             {{ blankoFull.blanko_full.warna_urin }}
@@ -1999,15 +1245,11 @@ export default {
                     </tr>
                     <tr>
                       <td>Specific Gravity</td>
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.gravitasi_spesifik
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.gravitasi_spesifik
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.gravitasi_spesifik">
                             {{ blankoFull.blanko_full.gravitasi_spesifik }}
@@ -2017,15 +1259,11 @@ export default {
                     </tr>
                     <tr>
                       <td>Sugar</td>
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.gula_status
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.gula_status
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                           <p v-if="!blankoFull.blanko_full.gula_status !== undefined">
                             {{
@@ -2038,20 +1276,12 @@ export default {
                     <tr>
                       <td>Albumin</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.albumin_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.albumin_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.albumin_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.albumin_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -2060,15 +1290,11 @@ export default {
                       </td>
                     </tr>
                     <tr>
-                      <td
-                        colspan="3"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.pm_miros
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="3" class="border" :class="[
+                        blankoFull.blanko_full.pm_miros
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.pm_miros">
                             {{ blankoFull.blanko_full.pm_miros }}
@@ -2078,44 +1304,26 @@ export default {
                     </tr>
                     <tr>
                       <td>
-                        Opiates / Cannabis / Amphetamine<span class="text-red-500 text-[20px]"
-                          >*</span
-                        >
+                        Opiates / Cannabis / Amphetamine<span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.oga_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.oga_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.oga_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.oga_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Pregnancy<span class="text-red-500 text-[20px]">*</span></td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.kehamilan_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.kehamilan_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.kehamilan_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.kehamilan_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -2125,15 +1333,11 @@ export default {
                     </tr>
                     <tr>
                       <td colspan="1">Serum Creatinine</td>
-                      <td
-                        colspan="2"
-                        class="border"
-                        :class="[
-                          blankoFull.blanko_full.tl_sps
-                            ? 'bg-gray-200 border-gray-400'
-                            : 'bg-gray-400 border-gray-500 animate-pulse'
-                        ]"
-                      >
+                      <td colspan="2" class="border" :class="[
+                        blankoFull.blanko_full.tl_sps
+                          ? 'bg-gray-200 border-gray-400'
+                          : 'bg-gray-400 border-gray-500 animate-pulse'
+                      ]">
                         <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                           <p v-if="blankoFull.blanko_full.serum_krtnn">
                             {{ blankoFull.blanko_full.serum_krtnn }}
@@ -2152,20 +1356,12 @@ export default {
                     <tr>
                       <td>Rectal Swab for Salmonella</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.urus_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.urus_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.urus_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.urus_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -2203,172 +1399,100 @@ export default {
                     <tr>
                       <td>HIV/AIDS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_hiv_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hiv_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_hiv_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hiv_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>TUBERCULOSIS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_tbc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_tbc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_tbc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_tbc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>MALARIA</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_malaria_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_malaria_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_malaria_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_malaria_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>LEPROSY</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_kusta_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_kusta_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_kusta_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_kusta_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>STDS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_pms_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_pms_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_pms_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_pms_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>HEPATITIS B</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_hpb_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hpb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_hpb_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hpb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>HEPATITIS C</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_hpc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hpc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_hpc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hpc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>FILARIASIS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_filariasis_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_filariasis_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_filariasis_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_filariasis_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>MAJOR PSYCHIATRIC DISORDERS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.gpu_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.gpu_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.gpu_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.gpu_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -2382,20 +1506,12 @@ export default {
                     <tr>
                       <td>OTHER CHRONIC DISEASES</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_pkl_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_pkl_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_pkl_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_pkl_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
 
@@ -2451,16 +1567,12 @@ export default {
                         {{ blankoFull.blanko_full.dokter }} <br />
                         Qualification of the Doctor
                       </td>
-                      <td
-                        v-if="blankoFull.blanko_full.masa_berlaku"
-                        class="text-center font-bold border border-slate-600"
-                      >
+                      <td v-if="blankoFull.blanko_full.masa_berlaku"
+                        class="text-center font-bold border border-slate-600">
                         {{ blankoFull.blanko_full.masa_berlaku.split('T')[0] }}
                       </td>
-                      <td
-                        v-if="blankoFull.blanko_full.sampai_dengan"
-                        class="text-center font-bold border border-slate-600"
-                      >
+                      <td v-if="blankoFull.blanko_full.sampai_dengan"
+                        class="text-center font-bold border border-slate-600">
                         {{ blankoFull.blanko_full.sampai_dengan.split('T')[0] }}
                       </td>
                     </tr>
@@ -2485,10 +1597,7 @@ export default {
                 <aside class="self-start mt-4">
                   <div class="w-20 mr-4">
                     <img v-if="blankoFull.image_blob" :src="blankoFull.image_blob" class="w-full" />
-                    <div
-                      v-else
-                      class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"
-                    ></div>
+                    <div v-else class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"></div>
                   </div>
                 </aside>
                 <div class="flex flex-col mt w-full">
@@ -2498,68 +1607,48 @@ export default {
                         <p>
                           <span class="label1 inline-block">1. FULL NAME</span>
                           <span v-if="blankoFull.usia">: a</span>
-                          <span v-else
-                            >:
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                         <p>
                           <span class="label1">2. SEX</span>
-                          <span v-if="blankoFull.jenis_kelamin"
-                            >: {{ blankoFull.jenis_kelamin === 'L' ? 'MALE' : 'FEMALE' }}</span
-                          >
-                          <span v-else
-                            >:
+                          <span v-if="blankoFull.jenis_kelamin">: {{ blankoFull.jenis_kelamin === 'L' ? 'MALE' :
+                            'FEMALE' }}</span>
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                         <p>
                           <span class="label1">3. AGE</span>
                           <span v-if="blankoFull.usia">: {{ blankoFull.usia }} YEAR</span>
-                          <span v-else
-                            >:
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                       </div>
                       <div class="flex flex-col gap-y-1">
                         <p>
                           <span class="w-[200px] inline-block">FATHER'S NAME</span>
                           <span v-if="blankoFull.usia">:a</span>
-                          <span v-else
-                            >:
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                         <p>
                           <span class="w-[200px] inline-block">PASSPORT NO</span>
                           <span v-if="blankoFull.no_passpor">: {{ blankoFull.no_passpor }}</span>
-                          <span v-else
-                            >:
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                         <p>
                           <span class="w-[200px] inline-block">TYPE OF JOB APPLIED</span>
-                          <span v-if="blankoFull.pekerjaan_negara_tujuan"
-                            >: {{ blankoFull.pekerjaan_negara_tujuan }}</span
-                          >
-                          <span v-else
-                            >:
+                          <span v-if="blankoFull.pekerjaan_negara_tujuan">: {{ blankoFull.pekerjaan_negara_tujuan
+                            }}</span>
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                       </div>
                     </div>
@@ -2568,59 +1657,41 @@ export default {
                       <p>
                         <span class="">Distric</span>
                         <span v-if="blankoFull.daerah">: {{ blankoFull.daerah }}</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                       <p>
                         <span class="">Province</span>
                         <span v-if="blankoFull.provinsi">: {{ blankoFull.provinsi }}</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                       <p>
                         <span class="">Country</span>
                         <span v-if="blankoFull.negara">: {{ blankoFull.negara }}</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                     </div>
                     <!-- NOTE untuk nama employee masih belum di tentukan -->
 
                     <p>
-                      <span class="w-[400px] inline-block"
-                        >5. NAME OF EMPLOYER/RECRUITING AGENCY</span
-                      >
+                      <span class="w-[400px] inline-block">5. NAME OF EMPLOYER/RECRUITING AGENCY</span>
                       <span v-if="blankoFull.usia">: {{ blankoFull.usia }}</span>
-                      <span v-else
-                        >:
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                     <p>
-                      <span class="w-[400px] inline-block"
-                        >6. ADDRESS OF EMPLOYER/RECRUITING AGENCY
+                      <span class="w-[400px] inline-block">6. ADDRESS OF EMPLOYER/RECRUITING AGENCY
                       </span>
                       <span v-if="blankoFull.usia">: {{ blankoFull.usia }}</span>
-                      <span v-else
-                        >:
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                   </div>
                 </div>
@@ -2645,172 +1716,100 @@ export default {
                     <tr>
                       <td>HIV/AIDS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_hiv_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hiv_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_hiv_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hiv_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>TUBERCULOSIS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_tbc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_tbc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_tbc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_tbc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>MALARIA</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_malaria_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_malaria_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_malaria_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_malaria_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>LEPROSY</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_kusta_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_kusta_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_kusta_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_kusta_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>STDS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_pms_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_pms_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_pms_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_pms_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>HEPATITIS B</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_hpb_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hpb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_hpb_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hpb_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>HEPATITIS C</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_hpc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_hpc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_hpc_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_hpc_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>FILARIASIS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_filariasis_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_filariasis_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_filariasis_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_filariasis_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>MAJOR PSYCHIATRIC DISORDERS</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.gpu_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.gpu_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.gpu_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.gpu_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -2824,20 +1823,12 @@ export default {
                     <tr>
                       <td>OTHER CHRONIC DISEASES</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blankoFull.blanko_full.stm_pkl_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blankoFull.blanko_full.stm_pkl_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blankoFull.blanko_full.stm_pkl_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blankoFull.blanko_full.stm_pkl_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
 
@@ -2893,16 +1884,12 @@ export default {
                         {{ blankoFull.blanko_full.dokter }} <br />
                         Qualification of the Doctor
                       </td>
-                      <td
-                        v-if="blankoFull.blanko_full.masa_berlaku"
-                        class="text-center font-bold border border-slate-600"
-                      >
+                      <td v-if="blankoFull.blanko_full.masa_berlaku"
+                        class="text-center font-bold border border-slate-600">
                         {{ blankoFull.blanko_full.masa_berlaku.split('T')[0] }}
                       </td>
-                      <td
-                        v-if="blankoFull.blanko_full.sampai_dengan"
-                        class="text-center font-bold border border-slate-600"
-                      >
+                      <td v-if="blankoFull.blanko_full.sampai_dengan"
+                        class="text-center font-bold border border-slate-600">
                         {{ blankoFull.blanko_full.sampai_dengan.split('T')[0] }}
                       </td>
                     </tr>
@@ -2913,12 +1900,7 @@ export default {
           </section>
         </div>
       </main>
-      <main
-        v-if="type === 'multi'"
-        ref="blankoSection"
-        id="blanko-full-all"
-        class="bg-white w-full"
-      >
+      <main v-if="type === 'multi'" ref="blankoSection" id="blanko-full-all" class="bg-white w-full">
         <div v-for="(blanko, i) in blankoAllFull">
           <div>
             <h1 class="mt-2 text-center text-xl font-bold py-2">MEDICAL REPORT</h1>
@@ -2935,10 +1917,7 @@ export default {
               <aside class="shrink self-start mt-4">
                 <div class="w-20 mr-4">
                   <img v-if="blanko.image_blob" :src="blanko.image_blob" class="w-full" />
-                  <div
-                    v-else
-                    class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"
-                  ></div>
+                  <div v-else class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"></div>
                 </div>
               </aside>
 
@@ -2949,68 +1928,47 @@ export default {
                       <p>
                         <span class="label1 inline-block">1. FULL NAME</span>
                         <span v-if="blanko.usia">: a</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                       <p>
                         <span class="label1">2. SEX</span>
-                        <span v-if="blanko.jenis_kelamin"
-                          >: {{ blanko.jenis_kelamin === 'L' ? 'MALE' : 'FEMALE' }}</span
-                        >
-                        <span v-else
-                          >:
+                        <span v-if="blanko.jenis_kelamin">: {{ blanko.jenis_kelamin === 'L' ? 'MALE' : 'FEMALE'
+                          }}</span>
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                       <p>
                         <span class="label1">3. AGE</span>
                         <span v-if="blanko.usia">: {{ blanko.usia }} YEAR</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                     </div>
                     <div class="flex flex-col gap-y-1">
                       <p>
                         <span class="w-[200px] inline-block">FATHER'S NAME</span>
                         <span v-if="blanko.usia">:a</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                       <p>
                         <span class="w-[200px] inline-block">PASSPORT NO</span>
                         <span v-if="blanko.no_passpor">: {{ blanko.no_passpor }}</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                       <p>
                         <span class="w-[200px] inline-block">TYPE OF JOB APPLIED</span>
-                        <span v-if="blanko.pekerjaan_negara_tujuan"
-                          >: {{ blanko.pekerjaan_negara_tujuan }}</span
-                        >
-                        <span v-else
-                          >:
+                        <span v-if="blanko.pekerjaan_negara_tujuan">: {{ blanko.pekerjaan_negara_tujuan }}</span>
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                     </div>
                   </div>
@@ -3019,59 +1977,41 @@ export default {
                     <p>
                       <span class="">Distric</span>
                       <span v-if="blanko.daerah">: {{ blanko.daerah }}</span>
-                      <span v-else
-                        >:
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                     <p>
                       <span class="">Province</span>
                       <span v-if="blanko.provinsi">: {{ blanko.provinsi }}</span>
-                      <span v-else
-                        >:
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                     <p>
                       <span class="">Country</span>
                       <span v-if="blanko.negara">: {{ blanko.negara }}</span>
-                      <span v-else
-                        >:
+                      <span v-else>:
                         <span
-                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                        ></span
-                      ></span>
+                          class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                     </p>
                   </div>
 
                   <!-- NOTE untuk nama employee masih belum di tentukan -->
                   <p>
-                    <span class="w-[400px] inline-block"
-                      >5. NAME OF EMPLOYER/RECRUITING AGENCY</span
-                    >
+                    <span class="w-[400px] inline-block">5. NAME OF EMPLOYER/RECRUITING AGENCY</span>
                     <span v-if="blanko.usia">: {{ blanko.usia }}</span>
-                    <span v-else
-                      >:
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                   <p>
-                    <span class="w-[400px] inline-block"
-                      >6. ADDRESS OF EMPLOYER/RECRUITING AGENCY
+                    <span class="w-[400px] inline-block">6. ADDRESS OF EMPLOYER/RECRUITING AGENCY
                     </span>
                     <span v-if="blanko.usia">: {{ blanko.usia }}</span>
-                    <span v-else
-                      >:
+                    <span v-else>:
                       <span
-                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                      ></span
-                    ></span>
+                        class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                   </p>
                 </div>
               </div>
@@ -3092,249 +2032,77 @@ export default {
                     <label class="text-center font-semibold">NO</label>
                     <label class="col-span-2 text-center font-semibold">Tanggal</label>
 
-                    <label class="w-fit col-span-3"
-                      >HIV/AIDS <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.hiv_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.hiv_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.hiv_date"
-                      type="date"
-                      :value="blanko.blanko_full.hiv_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="border border-[#A2A2A2] col-span-2 px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="w-fit col-span-3">HIV/AIDS <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.hiv_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.hiv_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.hiv_date" type="date"
+                      :value="blanko.blanko_full.hiv_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="border border-[#A2A2A2] col-span-2 px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                    <label class="w-fit col-span-3"
-                      >Tuberculosis <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.tbc_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.tbc_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.tbc_date"
-                      type="date"
-                      :value="blanko.blanko_full.tbc_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="w-fit col-span-3">Tuberculosis <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.tbc_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.tbc_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.tbc_date" type="date"
+                      :value="blanko.blanko_full.tbc_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                    <label class="w-fit col-span-3"
-                      >Malaria <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.malaria_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.malaria_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.malaria_date"
-                      type="date"
-                      :value="blanko.blanko_full.malaria_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="w-fit col-span-3">Malaria <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.malaria_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.malaria_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.malaria_date" type="date"
+                      :value="blanko.blanko_full.malaria_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                    <label class="w-fit col-span-3"
-                      >Leprosy <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.leprosy_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.leprosy_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.leprosy_date"
-                      type="date"
-                      :value="blanko.blanko_full.leprosy_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="w-fit col-span-3">Leprosy <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.leprosy_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.leprosy_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.leprosy_date" type="date"
+                      :value="blanko.blanko_full.leprosy_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                    <label class="w-fit col-span-3"
-                      >STD <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.std_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.std_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.std_date"
-                      type="date"
-                      :value="blanko.blanko_full.std_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="w-fit col-span-3">STD <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.std_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.std_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.std_date" type="date"
+                      :value="blanko.blanko_full.std_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="w-fit col-span-3">Bronchial Asthma </label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.asma_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.asma_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.asma_date"
-                      type="date"
-                      :value="blanko.blanko_full.asma_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.asma_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.asma_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.asma_date" type="date"
+                      :value="blanko.blanko_full.asma_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="w-fit col-span-3">Heart Disease </label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.hd_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.hd_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.hd_date"
-                      type="date"
-                      :value="blanko.blanko_full.hd_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.hd_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.hd_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.hd_date" type="date"
+                      :value="blanko.blanko_full.hd_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="w-fit col-span-3">Hypertension </label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.hypt_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.hypt_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.hypt_date"
-                      type="date"
-                      :value="blanko.blanko_full.hypt_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.hypt_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.hypt_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.hypt_date" type="date"
+                      :value="blanko.blanko_full.hypt_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="w-fit col-span-3">Diabetes Mellitus </label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.dbm_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.dbm_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.dbm_date"
-                      type="date"
-                      :value="blanko.blanko_full.dbm_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.dbm_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.dbm_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.dbm_date" type="date"
+                      :value="blanko.blanko_full.dbm_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                   </div>
                 </section>
                 <section class="section2">
@@ -3344,218 +2112,68 @@ export default {
                     <label class="col-span-2 font-semibold text-center" for="">Tanggal</label>
 
                     <label class="col-span-3">Peptic Ulcer</label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.ptu_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.ptu_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.ptu_date"
-                      type="date"
-                      :value="blanko.blanko_full.ptu_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.ptu_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.ptu_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.ptu_date" type="date"
+                      :value="blanko.blanko_full.ptu_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="col-span-3">Kidney Disease</label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.kidney_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.kidney_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.kidney_date"
-                      type="date"
-                      :value="blanko.blanko_full.kidney_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.kidney_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.kidney_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.kidney_date" type="date"
+                      :value="blanko.blanko_full.kidney_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="col-span-3">Cancer</label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.cancer_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.cancer_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.cancer_date"
-                      type="date"
-                      :value="blanko.blanko_full.cancer_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.cancer_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.cancer_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.cancer_date" type="date"
+                      :value="blanko.blanko_full.cancer_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                    <label class="col-span-3"
-                      >Epylepsy <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.epylepsy_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.epylepsy_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.epylepsy_date"
-                      type="date"
-                      :value="blanko.blanko_full.epylepsy_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="col-span-3">Epylepsy <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.epylepsy_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.epylepsy_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.epylepsy_date" type="date"
+                      :value="blanko.blanko_full.epylepsy_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                    <label class="col-span-3"
-                      >Psychiatric Illnes <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.psin_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.psin_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.psin_date"
-                      type="date"
-                      :value="blanko.blanko_full.psin_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="col-span-3">Psychiatric Illnes <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.psin_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.psin_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.psin_date" type="date"
+                      :value="blanko.blanko_full.psin_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="col-span-3">Hearing Problem</label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.hepo_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.hepo_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.hepo_date"
-                      type="date"
-                      :value="blanko.blanko_full.hepo_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.hepo_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.hepo_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.hepo_date" type="date"
+                      :value="blanko.blanko_full.hepo_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
-                    <label class="col-span-3"
-                      >Hepatitis B & C <span class="text-red-500 text-[20px]">*</span></label
-                    >
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.hpts_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.hpts_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.hpts_date"
-                      type="date"
-                      :value="blanko.blanko_full.hpts_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <label class="col-span-3">Hepatitis B & C <span class="text-red-500 text-[20px]">*</span></label>
+                    <input type="checkbox" :checked="blanko.blanko_full.hpts_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.hpts_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.hpts_date" type="date"
+                      :value="blanko.blanko_full.hpts_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
 
                     <label class="col-span-3">Other</label>
-                    <input
-                      type="checkbox"
-                      :checked="blanko.blanko_full.other_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      type="checkbox"
-                      :checked="!blanko.blanko_full.other_status"
-                      class="h-[20px]"
-                      disabled
-                    />
-                    <input
-                      v-if="blanko.blanko_full.other_date"
-                      type="date"
-                      :value="blanko.blanko_full.other_date.split('T')[0]"
-                      placeholder="Pilih Tanggal"
-                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md"
-                      disabled
-                    />
-                    <span
-                      v-else
-                      class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"
-                    ></span>
+                    <input type="checkbox" :checked="blanko.blanko_full.other_status" class="h-[20px]" disabled />
+                    <input type="checkbox" :checked="!blanko.blanko_full.other_status" class="h-[20px]" disabled />
+                    <input v-if="blanko.blanko_full.other_date" type="date"
+                      :value="blanko.blanko_full.other_date.split('T')[0]" placeholder="Pilih Tanggal"
+                      class="col-span-2 border border-[#A2A2A2] px-[10px] py-[11px] rounded-md" disabled />
+                    <span v-else class="w-28 col-span-2 inline-block h-5 animate-pulse bg-gray-400 rounded-md"></span>
                   </div>
                 </section>
               </div>
@@ -3587,20 +2205,12 @@ export default {
                         <span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.snf_status"
-                          class="h-[20px] items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.snf_status"
+                          class="h-[20px] items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.snf_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.snf_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
@@ -3608,96 +2218,56 @@ export default {
                         Chest pain during exertion <span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.nyd_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.nyd_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.nyd_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.nyd_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Palpitation <span class="text-red-500 text-[20px]">*</span></td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.dbj_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.dbj_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.dbj_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.dbj_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Swelling of feet</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.pbk_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.pbk_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.pbk_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.pbk_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Giddiness of headache <span class="text-red-500 text-[20px]">*</span></td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.rspks_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.rspks_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.rspks_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.rspks_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Cough for more than 2 weeks or haemoplysis</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.hmp_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.hmp_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.hmp_status"
-                          class="h-[20px] text-center items-center w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.hmp_status"
+                          class="h-[20px] text-center items-center w-full" disabled />
                       </td>
                     </tr>
                   </tbody>
@@ -3718,20 +2288,12 @@ export default {
                         <span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.ksm_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.ksm_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.ksm_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.ksm_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                     </tr>
                     <tr>
@@ -3740,20 +2302,12 @@ export default {
                         <span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.rhb_sbk_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.rhb_sbk_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.rhb_sbk_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.rhb_sbk_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                     </tr>
                     <tr>
@@ -3762,20 +2316,12 @@ export default {
                         <span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.gskl_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.gskl_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.gskl_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.gskl_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                     </tr>
                     <tr>
@@ -3784,20 +2330,12 @@ export default {
                         <span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.kcuv_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.kcuv_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.kcuv_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.kcuv_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                     </tr>
                     <tr>
@@ -3806,39 +2344,23 @@ export default {
                         <span class="text-red-500 text-[20px]">*</span>
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.nsm_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.nsm_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.nsm_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.nsm_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                     </tr>
                     <tr>
                       <td>Visual problem/colour blindness</td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="blanko.blanko_full.mpbw_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="blanko.blanko_full.mpbw_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                       <td>
-                        <input
-                          type="checkbox"
-                          :checked="!blanko.blanko_full.mpbw_status"
-                          class="h-[20px] w-full"
-                          disabled
-                        />
+                        <input type="checkbox" :checked="!blanko.blanko_full.mpbw_status" class="h-[20px] w-full"
+                          disabled />
                       </td>
                     </tr>
                   </tbody>
@@ -3887,20 +2409,12 @@ export default {
                       <tr class="">
                         <td class="w-full">Chronic Skin Rash</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.rkk_status"
-                            class="h-[20px] items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.rkk_status"
+                            class="h-[20px] items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.rkk_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.rkk_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -3908,77 +2422,45 @@ export default {
                           Anaesthetic Skin Pach, Peripheral Nerve Enlargement or Nodular Lesion
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.pkln_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.pkln_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.pkln_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.pkln_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Deformities of Limbs</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.dfab_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.dfab_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.dfab_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.dfab_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Anemia</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.anemia_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.anemia_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.anemia_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.anemia_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Juandice</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.anemia_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.anemia_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.anemia_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.anemia_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                     </tbody>
@@ -3996,77 +2478,45 @@ export default {
                       <tr>
                         <td class="flex flex-col">UNAIDED</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.tb_mt_kiri"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.tb_mt_kiri"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.tb_mt_kanan"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.tb_mt_kanan"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td class="flex flex-col">AIDED</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.db_mt_kiri"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.db_mt_kiri"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.db_mt_kanan"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.db_mt_kanan"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Hearing Impairment Present</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.tgp_kiri"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.tgp_kiri"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.tgp_kanan"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.tgp_kanan"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Colour Blindness</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.kbw_kiri"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.kbw_kiri"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.kbw_kanan"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.kbw_kanan"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                     </tbody>
@@ -4094,52 +2544,32 @@ export default {
                       <tr class="">
                         <td class="w-full">Heart Size</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.ukj_status"
-                            class="h-[20px] items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.ukj_status"
+                            class="h-[20px] items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.ukj_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.ukj_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Heart sounds</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.saj_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.saj_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.saj_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.saj_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Other findings</td>
-                        <td
-                          colspan="2"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.tl_sps
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="2" class="border" :class="[
+                          blanko.blanko_full.tl_sps
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="blanko.blanko_full.tl_sps">
                               {{ blanko.blanko_full.tl_sps }}
@@ -4157,33 +2587,21 @@ export default {
                       <tr>
                         <td>Breath Sounds</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.sps_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.sps_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.sps_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.sps_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Other findings</td>
-                        <td
-                          colspan="2"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.tl_jantung
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="2" class="border" :class="[
+                          blanko.blanko_full.tl_jantung
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="blanko.blanko_full.tl_jantung">
                               {{ blanko.blanko_full.tl_jantung }}
@@ -4201,96 +2619,56 @@ export default {
                       <tr class="">
                         <td class="w-full">General Mental Status</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.smu_status"
-                            class="h-[20px] items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.smu_status"
+                            class="h-[20px] items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.smu_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.smu_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr class="">
                         <td class="w-full">Speech</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.berbicara_status"
-                            class="h-[20px] items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.berbicara_status"
+                            class="h-[20px] items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.berbicara_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.berbicara_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr class="">
                         <td class="w-full">Cognitive Function</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.fk_status"
-                            class="h-[20px] items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.fk_status"
+                            class="h-[20px] items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.fk_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.fk_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr class="">
                         <td class="w-full">Size of Peripheral Nerves</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.usp_status"
-                            class="h-[20px] items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.usp_status"
+                            class="h-[20px] items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.usp_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.usp_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr class="">
                         <td class="w-full">Motor Power</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.km_status"
-                            class="h-[20px] items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.km_status"
+                            class="h-[20px] items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.km_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.km_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                     </tbody>
@@ -4308,58 +2686,34 @@ export default {
                       <tr>
                         <td>Liver</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.hati_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.hati_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.hati_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.hati_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Spleen</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.limpa_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.limpa_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.limpa_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.limpa_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Kidney</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.ginjal_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.ginjal_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.ginjal_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.ginjal_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -4368,32 +2722,20 @@ export default {
                           YES / NO Indicate if YES .............
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.pbk_sp_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.pbk_sp_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.pbk_sp_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.pbk_sp_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr class="">
-                        <td
-                          colspan="3"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.tl_sps
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="3" class="border" :class="[
+                          blanko.blanko_full.tl_sps
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] bg-inherit px-2">
                             <p v-if="blanko.blanko_full.tl_sp">
                               {{ blanko.blanko_full.tl_sp }}
@@ -4404,58 +2746,34 @@ export default {
                       <tr>
                         <td>Rectal Examination (if indicated)</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.pr_sp_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.pr_sp_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.pr_sp_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.pr_sp_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Sensory</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.sensorik_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.sensorik_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.sensorik_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.sensorik_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Reflexes</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.reflek_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.reflek_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.reflek_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.reflek_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
 
@@ -4470,39 +2788,23 @@ export default {
                       <tr>
                         <td>Discharge</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.psg_pbn_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.psg_pbn_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.psg_pbn_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.psg_pbn_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Sores/Ulcers</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.luka_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.luka_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.luka_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.luka_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                     </tbody>
@@ -4530,96 +2832,56 @@ export default {
                       <tr>
                         <td>HIV Antibody (ELISA)</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.elisa_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.elisa_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.elisa_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.elisa_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>HBsAg<span class="text-red-500 text-[20px]">*</span></td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.hbsag_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.hbsag_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.hbsag_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.hbsag_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>HCT<span class="text-red-500 text-[20px]">*</span></td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.hct_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.hct_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.hct_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.hct_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>VDRL & TPHA<span class="text-red-500 text-[20px]">*</span></td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.vdrl_tpha_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.vdrl_tpha_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.vdrl_tpha_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.vdrl_tpha_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Malaria Parasite</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.pama_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.pama_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.pama_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.pama_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -4633,39 +2895,23 @@ export default {
                       <tr>
                         <td>Filaria Parasite</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.pafil_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.pafil_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.pafil_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.pafil_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Slit Skin Smear (if indicated)</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.ck_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.ck_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.ck_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.ck_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -4674,15 +2920,11 @@ export default {
                         </td>
                       </tr>
                       <tr>
-                        <td
-                          colspan="2"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.cxray_report
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="2" class="border" :class="[
+                          blanko.blanko_full.cxray_report
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="blanko.blanko_full.cxray_report">
                               {{ blanko.blanko_full.cxray_report }}
@@ -4695,20 +2937,12 @@ export default {
                           <p class="mt-2">Sputum AFB (if indicated)</p>
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.sptm_afb_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.sptm_afb_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.sptm_afb_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.sptm_afb_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                     </tbody>
@@ -4729,15 +2963,11 @@ export default {
                       </tr>
                       <tr>
                         <td>Colour</td>
-                        <td
-                          colspan="2"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.warna_urin
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="2" class="border" :class="[
+                          blanko.blanko_full.warna_urin
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="blanko.blanko_full.warna_urin">
                               {{ blanko.blanko_full.warna_urin }}
@@ -4747,15 +2977,11 @@ export default {
                       </tr>
                       <tr>
                         <td>Specific Gravity</td>
-                        <td
-                          colspan="2"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.gravitasi_spesifik
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="2" class="border" :class="[
+                          blanko.blanko_full.gravitasi_spesifik
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="blanko.blanko_full.gravitasi_spesifik">
                               {{ blanko.blanko_full.gravitasi_spesifik }}
@@ -4765,15 +2991,11 @@ export default {
                       </tr>
                       <tr>
                         <td>Sugar</td>
-                        <td
-                          colspan="2"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.gula_status
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="2" class="border" :class="[
+                          blanko.blanko_full.gula_status
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="!blanko.blanko_full.gula_status !== undefined">
                               {{
@@ -4786,20 +3008,12 @@ export default {
                       <tr>
                         <td>Albumin</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.albumin_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.albumin_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.albumin_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.albumin_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -4808,15 +3022,11 @@ export default {
                         </td>
                       </tr>
                       <tr>
-                        <td
-                          colspan="3"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.pm_miros
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="3" class="border" :class="[
+                          blanko.blanko_full.pm_miros
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="blanko.blanko_full.pm_miros">
                               {{ blanko.blanko_full.pm_miros }}
@@ -4826,44 +3036,26 @@ export default {
                       </tr>
                       <tr>
                         <td>
-                          Opiates / Cannabis / Amphetamine<span class="text-red-500 text-[20px]"
-                            >*</span
-                          >
+                          Opiates / Cannabis / Amphetamine<span class="text-red-500 text-[20px]">*</span>
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.oga_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.oga_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.oga_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.oga_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>Pregnancy<span class="text-red-500 text-[20px]">*</span></td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.kehamilan_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.kehamilan_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.kehamilan_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.kehamilan_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -4875,15 +3067,11 @@ export default {
                       </tr>
                       <tr>
                         <td colspan="1">Serum Creatinine</td>
-                        <td
-                          colspan="2"
-                          class="border"
-                          :class="[
-                            blanko.blanko_full.tl_sps
-                              ? 'bg-gray-200 border-gray-400'
-                              : 'bg-gray-400 border-gray-500 animate-pulse'
-                          ]"
-                        >
+                        <td colspan="2" class="border" :class="[
+                          blanko.blanko_full.tl_sps
+                            ? 'bg-gray-200 border-gray-400'
+                            : 'bg-gray-400 border-gray-500 animate-pulse'
+                        ]">
                           <div class="flex items-center h-[30px] w-full bg-inherit px-2">
                             <p v-if="blanko.blanko_full.serum_krtnn">
                               {{ blanko.blanko_full.serum_krtnn }}
@@ -4902,20 +3090,12 @@ export default {
                       <tr>
                         <td>Rectal Swab for Salmonella</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.urus_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.urus_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.urus_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.urus_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -4955,172 +3135,100 @@ export default {
                       <tr>
                         <td>HIV/AIDS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_hiv_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_hiv_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_hiv_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_hiv_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>TUBERCULOSIS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_tbc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_tbc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_tbc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_tbc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>MALARIA</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_malaria_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_malaria_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_malaria_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_malaria_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>LEPROSY</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_kusta_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_kusta_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_kusta_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_kusta_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>STDS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_pms_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_pms_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_pms_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_pms_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>HEPATITIS B</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_hpb_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_hpb_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_hpb_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_hpb_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>HEPATITIS C</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_hpc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_hpc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_hpc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_hpc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>FILARIASIS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_filariasis_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_filariasis_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_filariasis_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_filariasis_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>MAJOR PSYCHIATRIC DISORDERS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.gpu_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.gpu_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.gpu_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.gpu_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -5134,20 +3242,12 @@ export default {
                       <tr>
                         <td>OTHER CHRONIC DISEASES</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_pkl_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_pkl_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_pkl_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_pkl_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
 
@@ -5203,16 +3303,12 @@ export default {
                           {{ blanko.blanko_full.dokter }} <br />
                           Qualification of the Doctor
                         </td>
-                        <td
-                          v-if="blanko.blanko_full.masa_berlaku"
-                          class="text-center font-bold border border-slate-600"
-                        >
+                        <td v-if="blanko.blanko_full.masa_berlaku"
+                          class="text-center font-bold border border-slate-600">
                           {{ blanko.blanko_full.masa_berlaku.split('T')[0] }}
                         </td>
-                        <td
-                          v-if="blanko.blanko_full.sampai_dengan"
-                          class="text-center font-bold border border-slate-600"
-                        >
+                        <td v-if="blanko.blanko_full.sampai_dengan"
+                          class="text-center font-bold border border-slate-600">
                           {{ blanko.blanko_full.sampai_dengan.split('T')[0] }}
                         </td>
                       </tr>
@@ -5237,10 +3333,7 @@ export default {
                   <aside class="self-start mt-4">
                     <div class="w-20 mr-4">
                       <img v-if="blanko.image_blob" :src="blanko.image_blob" class="w-full" />
-                      <div
-                        v-else
-                        class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"
-                      ></div>
+                      <div v-else class="w-full animate-pulse aspect-square bg-gray-400 rounded-lg"></div>
                     </div>
                   </aside>
                   <div class="flex flex-col mt w-full">
@@ -5250,68 +3343,47 @@ export default {
                           <p>
                             <span class="label1 inline-block">1. FULL NAME</span>
                             <span v-if="blanko.usia">: a</span>
-                            <span v-else
-                              >:
+                            <span v-else>:
                               <span
-                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                              ></span
-                            ></span>
+                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                           </p>
                           <p>
                             <span class="label1">2. SEX</span>
-                            <span v-if="blanko.jenis_kelamin"
-                              >: {{ blanko.jenis_kelamin === 'L' ? 'MALE' : 'FEMALE' }}</span
-                            >
-                            <span v-else
-                              >:
+                            <span v-if="blanko.jenis_kelamin">: {{ blanko.jenis_kelamin === 'L' ? 'MALE' : 'FEMALE'
+                              }}</span>
+                            <span v-else>:
                               <span
-                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                              ></span
-                            ></span>
+                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                           </p>
                           <p>
                             <span class="label1">3. AGE</span>
                             <span v-if="blanko.usia">: {{ blanko.usia }} YEAR</span>
-                            <span v-else
-                              >:
+                            <span v-else>:
                               <span
-                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                              ></span
-                            ></span>
+                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                           </p>
                         </div>
                         <div class="flex flex-col gap-y-1">
                           <p>
                             <span class="w-[200px] inline-block">FATHER'S NAME</span>
                             <span v-if="blanko.usia">:a</span>
-                            <span v-else
-                              >:
+                            <span v-else>:
                               <span
-                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                              ></span
-                            ></span>
+                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                           </p>
                           <p>
                             <span class="w-[200px] inline-block">PASSPORT NO</span>
                             <span v-if="blanko.no_passpor">: {{ blanko.no_passpor }}</span>
-                            <span v-else
-                              >:
+                            <span v-else>:
                               <span
-                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                              ></span
-                            ></span>
+                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                           </p>
                           <p>
                             <span class="w-[200px] inline-block">TYPE OF JOB APPLIED</span>
-                            <span v-if="blanko.pekerjaan_negara_tujuan"
-                              >: {{ blanko.pekerjaan_negara_tujuan }}</span
-                            >
-                            <span v-else
-                              >:
+                            <span v-if="blanko.pekerjaan_negara_tujuan">: {{ blanko.pekerjaan_negara_tujuan }}</span>
+                            <span v-else>:
                               <span
-                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                              ></span
-                            ></span>
+                                class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                           </p>
                         </div>
                       </div>
@@ -5320,59 +3392,41 @@ export default {
                         <p>
                           <span class="">Distric</span>
                           <span v-if="blanko.daerah">: {{ blanko.daerah }}</span>
-                          <span v-else
-                            >:
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                         <p>
                           <span class="">Province</span>
                           <span v-if="blanko.provinsi">: {{ blanko.provinsi }}</span>
-                          <span v-else
-                            >:
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                         <p>
                           <span class="">Country</span>
                           <span v-if="blanko.negara">: {{ blanko.negara }}</span>
-                          <span v-else
-                            >:
+                          <span v-else>:
                             <span
-                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                            ></span
-                          ></span>
+                              class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                         </p>
                       </div>
                       <!-- NOTE untuk nama employee masih belum di tentukan -->
 
                       <p>
-                        <span class="w-[400px] inline-block"
-                          >5. NAME OF EMPLOYER/RECRUITING AGENCY</span
-                        >
+                        <span class="w-[400px] inline-block">5. NAME OF EMPLOYER/RECRUITING AGENCY</span>
                         <span v-if="blanko.usia">: {{ blanko.usia }}</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                       <p>
-                        <span class="w-[400px] inline-block"
-                          >6. ADDRESS OF EMPLOYER/RECRUITING AGENCY
+                        <span class="w-[400px] inline-block">6. ADDRESS OF EMPLOYER/RECRUITING AGENCY
                         </span>
                         <span v-if="blanko.usia">: {{ blanko.usia }}</span>
-                        <span v-else
-                          >:
+                        <span v-else>:
                           <span
-                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"
-                          ></span
-                        ></span>
+                            class="w-28 font-bold inline-block h-5 translate-y-1 animate-pulse bg-gray-400 rounded-md"></span></span>
                       </p>
                     </div>
                   </div>
@@ -5397,172 +3451,100 @@ export default {
                       <tr>
                         <td>HIV/AIDS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_hiv_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_hiv_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_hiv_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_hiv_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>TUBERCULOSIS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_tbc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_tbc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_tbc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_tbc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>MALARIA</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_malaria_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_malaria_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_malaria_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_malaria_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>LEPROSY</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_kusta_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_kusta_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_kusta_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_kusta_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>STDS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_pms_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_pms_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_pms_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_pms_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>HEPATITIS B</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_hpb_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_hpb_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_hpb_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_hpb_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>HEPATITIS C</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_hpc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_hpc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_hpc_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_hpc_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>FILARIASIS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_filariasis_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_filariasis_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_filariasis_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_filariasis_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
                         <td>MAJOR PSYCHIATRIC DISORDERS</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.gpu_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.gpu_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.gpu_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.gpu_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
                       <tr>
@@ -5576,20 +3558,12 @@ export default {
                       <tr>
                         <td>OTHER CHRONIC DISEASES</td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="blanko.blanko_full.stm_pkl_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="blanko.blanko_full.stm_pkl_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                         <td>
-                          <input
-                            type="checkbox"
-                            :checked="!blanko.blanko_full.stm_pkl_status"
-                            class="h-[20px] text-center items-center w-full"
-                            disabled
-                          />
+                          <input type="checkbox" :checked="!blanko.blanko_full.stm_pkl_status"
+                            class="h-[20px] text-center items-center w-full" disabled />
                         </td>
                       </tr>
 
@@ -5645,16 +3619,12 @@ export default {
                           {{ blanko.blanko_full.dokter }} <br />
                           Qualification of the Doctor
                         </td>
-                        <td
-                          v-if="blanko.blanko_full.masa_berlaku"
-                          class="text-center font-bold border border-slate-600"
-                        >
+                        <td v-if="blanko.blanko_full.masa_berlaku"
+                          class="text-center font-bold border border-slate-600">
                           {{ blanko.blanko_full.masa_berlaku.split('T')[0] }}
                         </td>
-                        <td
-                          v-if="blanko.blanko_full.sampai_dengan"
-                          class="text-center font-bold border border-slate-600"
-                        >
+                        <td v-if="blanko.blanko_full.sampai_dengan"
+                          class="text-center font-bold border border-slate-600">
                           {{ blanko.blanko_full.sampai_dengan.split('T')[0] }}
                         </td>
                       </tr>
