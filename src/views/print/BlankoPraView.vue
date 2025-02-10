@@ -109,9 +109,6 @@ export default {
         </button>
       </header>
       <main v-if="type === 'single'" ref="blankoSection" id="blanko-pra" class="z-[1] w-full relative">
-        <img
-          class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
-          src="../../components/icons/klinikGoraLogo.png" alt="" />
         <header class="flex justify-around items-center">
           <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
           <div class="text-center">
@@ -672,9 +669,6 @@ export default {
           </div>
         </div>
         <div v-for="(blanko, i) in blankoAllPra" :key="i" class="relative z-[1]">
-          <img
-            class="w-[50%] opacity-15 top-1/2 -translate-y-1/2 left-1/2 -translate-x-2/3 absolute -z-10 aspect-auto object-contain"
-            src="../../components/icons/klinikGoraLogo.png" alt="" />
           <div class="flex justify-around items-center">
             <img class="w-[80px] h-[80px] object-contain" src="../../components/icons/klinikGoraLogo.png" alt="" />
             <div class="text-center">
